@@ -4,13 +4,17 @@ CREATE TABLE users(
     password varchar(255) not null,
     email varchar(255) not null,
     upload_route_count integer null,
-    created_at TIMESTAMP with time zone
+    created_at TIMESTAMP with time zone set default now()
 );
 INSERT INTO
     users (name, password, email)
 VALUES
     ('admin', '123', 'alex@gmail.com'),
     ('admin1', '123', 'admin1@gmail.com');
+INSERT INTO
+    users (name, password, email, created_at)
+VALUES
+    ('admin5', '555', 'admin5@gmail.com', now());
 
 
 
@@ -50,7 +54,7 @@ CREATE TABLE route(
     view_count integer null,
     public_private boolean not null,
     path_coordinates path not null,
-    created_at date not null,
+    created_at TIMESTAMP not null set default now(),
 
     foreign key (users_id) references users (id),
     foreign key (star_district_id) references district (id),
@@ -61,6 +65,7 @@ INSERT INTO
     distance, duration, view_count, public_private, path_coordinates, created_at)
 VALUES
     (1, '元朗-上水', 1, true, 5, 600, 10, true, '[(1,1),(2,2)]', '2024-04-30');
+    (2, '上水-大學站', 2, false, 5, 600, 10, true, '[(1,1),(2,2)]',now());
 
 
 
