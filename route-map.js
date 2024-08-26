@@ -8,8 +8,8 @@ async function initMap() {
     center: { lat: 22.324480290225303, lng: 114.1626473445726 },
     zoom: 12,
   });
-  const ctaLayer = new google.maps.KmlLayer({
-    url: "./CYCTRACK.kmz",
+  const cycTrackLayer = new google.maps.KmlLayer({
+    url: "https://www.td.gov.hk/datagovhk_tis/cycling-information/CYCTRACK.kmz",
     map: map,
   });
 }
