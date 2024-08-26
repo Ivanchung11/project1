@@ -23,8 +23,9 @@ window.onload = () => {
         })
         const data = await res.json()
         if (res.ok) {
-            // window.location = "/profile.html"
-            console.log("yes");
+            alert("login success")
+            window.location = "/profile.html"
+            // console.log("yes");
             
         } else {
             // alert(data.message)

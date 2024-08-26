@@ -89,7 +89,7 @@ app.post("/register",  async function (req: Request, res: Response) {
 
 app.get("/profile", async function (req: Request, res: Response) {
   const userId = req.session.userId;
-  const sql = `select id, username, birthday, nickname, phone from users where id = $1`
+  const sql = `select id, name from users where id = $1`
   const result= await pgClient.query(sql, [userId]) 
   const row = result.rows[0]
   console.log(row);
