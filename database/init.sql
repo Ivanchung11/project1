@@ -4,7 +4,7 @@ CREATE TABLE users(
     password varchar(255) not null,
     email varchar(255) not null,
     upload_route_count integer null,
-    created_at TIMESTAMP with time zone set default now()
+    created_at TIMESTAMP with time zone default now()
 );
 INSERT INTO
     users (name, password, email)
@@ -53,19 +53,20 @@ CREATE TABLE route(
     duration integer not null,
     view_count integer null,
     public_private boolean not null,
-    path_coordinates path not null,
-    created_at TIMESTAMP not null set default now(),
+    path_info_id integer not null,
+    created_at TIMESTAMP not null default now(),
 
     foreign key (users_id) references users (id),
     foreign key (star_district_id) references district (id),
-    foreign key (end_district_id) references district (id)
+    foreign key (end_district_id) references district (id),
+    foreign key (path_info_id) references path_info (id)
 );
 INSERT INTO
     route (users_id, route_name, star_district_id, road_bicyle_track, 
-    distance, duration, view_count, public_private, path_coordinates, created_at)
+    distance, duration, view_count, public_private, path_info_id, created_at)
 VALUES
-    (1, '元朗-上水', 1, true, 5, 600, 10, true, '[(1,1),(2,2)]', '2024-04-30');
-    (2, '上水-大學站', 2, false, 5, 600, 10, true, '[(1,1),(2,2)]',now());
+    (1, '元朗-上水', 1, true, 5, 600, 10, true, 1, '2024-04-30');
+    
 
 
 
@@ -124,3 +125,57 @@ CREATE TABLE news_photo(
     foreign key (news_id) references news(id)
 );
 INSERT INTO news_photo (news_id) VALUES (1);
+
+
+
+CREATE TABLE path_info(
+    id SERIAL primary key,
+    location GEOGRAPHY(Point, 4326),  
+    ele double precision not null,
+    time time null,
+    cumul double precision not null
+);
+INSERT INTO
+    path_info (location, ele, time,cumul)
+VALUES
+    ('POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
+    
+
+
+CREATE TABLE slope(
+    id SERIAL primary key,
+    path_coordinates GEOGRAPHY(linestring) not null
+);
+INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
+
+
+
+CREATE TABLE bicycle_track(
+    id SERIAL primary key,
+    path_coordinates GEOGRAPHY(linestring) not null
+);
+INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
+
+
+
+CREATE TABLE parking(
+    id SERIAL primary key,
+    point_coordinates GEOGRAPHY(point) not null
+);
+INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
+
+
+
+CREATE TABLE water_dispenser(
+    id SERIAL primary key,
+    point_coordinates GEOGRAPHY(point) not null
+);
+INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
+
+
+
+CREATE TABLE blacksite(
+    id SERIAL primary key,
+    point_coordinates GEOGRAPHY(point) not null
+);
+INSERT INTO blacksite (point_coordinates) VALUES ('point(0 0)');
