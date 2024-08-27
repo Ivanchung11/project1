@@ -144,7 +144,7 @@ VALUES
 
 CREATE TABLE slope(
     id SERIAL primary key,
-    path_coordinates GEOGRAPHY(linestring) not null
+    path_coordinates GEOGRAPHY(linestring,4326) not null
 );
 INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
@@ -152,7 +152,7 @@ INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 CREATE TABLE bicycle_track(
     id SERIAL primary key,
-    path_coordinates GEOGRAPHY(linestring) not null
+    path_coordinates GEOGRAPHY(linestring,4326) not null
 );
 INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
@@ -160,7 +160,7 @@ INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 CREATE TABLE parking(
     id SERIAL primary key,
-    point_coordinates GEOGRAPHY(point) not null
+    point_coordinates GEOGRAPHY(point,4326) not null
 );
 INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
 
@@ -168,7 +168,7 @@ INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
 
 CREATE TABLE water_dispenser(
     id SERIAL primary key,
-    point_coordinates GEOGRAPHY(point) not null
+    point_coordinates GEOGRAPHY(point,4326) not null
 );
 INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
 
@@ -176,6 +176,6 @@ INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
 
 CREATE TABLE blacksite(
     id SERIAL primary key,
-    point_coordinates GEOGRAPHY(point) not null
+    point_coordinates GEOGRAPHY(point,4326) not null
 );
 INSERT INTO blacksite (point_coordinates) VALUES ('point(0 0)');
