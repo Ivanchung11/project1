@@ -4,7 +4,7 @@ function pairUpScatter(xAxis: number[], yAxis:number[]) {
   let pair: {x: number; y: number}
   let data: {x: number; y: number}[] = [];
   for (let i = 0; i < xAxis.length; i++) {
-    pair = {x: xAxis[i], y: yAxis[i]}
+    pair = {x: xAxis[i]/1000, y: yAxis[i]}
     data.push(pair)
   }
   return data
