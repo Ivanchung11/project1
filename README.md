@@ -1,4 +1,5 @@
 # project1
+```cmd
 npm install express
 npm install -D @types/express
 npm install -D ts-node typescript @types/node ts-node-dev 
@@ -6,7 +7,9 @@ npm install pg dotenv
 npm install -D @types/pg
 npm install express-session
 npm install -D @types/express-session
+```
 
+```json
 {
   "compilerOptions": {
     "strict": true,
@@ -24,7 +27,13 @@ npm install -D @types/express-session
 "scripts": {
 	"start": "ts-node app.ts"
 }
+```
+
+
+
 
 .gitginore
-
+```
 node_modules/
+.env
+```
