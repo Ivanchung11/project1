@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node-dev main.ts",
-    "data": "psql -f sql/init.sql && psql -f sql/dummy_data.sql",
+    "data": "psql -U postgres -f sql/init.sql && psql -U postgres -f sql/dummy_data.sql && node ./utils/loadKMLToDB.js",
     "dev": "ts-node-dev main.ts"
   },
   "author": "",
