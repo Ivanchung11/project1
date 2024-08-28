@@ -53,19 +53,19 @@ CREATE TABLE route(
     duration integer not null,
     view_count integer null,
     public_private boolean not null,
-    path_info_id integer not null,
+    -- path_info_id integer not null,
     created_at TIMESTAMP not null default now(),
 
     foreign key (users_id) references users (id),
     foreign key (star_district_id) references district (id),
-    foreign key (end_district_id) references district (id),
-    foreign key (path_info_id) references path_info (id)
+    foreign key (end_district_id) references district (id)
+    -- foreign key (path_info_id) references path_info (id)
 );
 INSERT INTO
     route (users_id, route_name, star_district_id, road_bicyle_track, 
     distance, duration, view_count, public_private, path_info_id, created_at)
 VALUES
-    (1, '元朗-上水', 1, true, 5, 600, 10, true, 1, '2024-04-30');
+    (1, '元朗-上水', 1, true, 5, 600, 10, true, 1, now());
     
 
 
@@ -130,15 +130,18 @@ INSERT INTO news_photo (news_id) VALUES (1);
 
 CREATE TABLE path_info(
     id SERIAL primary key,
+    route_id integer not null,
     location GEOGRAPHY(Point, 4326),  
     ele double precision not null,
     time time null,
-    cumul double precision not null
+    cumul double precision not null,
+
+    foreign key (route_id) references route(id)
 );
 INSERT INTO
-    path_info (location, ele, time,cumul)
+    path_info (route_id, location, ele, time,cumul)
 VALUES
-    ('POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
+    (1,'POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
     
 
 
