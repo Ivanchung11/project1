@@ -20,9 +20,12 @@ Gov Cycling Data (main) https://data.gov.hk/tc-data/dataset/hk-td-tis_20-cycling
 
 ### Cycling Route Data
 
-919 細冷 anti clock small round (.gpx) https://ridewithgps.com/routes/37507702
+- 919 細冷 anti clock small round (.gpx) https://ridewithgps.com/routes/37507702
+
+- Personal Record (.gpx) https://github.com/Ivanchung11/project1/blob/main/test/data/2023-01-23-150805.gpx  
 
 
+- Extras are in the `test/data` folder
 
 
 Command
