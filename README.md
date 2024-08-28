@@ -17,6 +17,8 @@ Gov Cycling Data (main) https://data.gov.hk/tc-data/dataset/hk-td-tis_20-cycling
 
 康樂及文化事務署轄下場地內飲水機 (main) https://data.gov.hk/tc-data/dataset/hk-lcsd-facwd-fac-wd-list
 - 康樂及文化事務署轄下場地內飲水機（英文）(.csv) http://www.lcsd.gov.hk/datagovhk/fac-wd/lcsd_wd_en.csv
+路口交通黑點列表 (main) https://data.gov.hk/tc-data/dataset/hk-td-tis_9-junction-blacksite-list
+- 路口交通黑點列表(繁體中文) (.csv) https://www.td.gov.hk/datagovhk_td/junction_blacksite_list/resources/tc/junctionblacksite_internet_chi.csv
 
 ### Cycling Route Data
 
