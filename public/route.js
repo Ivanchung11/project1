@@ -152,8 +152,8 @@ async function initMap() {
      visible: false, // Initially hidden
    });
  
-   const controlslopeDiv = document.createElement("div");
-   const controlSlope = createControlUI(map);
+   const controlslopeDiv = document.createElement("divslope");
+   const controlSlope = createControlSlope(map);
  
    // Add the control to the map
    controlslopeDiv.appendChild(controlSlope);
