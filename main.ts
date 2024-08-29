@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { Client } from "pg";
 import dotenv from "dotenv";
 import expressSession from "express-session";
-// import { isLoggedIn } from "./guard";
+import { isLoggedIn } from "./guard";
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ app.get("/bicycle_route", async (req: Request, res: Response) => {
     "SELECT ST_AsText(path_coordinates) as path FROM bicycle_track ;"
   );
 
-  console.log(queryResult.rows);
+  // console.log(queryResult.rows);
 
   res.json({ data: queryResult.rows });
 });
@@ -49,7 +49,7 @@ app.get("/slope", async (req: Request, res: Response) => {
     "SELECT ST_AsText(path_coordinates) as path FROM slope ;"
   );
 
-  console.log(queryResult.rows);
+  // console.log(queryResult.rows);
 
   res.json({ data: queryResult.rows });
 });
@@ -134,7 +134,7 @@ app.get("/profile", async function (req: Request, res: Response) {
 });
 
 app.use(express.static("public"));
-// app.use(isLoggedIn, express.static("private"));
+app.use(isLoggedIn, express.static("private"));
 
 const PORT = 8080;
 

@@ -11,7 +11,7 @@ window.onload = () => {
         const body = {
             username: username,
             password: password,
-            nickname: email,
+            email: email,
         }
 
         const res = await fetch("/register", {

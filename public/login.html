@@ -1,27 +1,33 @@
-<html>
-  <title>Login Page</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="./css/login.css" />
+  </head>
   <body>
-    <div>
-      <div>Login Page</div>
-      <form id="login-form">
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input type="password" id="password" name="password"  />
-        </div>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+    <div class="container ">
+      <div class="login ">
+        <h1>Login</h1>
+        <form method="POST" id="login-form">
+          <div class="txt_field">
+            <input type="text" id="username" required />
+            <span></span>
+            <label>UserName</label>
+          </div>
+          <div class="txt_field">
+            <input type="password" id="password" required />
+            <span></span>
+            <label>Password</label>
+          </div>
+          <input name="submit" type="Submit" value="Sign In" />
+          <div class="signup_link">
+            Don't Have an Account ? <a href="./register.html"><br>Register Here</a>
+          </div>
+        </form>
+      </div>
     </div>
-    <script src="./js/login.js"></script>
   </body>
+  <script src="./js/login.js"></script>
 </html>
