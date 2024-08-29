@@ -228,7 +228,7 @@ async function initMap() {
   controlUIParking.addEventListener("click", function () {
     const isVisible = parkingLayer.getStyle().visible;
     parkingLayer.setStyle({
-      strokeColor: "#FF0000", // Retain custom stroke color
+      strokeColor: "#F0F000", // Retain custom stroke color
       strokeOpacity: 0.5, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
       visible: !isVisible, // Toggle visibility
