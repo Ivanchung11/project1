@@ -1,38 +1,45 @@
-<html>
-  <title>Register Page</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Register Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="./css/register.css" />
+  </head>
   <body>
-    <div>
-      <div>Register Page</div>
-      <form id="register-form">
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            
-          />
+    <div class="container">
+      <!-- <img src="./css/cycling.jpg" alt="cycling ith family"> -->
+      <div class="row">
+        <div class="register col-2">
+          <h1>Register</h1>
+          <form method="POST" action="">
+            <div class="txt_field">
+              <input type="text" id="name" required />
+              <span></span>
+              <label>Name</label>
+            </div>
+            <div class="txt_field">
+              <input type="email" id="email" required />
+              <span></span>
+              <label>Email</label>
+            </div>
+            <div class="txt_field">
+              <input type="password" id="password" required />
+              <span></span>
+              <label>Password</label>
+            </div>
+            <div class="txt_field">
+              <input type="password" id="cpassword" required />
+              <span></span>
+              <label>Confirm Password</label>
+            </div>
+            <input name="submit" type="Submit" value="Sign Up" />
+            <div class="signup_link">
+              Have an Account ? <a href="#">Login Here</a>
+            </div>
+          </form>
         </div>
-        <div>
-          <label>Password</label>
-          <input type="password" id="password" name="password"  />
-        </div>
-        <!-- <div>
-          <label>Birthday</label>
-          <input type="date" id="birthday" name="birthday"  />
-        </div> -->
-        <div>
-          <label>Enmail</label>
-          <input type="text" id="email" name="email" />
-        </div>
-        <!-- <div>
-          <label>Phone</label>
-          <input type="text" id="phone" name="phone" value="44445555" />
-        </div> -->
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      </div>
     </div>
   </body>
   <script src="./js/register.js"></script>

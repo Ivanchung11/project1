@@ -1,6 +1,6 @@
 // Initialize and add the map
 let map;
-let customLayer;
+let TrackLayer;
 let SlopeLayer;
 let toggleControl;
 
@@ -16,7 +16,7 @@ function parseWKTLineString(wkt) {
 }
 
 // Create a custom control button
-function createControlUI(map) {
+function createControlUITrack(map) {
   const controlUI = document.createElement("button");
 
   controlUI.style.backgroundColor = "#fff";
@@ -33,47 +33,47 @@ function createControlUI(map) {
 }
 
 // Create a custom control button slope =================================
-function createControlSlope(map) {
-  const controlSlope = document.createElement("button");
+function createControlUISlope(map) {
+  const controlUI = document.createElement("button");
 
-  controlSlope.style.backgroundColor = "#fff";
-  controlSlope.style.border = "2px solid #fff";
-  controlSlope.style.borderRadius = "3px";
-  controlSlope.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-  controlSlope.style.cursor = "pointer";
-  controlSlope.style.marginBottom = "22px";
-  controlSlope.style.margin = "22px 5px";
-  controlSlope.style.textAlign = "center";
-  controlSlope.innerHTML = "Toggle Slope";
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.margin = "22px 5px";
+  controlUI.style.textAlign = "center";
+  controlUI.innerHTML = "Toggle Slope";
 
-  return controlSlope;
+  return controlUI;
 }
 // ==================================================================
 
 async function initMap() {
   // The location of Cyberport
-  const position = { lat: 22.26220659110438, lng: 114.1306570511099 };
+  const position = { lat:22.323836184109705, lng:114.17130198913887};
 
   const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
   // The map
   map = new Map(document.getElementById("map"), {
-    zoom: 16,
+    zoom: 12,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
 
   // The marker
-  const marker = new AdvancedMarkerElement({
-    map: map,
-    position: position,
-    title: "Cyberport",
-  });
+  // const marker = new AdvancedMarkerElement({
+  //   map: map,
+  //   position: position,
+  //   title: "Cyberport",
+  // });
 
   // Initialize a data layer to hold the paths
-  customLayer = new google.maps.Data();
-  customLayer.setMap(map);
+  TrackLayer = new google.maps.Data();
+  TrackLayer.setMap(map);
   // Example WKT LINESTRING
   const res = await fetch("http://localhost:8080/bicycle_route");
   const response = await res.json();
@@ -91,7 +91,7 @@ async function initMap() {
 
     // Add paths to the custom data layer
 
-    customLayer.add({
+    TrackLayer.add({
       geometry: lineString,
       properties: {},
     });
@@ -99,21 +99,21 @@ async function initMap() {
   }
 
   // Initially hide the layer
-  customLayer.setStyle({
+  TrackLayer.setStyle({
     visible: false, // Initially hidden
   });
 
-  const controlDiv = document.createElement("div");
-  const controlUI = createControlUI(map);
+  const controlTrackDiv = document.createElement("div");
+  const controlUITrack = createControlUITrack(map);
 
   // Add the control to the map
-  controlDiv.appendChild(controlUI);
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv);
+  controlTrackDiv.appendChild(controlUITrack);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlTrackDiv);
 
   // Add click event to toggle the visibility of the custom layer
-  controlUI.addEventListener("click", function () {
-    const isVisible = customLayer.getStyle().visible;
-    customLayer.setStyle({
+  controlUITrack.addEventListener("click", function () {
+    const isVisible = TrackLayer.getStyle().visible;
+    TrackLayer.setStyle({
       strokeColor: "#FF0000", // Retain custom stroke color
       strokeOpacity: 0.5, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
@@ -152,15 +152,15 @@ async function initMap() {
      visible: false, // Initially hidden
    });
  
-   const controlslopeDiv = document.createElement("divslope");
-   const controlSlope = createControlSlope(map);
+   const controlSlopDiv = document.createElement("divslope");
+   const controlUISlope = createControlUISlope(map);
  
    // Add the control to the map
-   controlslopeDiv.appendChild(controlSlope);
-   map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlslopeDiv);
+   controlSlopDiv.appendChild(controlUISlope);
+   map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlSlopDiv);
  
    // Add click event to toggle the visibility of the custom layer
-   controlSlope.addEventListener("click", function () {
+   controlUISlope.addEventListener("click", function () {
      const isVisible = SlopeLayer.getStyle().visible;
      SlopeLayer.setStyle({
        strokeColor: "#FFFF00", // Retain custom stroke color
