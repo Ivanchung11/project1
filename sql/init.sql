@@ -32,13 +32,6 @@ CREATE TABLE district(
 );
 
 
-CREATE TABLE path_info(
-    id SERIAL primary key,
-    location GEOGRAPHY(Point, 4326),  
-    ele double precision not null,
-    time time null,
-    cumul double precision not null
-);
 
 
 CREATE TABLE route(
@@ -53,15 +46,24 @@ CREATE TABLE route(
     duration integer not null,
     view_count integer null,
     public_private boolean not null,
-    path_info_id integer not null,
     created_at TIMESTAMP not null default now(),
 
     foreign key (users_id) references users (id),
     foreign key (star_district_id) references district (id),
-    foreign key (end_district_id) references district (id),
-    foreign key (path_info_id) references path_info (id)
+    foreign key (end_district_id) references district (id)
+    
 );
 
+CREATE TABLE path_info(
+    id SERIAL primary key,
+    route_id integer not null,
+    location GEOGRAPHY(Point, 4326),  
+    ele double precision not null,
+    time time null,
+    cumul double precision not null,
+
+    foreign key (route_id) references route (id)
+);
     
 
 CREATE TABLE photo(

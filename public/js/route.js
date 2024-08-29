@@ -86,7 +86,7 @@ async function initMap() {
 
   // The map
   map = new Map(document.getElementById("map"), {
-    zoom: 12,
+    zoom: 24,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
@@ -236,4 +236,18 @@ async function initMap() {
   });
 }
 
+function initialize() {
+
+  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+  // Resize stuff...
+  google.maps.event.addDomListener(window, "resize", function() {
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center); 
+  });
+
+}
+
 initMap();
+// initialize();

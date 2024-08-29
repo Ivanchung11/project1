@@ -13,11 +13,11 @@ INSERT INTO district (name) VALUES ('元朗區');
 
 -- ======== route ========
 
--- INSERT INTO
---     route (users_id, route_name, star_district_id, road_bicyle_track, 
---     distance, duration, view_count, public_private, path_info_id, created_at)
--- VALUES
---     (1, '元朗-上水', 1, true, 5, 600, 10, true, 1, '2024-04-30');
+INSERT INTO
+    route (users_id, route_name, star_district_id, road_bicyle_track, 
+    distance, duration, view_count, public_private, path_info_id, created_at)
+VALUES
+    (1, '元朗-上水', 1, true, 5, 600, 10, true, 1, '2024-04-30');
 
 -- ======== photo ========
 

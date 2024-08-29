@@ -59,7 +59,7 @@ app.get("/parking", async (req: Request, res: Response) => {
     "SELECT ST_AsText(point_coordinates) as point FROM parking ;"
   );
 
-  console.log(queryResult.rows);
+  // console.log(queryResult.rows);
 
   res.json({ data: queryResult.rows });
 });

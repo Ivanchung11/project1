@@ -34,7 +34,7 @@ window.onload = async () => {
 
     if (res.ok) {
       alert("logout success")
-      window.location = "/login.html"
+      window.location = "/route.html"
     } else {
       alert("error!!!")
     }
