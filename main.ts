@@ -54,6 +54,20 @@ app.get("/slope", async (req: Request, res: Response) => {
   res.json({ data: queryResult.rows });
 });
 
+app.get("/parking", async (req: Request, res: Response) => {
+  let queryResult = await pgClient.query(
+    "SELECT ST_AsText(point_coordinates) as point FROM parking ;"
+  );
+
+  console.log(queryResult.rows);
+
+  res.json({ data: queryResult.rows });
+});
+
+
+
+
+
 app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
   const username = data.username;

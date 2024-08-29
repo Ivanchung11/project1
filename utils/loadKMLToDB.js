@@ -18,6 +18,8 @@ const client = new Client({
 
 client.connect();
 
+
+// ========== for bicycle track ==========
 // Define the correct path to your KML file
 const kmlFilePath = path.join(__dirname, "../data/CYCTRACK.kml");
 
@@ -32,7 +34,7 @@ fs.readFile(kmlFilePath, "utf8", (err, data) => {
   const geojson = tj.kml(kmlDom);
 
   // Log the GeoJSON output to understand its structure
-  console.log(JSON.stringify(geojson, null, 2));
+  // console.log(JSON.stringify(geojson, null, 2));
 
   // Filter out all the LineString features
   const lineStrings = geojson.features.filter(
@@ -70,6 +72,8 @@ fs.readFile(kmlFilePath, "utf8", (err, data) => {
 });
 
 
+
+// ========== for slopes ==========
 // Define the correct path to your KML file
 const slopekmlFilePath = path.join(__dirname, "../data/CYCRAMP.kml");
 
@@ -84,7 +88,7 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
   const geojson = tj.kml(kmlDom);
 
   // Log the GeoJSON output to understand its structure
-  console.log(JSON.stringify(geojson, null, 2));
+  // console.log(JSON.stringify(geojson, null, 2));
 
   // Filter out all the LineString features
   const lineStrings = geojson.features.filter(
@@ -120,3 +124,56 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
     client.end();
   }
 });
+
+
+
+// ========== for parkings ==========
+// Define the correct path to your KML file
+const parkingsKmlFilePath = path.join(__dirname, "../data/CYCPARKSPACE.kml");
+
+// Read and parse the KML file
+fs.readFile(parkingsKmlFilePath, "utf8", (err, data) => {
+  if (err) throw err;
+
+  // Parse the KML file into a DOM
+  const kmlDom = new DOMParser().parseFromString(data, "text/xml");
+
+  // Convert the KML DOM into GeoJSON
+  const geojson = tj.kml(kmlDom);
+
+  // Log the GeoJSON output to understand its structure
+  // console.log(JSON.stringify(geojson, null, 2));
+
+  // Filter out all the LineString features
+  const points = geojson.features.filter(
+    (feature) => feature.geometry.type === "Point"
+  );
+
+  if (points.length > 0) {
+    points.forEach((point, index) => {
+      // Convert the GeoJSON coordinates to WKT format for insertion into PostGIS
+      const coord = point.geometry.coordinates
+      const wktPoint = `POINT(${coord[0]} ${coord[1]})`;
+      
+      // Insert into PostgreSQL
+      const query = `
+      INSERT INTO parking (point_coordinates)
+      VALUES (ST_GeogFromText($1))
+      `;
+      const values = [wktPoint];
+      
+      client.query(query, values, (err, res) => {
+        if (err) {
+          console.error("Error inserting data:", err.stack);
+        } else {
+          console.log(`Data inserted successfully for route ${index + 1}`);
+        }
+      });
+    });
+  } else {
+    console.error("No Point found in the KML file.");
+    client.end();
+  }
+});
+
+
