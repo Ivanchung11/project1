@@ -25,7 +25,7 @@ function createControlUI(map) {
   controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlUI.style.cursor = "pointer";
   controlUI.style.marginBottom = "22px";
-  controlUI.style.marginTop = "22px";
+  controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
   controlUI.innerHTML = "Toggle Cycling Track";
 
@@ -42,7 +42,7 @@ function createControlSlope(map) {
   controlSlope.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlSlope.style.cursor = "pointer";
   controlSlope.style.marginBottom = "22px";
-  controlSlope.style.marginTop = "22px";
+  controlSlope.style.margin = "22px 5px";
   controlSlope.style.textAlign = "center";
   controlSlope.innerHTML = "Toggle Slope";
 
