@@ -1,0 +1,21 @@
+.list-group {
+    background-color: rgb(182, 182, 182);
+    font-size: 22px;
+    /* justify-content: center; */
+    text-align: center;
+    border-radius: 0px;
+
+}
+
+#selection-1 {
+    font-size: 18px;
+}
+
+#selection-2 {
+    font-size: 18px;
+}
+
+#selection-3 {
+    font-size: 18px;
+}
+

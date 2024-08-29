@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+
+    <script type="module" src="./search.js"></script>
+    <link rel="stylesheet" type="text/css" href="./search.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+            <a class="navbar-brand col-lg-3 me-0" href="#">Cycling-E</a>
+            <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+              <li class="nav-item">
+                <a class="nav-link active me-1" aria-current="page" href="#">Route</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active me-1" aria-current="page" href="#">Upload</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active me-1" aria-current="page" href="#">Search</a>
+              </li>
+              
+            </ul>
+            <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+              <button class="btn btn-primary me-2" href="#">Login</button>
+              <button class="btn btn-primary me-1" href="#">Register</button>
+            </div>
+          </div>
+        </div>
+    </nav>
+      <br>
+      <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center"></div>
+      <div class="list-group">單車徑 / 馬路比例
+        <div id="selection-1">   
+        <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+        <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+        主要單車徑
+        <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+        主要馬路 
+        </label>
+        </div> 
+        </div>
+      <!-- <div class="d-flex flex-column flex-md-row p-4 gap-5 py-md-5 align-items-center justify-content-center"> -->
+        <div class="list-group">起點地區
+            <div id="selection-2">   
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            中西區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            東區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            南區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            灣仔區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            九龍城區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            觀塘區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            深水埗區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            黃大仙區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            油尖旺區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            葵青區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            北區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            西貢區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            沙田區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            大埔區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            荃灣區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            屯門區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            元朗區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            離島區
+            </label>
+            </div> 
+        </div>
+        
+      
+        <div class="list-group">終點地區
+            <div id="selection-3">   
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            中西區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            東區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            南區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            灣仔區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            九龍城區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            觀塘區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            深水埗區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            黃大仙區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            油尖旺區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            葵青區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            北區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            西貢區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            沙田區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            大埔區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            荃灣區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            屯門區     
+            </label>
+            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            元朗區
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+            離島區
+            </label>
+            </div> 
+        </div>
+
+        <br>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <div class="card-body">
+                  <p class="fs-4">TITLE</p>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-body-secondary">View count number</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <div class="card-body">
+                  <p class="fs-4">TITLE</p>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-body-secondary">View count number</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <div class="card-body">
+                  <p class="fs-4">TITLE</p>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-body-secondary">View count number</small>
+                  </div>
+                </div>
+              </div>
+        </div>
+    
+    
+        
+    
+      
+      
+
+    
+</body>
+</html>
