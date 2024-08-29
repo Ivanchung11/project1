@@ -1,6 +1,7 @@
 // Initialize and add the map
 let map;
 let customLayer;
+let SlopeLayer;
 let toggleControl;
 
 function parseWKTLineString(wkt) {
@@ -30,6 +31,24 @@ function createControlUI(map) {
 
   return controlUI;
 }
+
+// Create a custom control button slope =================================
+function createControlSlope(map) {
+  const controlSlope = document.createElement("button");
+
+  controlSlope.style.backgroundColor = "#fff";
+  controlSlope.style.border = "2px solid #fff";
+  controlSlope.style.borderRadius = "3px";
+  controlSlope.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlSlope.style.cursor = "pointer";
+  controlSlope.style.marginBottom = "22px";
+  controlSlope.style.marginTop = "22px";
+  controlSlope.style.textAlign = "center";
+  controlSlope.innerHTML = "Toggle Slope";
+
+  return controlSlope;
+}
+// ==================================================================
 
 async function initMap() {
   // The location of Cyberport
@@ -76,6 +95,7 @@ async function initMap() {
       geometry: lineString,
       properties: {},
     });
+    
   }
 
   // Initially hide the layer
@@ -100,6 +120,57 @@ async function initMap() {
       visible: !isVisible, // Toggle visibility
     });
   });
-}
+  
+   // Initialize a data layer to hold the paths ===============================
+   SlopeLayer = new google.maps.Data();
+   SlopeLayer.setMap(map);
+   // Example WKT LINESTRING
+   const SlopeRes = await fetch("http://localhost:8080/slope");
+   const SlopeResponse = await SlopeRes.json();
+   for (let i = 0; i < SlopeResponse.data.length; i++) {
+     const wktLineString = SlopeResponse.data[i].path;
+ 
+     // Parse the WKT string
+     const coordinates = parseWKTLineString(wktLineString);
+ 
+     // Create the LineString
+     const pathCoordinates = coordinates.map(
+       (coord) => new google.maps.LatLng(coord.lat, coord.lng)
+     );
+     const lineString = new google.maps.Data.LineString(pathCoordinates);
+ 
+     // Add paths to the custom data layer
+ 
+     SlopeLayer.add({
+       geometry: lineString,
+       properties: {},
+     });
+   }
+ 
+   // Initially hide the layer
+   SlopeLayer.setStyle({
+     visible: false, // Initially hidden
+   });
+ 
+   const controlslopeDiv = document.createElement("div");
+   const controlSlope = createControlUI(map);
+ 
+   // Add the control to the map
+   controlslopeDiv.appendChild(controlSlope);
+   map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlslopeDiv);
+ 
+   // Add click event to toggle the visibility of the custom layer
+   controlSlope.addEventListener("click", function () {
+     const isVisible = SlopeLayer.getStyle().visible;
+     SlopeLayer.setStyle({
+       strokeColor: "#FFFF00", // Retain custom stroke color
+       strokeOpacity: 0.5, // Retain custom stroke opacity
+       strokeWeight: 5, // Retain custom stroke weight
+       visible: !isVisible, // Toggle visibility
+     });
+   });
+ }
+ 
+ initMap();
+ 
 
-initMap();

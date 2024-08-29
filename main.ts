@@ -43,6 +43,17 @@ app.get("/bicycle_route", async (req: Request, res: Response) => {
   res.json({ data: queryResult.rows });
 });
 
+
+app.get("/slope", async (req: Request, res: Response) => {
+  let queryResult = await pgClient.query(
+    "SELECT ST_AsText(path_coordinates) as path FROM slope ;"
+  );
+
+  console.log(queryResult.rows);
+
+  res.json({ data: queryResult.rows });
+});
+
 app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
   const username = data.username;
