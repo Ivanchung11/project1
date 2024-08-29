@@ -21,5 +21,23 @@ window.onload = async () => {
       }
     
   }
+
+  const logout = document.querySelector("#logout");
+
+  logout.addEventListener("click", async (e) => {
+    
+    const res = await fetch("/logout", {
+      method: "get",
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("logout success")
+      window.location = "/login.html"
+    } else {
+      alert("error!!!")
+    }
+});
 }
   

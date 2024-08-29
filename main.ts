@@ -133,6 +133,17 @@ app.get("/profile", async function (req: Request, res: Response) {
   res.json({ message: "profile", row });
 });
 
+app.get("/logout", async function (req: Request, res: Response) {
+  if (req.session.userId) {
+    req.session.destroy(() => {
+      
+      res.json({message:"logout"})
+    });
+  } else {
+    res.status(400).json({message:"you haven't login"})
+  }
+  })
+
 app.use(express.static("public"));
 app.use(isLoggedIn, express.static("private"));
 
