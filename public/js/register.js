@@ -5,6 +5,10 @@ window.onload = () => {
         e.preventDefault()
         console.log("register")
 
+        if (e.target.password.value != e.target.cpassword.value) {
+            alert("confirm password is not match");
+            return;
+        }
         const username = e.target.username.value
         const password = e.target.password.value
         const email = e.target.email.value
