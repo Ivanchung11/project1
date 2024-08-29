@@ -26,6 +26,9 @@ Gov Cycling Data (main) https://data.gov.hk/tc-data/dataset/hk-td-tis_20-cycling
 
 - Personal Record (.gpx) https://github.com/Ivanchung11/project1/blob/main/test/data/2023-01-23-150805.gpx  
 
+- 荃灣海濱長廊 7mins 2.3km
+- 東涌 - 東涌炮台 23mins 4.8km
+- 元朗 - 上水 69mins 16.3km
 
 - Extras are in the `test/data` folder
 
