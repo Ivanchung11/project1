@@ -61,7 +61,7 @@ fs.readFile(kmlFilePath, "utf8", (err, data) => {
         if (err) {
           console.error("Error inserting data:", err.stack);
         } else {
-          console.log(`Data inserted successfully for route ${index + 1}`);
+          // console.log(`Data inserted successfully for route ${index + 1}`);
         }
       });
     });
@@ -115,7 +115,7 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
         if (err) {
           console.error("Error inserting data:", err.stack);
         } else {
-          console.log(`Data inserted successfully for route ${index + 1}`);
+          // console.log(`Data inserted successfully for route ${index + 1}`);
         }
       });
     });
@@ -166,7 +166,7 @@ fs.readFile(parkingsKmlFilePath, "utf8", (err, data) => {
         if (err) {
           console.error("Error inserting data:", err.stack);
         } else {
-          console.log(`Data inserted successfully for route ${index + 1}`);
+          // console.log(`Data inserted successfully for route ${index + 1}`);
         }
       });
     });

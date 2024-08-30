@@ -86,7 +86,6 @@ CREATE TABLE bookmark(
     foreign key (users_id) references users(id),
     foreign key (route_id) references route(id)
 );
--- INSERT INTO bookmark (users_id, route_id) VALUES (1,1);
 
 
 
@@ -99,7 +98,6 @@ CREATE TABLE comment(
     foreign key (users_id) references users(id),
     foreign key (route_id) references route(id)
 );
--- INSERT INTO comment (users_id, route_id,content) VALUES (1,1,'this is a nice place');
 
 
 
@@ -108,7 +106,7 @@ CREATE TABLE news(
     title varchar(255) not null,
     content text not null
 );
--- INSERT INTO news (title, content) VALUES ('welcome ' , 'hello everyone');
+INSERT INTO news (title, content) VALUES ('welcome ' , 'hello everyone');
 
 
 
@@ -120,22 +118,16 @@ CREATE TABLE news_photo(
 
     foreign key (news_id) references news(id)
 );
--- INSERT INTO news_photo (news_id) VALUES (1);
 
 
 
--- INSERT INTO
---     path_info (location, ele, time,cumul)
--- VALUES
---     ('POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
-    
+
 
 
 CREATE TABLE slope(
     id SERIAL primary key,
     path_coordinates GEOGRAPHY(linestring,4326) not null
 );
--- INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 
 
@@ -143,7 +135,6 @@ CREATE TABLE bicycle_track(
     id SERIAL primary key,
     path_coordinates GEOGRAPHY(linestring,4326) not null
 );
--- INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 
 
@@ -151,7 +142,6 @@ CREATE TABLE parking(
     id SERIAL primary key,
     point_coordinates GEOGRAPHY(point,4326) not null
 );
--- INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
 
 
 
@@ -159,7 +149,6 @@ CREATE TABLE water_dispenser(
     id SERIAL primary key,
     point_coordinates GEOGRAPHY(point,4326) not null
 );
--- INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
 
 
 
@@ -167,4 +156,3 @@ CREATE TABLE blacksite(
     id SERIAL primary key,
     point_coordinates GEOGRAPHY(point,4326) not null
 );
--- INSERT INTO blacksite (point_coordinates) VALUES ('point(0 0)');

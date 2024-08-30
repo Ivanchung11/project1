@@ -67,6 +67,30 @@ app.get("/parking", async (req: Request, res: Response) => {
 
 
 
+app.post("/register", async function (req: Request, res: Response) {
+  const data = req.body;
+  const username = data.username;
+  const password = data.password;
+  const email = data.email;
+  const userResult = await pgClient.query(
+    `Select * from users where name = '${username}'`
+  );
+  const row = userResult.rows;
+  const rowCount = userResult.rowCount;
+  if (rowCount == null || rowCount > 0) {
+    res.status(400).json({ message: "username exists in database" });
+    return;
+  }
+  const sql = `INSERT INTO users (name, password, email ) 
+  VALUES ('${username}', '${password}', '${email}' );`;
+  console.log(sql);
+  
+  const InsertResult = await pgClient.query(sql);
+  
+  res.json({ message: "register success" });
+});
+
+
 
 app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
@@ -77,7 +101,7 @@ app.post("/login", async (req: Request, res: Response) => {
   const row = result.rows[0];
   const count = result.rowCount;
 
-  // console.log(req.session.userId);
+  console.log(req.session.userId);
 
   // console.log(sql);
   // console.log(result);
@@ -100,27 +124,21 @@ app.post("/login", async (req: Request, res: Response) => {
   // res.json({message:"login success",username:username,password:password})
 });
 
-app.post("/register", async function (req: Request, res: Response) {
+app.post("/comment", async (req: Request, res: Response) => {
   const data = req.body;
-  const username = data.username;
-  const password = data.password;
-  const email = data.email;
-  const userResult = await pgClient.query(
-    `Select * from users where name = '${username}'`
-  );
-  const row = userResult.rows;
-  const rowCount = userResult.rowCount;
-  if (rowCount == null || rowCount > 0) {
-    res.status(400).json({ message: "username exists in database" });
-    return;
-  }
-  const sql = `INSERT INTO users (name, password, email ) 
-  VALUES ('${username}', '${password}', '${email}' );`;
-  console.log(sql);
+  const user_id = req.session.userId
+  // const route_id = req.session.routeId
+  const sql = `INSERT INTO comment (user_id, route_id, content) VALUES ($1,$2,$3);`
 
-  const InsertResult = await pgClient.query(sql);
+  
+  const result = await pgClient.query(sql,[user_id, , data])
+  
+  console.log(result);
+    res.json({message:"register success"});
 
-  res.json({ message: "register success" });
+  return;
+  
+  
 });
 
 app.get("/profile", async function (req: Request, res: Response) {
