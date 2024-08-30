@@ -5,7 +5,10 @@ INSERT INTO
 VALUES
     ('admin', '123', 'admin@gmail.com', now()),
     ('admin1', '123', 'admin1@gmail.com', now());
-
+INSERT INTO
+    users (name, password, email, created_at)
+VALUES
+    ('admin5', '555', 'admin5@gmail.com', now());
 
 -- ======== district ========
 
