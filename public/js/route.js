@@ -4,6 +4,7 @@ let TrackLayer;
 let SlopeLayer;
 let parkingLayer;
 let waterLayer;
+let customRouteLayer;
 let toggleControl;
 
 function parseWKTLineString(wkt) {
@@ -91,6 +92,25 @@ function createControlUIWater(map) {
   controlUI.style.marginTop = "22px";
   controlUI.style.textAlign = "center";
   controlUI.innerHTML = "Toggle Water Dispenser Sites";
+
+  return controlUI;
+}
+// ==================================================================
+
+
+// Create a custom control button custom route =================================
+function createControlUICustomRoute(map) {
+  const controlUI = document.createElement("button");
+
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.marginTop = "22px";
+  controlUI.style.textAlign = "center";
+  controlUI.innerHTML = "Toggle customRoute Sites";
 
   return controlUI;
 }
@@ -294,6 +314,58 @@ async function initMap() {
     const isVisible = waterLayer.getStyle().visible;
     waterLayer.setStyle({
       strokeColor: "#F0F000", // Retain custom stroke color
+      strokeOpacity: 0.5, // Retain custom stroke opacity
+      strokeWeight: 5, // Retain custom stroke weight
+      visible: !isVisible, // Toggle visibility
+    });
+  });
+
+  
+  // ==========Initialize a data layer to hold the custom ruote==========
+  customRouteLayer = new google.maps.Data();
+  customRouteLayer.setMap(map);
+  // Example WKT LINESTRING
+  const customRouteRes = await fetch("http://localhost:8080/customroute");
+  const customRouteResponse = await customRouteRes.json();
+  for (let i = 0; i < customRouteResponse.data.length; i++) {
+    const wktLineString = customRouteResponse.data[i].path;
+
+    // Parse the WKT string
+    const coordinates = parseWKTLineString(wktLineString);
+
+    // Create the LineString
+    const pathCoordinates = coordinates.map(
+      (coord) => new google.maps.LatLng(coord.lat, coord.lng)
+    );
+    const lineString = new google.maps.Data.LineString(pathCoordinates);
+
+    // Add paths to the custom data layer
+
+    customRouteLayer.add({
+      geometry: lineString,
+      properties: {},
+    });
+  }
+
+  // Initially hide the layer
+  customRouteLayer.setStyle({
+    visible: false, // Initially hidden
+  });
+
+  const controlCustomRouteDiv = document.createElement("div");
+  const controlUICustomRoute = createControlUICustomRoute(map);
+
+  // Add the control to the map
+  controlCustomRouteDiv.appendChild(controlUICustomRoute);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+    controlCustomRouteDiv
+  );
+
+  // Add click event to toggle the visibility of the custom layer
+  controlUICustomRoute.addEventListener("click", function () {
+    const isVisible = customRouteLayer.getStyle().visible;
+    customRouteLayer.setStyle({
+      strokeColor: "#FF0000", // Retain custom stroke color
       strokeOpacity: 0.5, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
       visible: !isVisible, // Toggle visibility

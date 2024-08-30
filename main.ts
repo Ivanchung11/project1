@@ -75,6 +75,26 @@ app.get("/water_dispenser", async (req: Request, res: Response) => {
 });
 
 
+app.get("/customroute", async (req: Request, res: Response) => {
+  let queryResult = await pgClient.query(
+    "SELECT route_id as routeId, ST_AsText(location) as point FROM path_info ;"
+  );
+  
+  let linestring = "";
+  let resultArr = queryResult.rows;
+  console.log(resultArr);
+  for (let element of resultArr){
+    let pointcoord = element.point.replace("POINT(","").replace(")","")
+    linestring = linestring + pointcoord + ","
+  }
+  linestring = linestring.substring(0, linestring.length - 1)
+  linestring = 'LINESTRING(' + linestring + ")";
+  let linestringObj = { path : linestring}
+  let linestringArr = [linestringObj]
+
+  res.json({ data: linestringArr });
+});
+
 
 app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
