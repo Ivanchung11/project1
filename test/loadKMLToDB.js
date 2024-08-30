@@ -6,7 +6,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 dotenv.config();
-console.log(process.env.DB_NAME);
+
 // PostgreSQL connection details (user and password left empty)
 const client = new Client({
   host: "localhost",
@@ -18,20 +18,21 @@ const client = new Client({
 
 client.connect();
 
-async function parseKML(kmlFileName, dbTable) {
-  // Define the correct path to your KML file
-  const kmlFilePath = path.join(__dirname, kmlFileName);
 
-  // Read and parse the KML file
-  let result = await fs.promises.readFile(kmlFilePath, "utf8");
+// ========== for bicycle track ==========
+// Define the correct path to your KML file
+const kmlFilePath = path.join(__dirname, "../data/CYCTRACK.kml");
+
+// Read and parse the KML file
+fs.readFile(kmlFilePath, "utf8", (err, data) => {
+  if (err) throw err;
 
   // Parse the KML file into a DOM
-  const kmlDom = await new DOMParser().parseFromString(result, "text/xml");
+  const kmlDom = new DOMParser().parseFromString(data, "text/xml");
 
   // Convert the KML DOM into GeoJSON
-  const geojson = await tj.kml(kmlDom);
+  const geojson = tj.kml(kmlDom);
 
-  // console.log(geojson);
   // Log the GeoJSON output to understand its structure
   // console.log(JSON.stringify(geojson, null, 2));
 
@@ -95,8 +96,7 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
   );
 
   if (lineStrings.length > 0) {
-    let index = 0;
-    for (let lineString of lineStrings) {
+    lineStrings.forEach((lineString, index) => {
       // Convert the GeoJSON coordinates to WKT format for insertion into PostGIS
       const coordinates = lineString.geometry.coordinates
         .map((coord) => `${coord[0]} ${coord[1]}`)
@@ -106,7 +106,7 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
 
       // Insert into PostgreSQL
       const query = `
-        INSERT INTO ${dbTable} (path_coordinates)
+        INSERT INTO slope (path_coordinates)
         VALUES (ST_GeogFromText($1))
       `;
       const values = [wktLineString];
@@ -121,25 +121,43 @@ fs.readFile(slopekmlFilePath, "utf8", (err, data) => {
     });
   } else {
     console.error("No LineString found in the KML file.");
-    // client.end();
+    client.end();
   }
-}
+});
 
-async function storePoint(geojson, dbTable) {
+
+
+// ========== for parkings ==========
+// Define the correct path to your KML file
+const parkingsKmlFilePath = path.join(__dirname, "../data/CYCPARKSPACE.kml");
+
+// Read and parse the KML file
+fs.readFile(parkingsKmlFilePath, "utf8", (err, data) => {
+  if (err) throw err;
+
+  // Parse the KML file into a DOM
+  const kmlDom = new DOMParser().parseFromString(data, "text/xml");
+
+  // Convert the KML DOM into GeoJSON
+  const geojson = tj.kml(kmlDom);
+
+  // Log the GeoJSON output to understand its structure
+  // console.log(JSON.stringify(geojson, null, 2));
+
+  // Filter out all the LineString features
   const points = geojson.features.filter(
     (feature) => feature.geometry.type === "Point"
   );
 
   if (points.length > 0) {
-    let index = 0;
-    for (let point of points) {
+    points.forEach((point, index) => {
       // Convert the GeoJSON coordinates to WKT format for insertion into PostGIS
-      const coord = point.geometry.coordinates;
+      const coord = point.geometry.coordinates
       const wktPoint = `POINT(${coord[0]} ${coord[1]})`;
-
+      
       // Insert into PostgreSQL
       const query = `
-      INSERT INTO ${dbTable} (point_coordinates)
+      INSERT INTO parking (point_coordinates)
       VALUES (ST_GeogFromText($1))
       `;
       const values = [wktPoint];
@@ -156,13 +174,6 @@ async function storePoint(geojson, dbTable) {
     console.error("No Point found in the KML file.");
     client.end();
   }
-}
+});
 
-async function main() {
-  await parseKML("../data/CYCPARKSPACE.kml", "parking");
-  await parseKML("../data/CYCRAMP.kml", "slope");
-  await parseKML("../data/CYCTRACK.kml", "bicycle_track");
-  client.end();
-}
 
-main();
