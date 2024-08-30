@@ -1,5 +1,4 @@
 const fs = require("fs");
-const jsonfile = require("jsonfile");
 const path = require("path");
 const { Client } = require("pg");
 const dotenv = require("dotenv");
