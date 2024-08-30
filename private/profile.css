@@ -1,0 +1,33 @@
+.collapse navbar-collapse d-lg-flex {
+    padding: 40px;
+}
+
+.myProfile {
+    font-size: 40px;
+    text-align: center;
+    background-color: rgb(198, 198, 198);
+    padding: 20px;
+}
+
+.recent-records {
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+
+}
+
+.photo {
+    font-size: 30px;
+    text-align: center;
+    padding: 20px;
+}
+
+.bookmark {
+    font-size: 30px;
+    text-align: center;
+    padding: 20px; 
+}
+
+.photoGallery {
+    padding: 70px;
+}
