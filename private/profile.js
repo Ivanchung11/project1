@@ -40,4 +40,26 @@ window.onload = async () => {
     }
 });
 }
+
+// $(document).ready(function () {
+//   $('.comic-content .col-12:lt(3)').show();
+//   $('.less').hide();
+//   var items =  9;
+//   var shown =  3;
+//   $('.more').click(function () {
+//       $('.less').show();
+//       shown = $('.comic-content .col-12:visible').length+3;
+//       if(shown< items) {
+//         $('.comic-content .col-12:lt('+shown+')').show(300);
+//       } else {
+//         $('.comic-content .col-12:lt('+items+')').show(300);
+//         $('.more').hide();
+//       }
+//   });
+//   $('.less').click(function () {
+//       $('.comic-content .col-12').not(':lt(3)').hide(300);
+//       $('.more').show();
+//       $('.less').hide();
+//   });
+// });
   
