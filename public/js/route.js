@@ -3,6 +3,7 @@ let map;
 let TrackLayer;
 let SlopeLayer;
 let parkingLayer;
+let waterLayer;
 let toggleControl;
 
 function parseWKTLineString(wkt) {
@@ -72,6 +73,24 @@ function createControlUIParking(map) {
   controlUI.style.marginTop = "22px";
   controlUI.style.textAlign = "center";
   controlUI.innerHTML = "Toggle Parking Sites";
+
+  return controlUI;
+}
+// ==================================================================
+
+// Create a custom control button water dispenser =================================
+function createControlUIWater(map) {
+  const controlUI = document.createElement("button");
+
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.marginTop = "22px";
+  controlUI.style.textAlign = "center";
+  controlUI.innerHTML = "Toggle Water Dispenser Sites";
 
   return controlUI;
 }
@@ -234,19 +253,66 @@ async function initMap() {
       visible: !isVisible, // Toggle visibility
     });
   });
+
+  // =========Initialize a data layer to hold the points: Water dispenser=========
+  waterLayer = new google.maps.Data();
+  waterLayer.setMap(map);
+  // Example WKT POINT
+  const waterRes = await fetch("http://localhost:8080/water_dispenser");
+  const waterResponse = await waterRes.json();
+  for (let i = 0; i < waterResponse.data.length; i++) {
+    const wktPoint = waterResponse.data[i].point;
+
+    // Parse the WKT point
+    const coord = parseWKTPoint(wktPoint);
+
+    // Create the Point
+    const point = new google.maps.Data.Point(coord);
+
+    // Add point to the custom data layer
+    waterLayer.add({
+      geometry: point,
+      properties: {},
+    });
+  }
+
+  // Initially hide the layer
+  waterLayer.setStyle({
+    visible: false, // Initially hidden
+  });
+
+  const controlWaterDiv = document.createElement("div");
+  const controlUIWater = createControlUIWater(map);
+
+  // Add the control to the map
+  // controlDiv.appendChild(controlUI);
+  controlWaterDiv.appendChild(controlUIWater);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlWaterDiv);
+
+  // Add click event to toggle the visibility of the custom layer
+  controlUIWater.addEventListener("click", function () {
+    const isVisible = waterLayer.getStyle().visible;
+    waterLayer.setStyle({
+      strokeColor: "#F0F000", // Retain custom stroke color
+      strokeOpacity: 0.5, // Retain custom stroke opacity
+      strokeWeight: 5, // Retain custom stroke weight
+      visible: !isVisible, // Toggle visibility
+    });
+  });
 }
 
 function initialize() {
-
-  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  var map = new google.maps.Map(
+    document.getElementById("map-canvas"),
+    mapOptions
+  );
 
   // Resize stuff...
-  google.maps.event.addDomListener(window, "resize", function() {
+  google.maps.event.addDomListener(window, "resize", function () {
     var center = map.getCenter();
     google.maps.event.trigger(map, "resize");
-    map.setCenter(center); 
+    map.setCenter(center);
   });
-
 }
 
 initMap();
