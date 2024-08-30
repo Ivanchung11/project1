@@ -119,7 +119,7 @@ async function insertroute(routeObj) {
         route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track, 
         distance, duration, view_count, public_private, created_at)
     VALUES
-        ((SELECT id from users where name ='${routeObj.uploader}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, '2024-03-20')`;
+        ((SELECT id from users where name ='${routeObj.uploader}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, now())`;
     await pgClient.query(sql_1);
 
     for (let i = 0; i < geopoints.length; i++) {

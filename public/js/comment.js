@@ -17,7 +17,7 @@ commentbtn.addEventListener("click", async(event) => {
         // console.log(event.target);
 
         const text = await document.getElementById("text").value;
-        console.log(text);
+        // console.log(text);
         const body = {
             comment : text
         }

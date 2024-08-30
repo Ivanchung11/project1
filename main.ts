@@ -30,6 +30,7 @@ app.use(
 declare module "express-session" {
   interface SessionData {
     userId: number;
+    routeId: number;
   }
 }
 
@@ -129,7 +130,7 @@ app.post("/login", async (req: Request, res: Response) => {
   const row = result.rows[0];
   const count = result.rowCount;
 
-  console.log(req.session.userId);
+  // console.log(req.session.userId);
 
   // console.log(sql);
   // console.log(result);
@@ -140,6 +141,7 @@ app.post("/login", async (req: Request, res: Response) => {
     return;
   }
   req.session.userId = row.id;
+  console.log(req.session.userId);
   res.json({
     message: "Login successful",
     nickname: row.nickname,
@@ -156,7 +158,7 @@ app.post("/comment", async (req: Request, res: Response) => {
   const data = req.body;
   const user_id = req.session.userId
   // const route_id = req.session.routeId
-  const sql = `INSERT INTO comment (user_id, route_id, content) VALUES ($1,$2,$3);`
+  const sql = `INSERT INTO comment (user_id, content) VALUES ($1,$2,$3);`
 
   
   const result = await pgClient.query(sql,[user_id, , data])
