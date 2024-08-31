@@ -1,29 +1,52 @@
 window.onload = async () => {
-  console.log("hello");
-  
-    const usernameLabel = document.querySelector("#username");
-  
-    // const logoutBtn = document.querySelector("#logout");
-
-    await getProfile();
-  async function getProfile() {
-    const res = await fetch("/profile");
-    const data = await res.json();
-    // console.log(data.row.username);
-    
-    if (res.ok) {
-        // console.log(data.row.username);
-
-        const rows = data.row;
-        usernameLabel.innerHTML = rows.name;
-      } else {
-        alert("error !!!");
-      }
-    
-  }
-
+  const usernameLabel = document.querySelector("#username");
   const logout = document.querySelector("#logout");
 
+  await getProfile();
+  
+
+  
+
+  await logout()
+}
+
+async function getProfile() {
+  const res = await fetch("/profile");
+  const data = await res.json();
+  // console.log(data.row.username);
+  
+  if (res.ok) {
+      // console.log(data.row.username);
+
+      const rows = data.row;
+      usernameLabel.innerHTML = rows.name;
+    } else {
+      alert("error !!!");
+    }
+  
+}
+
+// async function profileBookmark() {
+//   const res = await fetch("/profileBookmark");
+//   const data = await res.json();
+//   console.log(data);
+  
+//   if (res.ok) {
+//       // console.log(data.row.username);
+//       console.log("yes");
+      
+
+//       // const rows = data.row;
+//       // usernameLabel.innerHTML = rows.name;
+//     } else {
+//       // alert("error !!!");
+//       console.log("no");
+      
+//     }
+  
+// }
+
+async function logout() {
   logout.addEventListener("click", async (e) => {
     
     const res = await fetch("/logout", {
@@ -40,6 +63,4 @@ window.onload = async () => {
     }
 });
 }
-
-
   

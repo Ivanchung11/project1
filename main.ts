@@ -213,6 +213,18 @@ app.get("/profile", async function (req: Request, res: Response) {
   res.json({ message: "profile", row });
 });
 
+// app.get("/profileBookmark", async function (req: Request, res: Response) {
+//   const userId = req.session.userId;
+//   console.log(userId);
+  
+//   const sql = ` select users.name, route_id, created_at from bookmark inner JOIN users ON bookmark.users_id = users.id where users_id = $1`;
+//   const result = await pgClient.query(sql, [userId]);
+//   const row = result.rows;
+//   console.log(row);
+
+//   // res.json({ message: "profile", row });
+// });
+
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
     req.session.destroy(() => {
