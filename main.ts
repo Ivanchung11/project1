@@ -30,7 +30,6 @@ app.use(
 declare module "express-session" {
   interface SessionData {
     userId: number;
-    routeId: number;
   }
 }
 
@@ -141,7 +140,7 @@ app.post("/login", async (req: Request, res: Response) => {
     return;
   }
   req.session.userId = row.id;
-  console.log(req.session.userId);
+  // console.log(req.session.userId);
   res.json({
     message: "Login successful",
     nickname: row.nickname,
@@ -156,18 +155,23 @@ app.post("/login", async (req: Request, res: Response) => {
 
 app.post("/comment", async (req: Request, res: Response) => {
   const data = req.body;
-  const user_id = req.session.userId
-  // const route_id = req.session.routeId
-  const sql = `INSERT INTO comment (user_id, content) VALUES ($1,$2,$3);`
+  const users_id = req.session.userId;
+  const route_id = data.routeId;
+  const content = data.content;
+  // console.log(content);
+  // console.log(users_id);
+  // console.log(route_id);
+  
+  const sql = `INSERT INTO comment (users_id, route_id, content) VALUES ('${users_id}','${route_id}','${content}');`
+  const result = await pgClient.query(sql);
+  // console.log(result);
 
+  const getsql = `select users.name, content from comment inner JOIN users ON comment.users_id = users.id where route_id =$1`
+  const getresult= await pgClient.query(getsql, [route_id]) 
+  const row = getresult.rows
+  console.log(row);
   
-  const result = await pgClient.query(sql,[user_id, , data])
-  
-  console.log(result);
-    res.json({message:"register success"});
-
-  return;
-  
+    res.json({row});
   
 });
 

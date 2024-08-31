@@ -24,7 +24,7 @@ window.onload = () => {
         const data = await res.json()
         if (res.ok) {
             alert("login success")
-            window.location = "/profile.html"
+            window.location = "/comment.html?route_id=1"
             // console.log("yes");
             
         } else {
