@@ -73,7 +73,7 @@
         <div id="header">Upload your route</div>
         <br />
         <div id="start">
-          start
+          <!-- start -->
           <div class="startSelection">
             <select class="form-select" aria-label="Default select example">
               <option selected>Start District</option>
@@ -100,7 +100,7 @@
         </div>
         <br />
         <div id="end">
-          end
+          <!-- end -->
           <div class="endSelection">
             <select class="form-select" aria-label="Default select example">
               <option selected>Finish District</option>
@@ -125,17 +125,73 @@
             </select>
           </div>
         </div>
-        <br>
+        <br />
         <div id="roadtype">
-            road type
-            <div class="typeSelection">
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Road Type</option>
-                <option value="1">Cycling Tracks</option>
-                <option value="2">Road</option>
-              </select>
-            </div>
+          <!-- road type -->
+          <div class="typeSelection">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Road Type</option>
+              <option value="1">Cycling Tracks</option>
+              <option value="2">Road</option>
+            </select>
           </div>
+        </div>
+        <br />
+        <div id="duration">
+          Duration:&nbsp
+          <input
+            id="duration-input"
+            type="text"
+            required
+            pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+            value="00:00:00"
+            title="Write a duration in the format hh:mm:ss"
+          />
+        </div>
+        <div id="descripation">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Descripation:</label>
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="6"
+            ></textarea>
+          </div>
+        </div>
+        <div class="uploadPhotoButton">
+          <button type="button" class="btn btn-primary btn-md btn-block">
+            Upload Photo
+          </button>
+        </div>
+        
+        <div class="form-check-1">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckChecked"
+            checked
+          />
+          <label class="form-check-label" for="flexCheckChecked"
+            >Public
+          </label>
+        </div>
+        <div class="form-check-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label" for="flexCheckDefault"
+            >Private
+          </label>
+
+        <div class="submitButton">
+          <button type="button" class="btn btn-primary btn-lg btn-block">SUBMIT</button> 
+        </div>  
+         
+        </div>
       </div>
 
       <div class="col-md-8">

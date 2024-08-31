@@ -11,7 +11,7 @@ body,
 }
 
 #header {
-    font-size: 25px;
+    font-size: 30px;
     text-align: center;
     margin-top: 20px;
 }
@@ -29,4 +29,43 @@ body,
 #roadtype {
     font-size: 20px; 
     padding-left: 20px;  
+}
+
+#duration {
+    font-size: 20px; 
+    padding-left: 20px;
+    justify-content: center;  
+    align-items: center;  
+}
+
+.form-group {
+    font-size: 20px; 
+    padding-left: 20px;
+    padding-top: 20px; 
+}
+
+.uploadPhotoButton {
+    font-size: 20px; 
+    padding-left: 20px;
+    padding-top: 20px; 
+}
+
+.form-check-1 {
+    font-size: 20px; 
+    padding-left: 20px;
+    padding-top: 20px; 
+}
+
+.form-check-2 {
+    font-size: 20px; 
+    padding-left: 20px;
+    padding-top: 5px; 
+}
+
+.submitButton {
+    font-size: 20px; 
+    padding-top: 20px; 
+    justify-content: center;  
+    align-items: center;
+    text-align: center;
 }
