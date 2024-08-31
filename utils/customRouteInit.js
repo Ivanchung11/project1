@@ -53,7 +53,6 @@ let route2 = {
   isPublic: true,
 };
 
-
 let route3 = {
   filepath: "./data/Yuen_Long.gpx",
   routeName: "元朗-南生圍-錦繡花園-上水",
@@ -90,12 +89,12 @@ let route5 = {
 async function insertroute(routeObj) {
   let data = await fs.readFileSync(routeObj.filepath); //import the gpx file as string
   gpx.parse(data);
-  console.log(gpx)
-  console.log("=============")
+  console.log(gpx.tracks[gpx.tracks.length - 1].name);
+  console.log("=============");
 
-  var distanceArr = gpx.tracks[gpx.tracks.length-1].distance;
+  var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;
   var totalDistance = distanceArr.total;
-  var geopoints = gpx.tracks[gpx.tracks.length-1].points;
+  var geopoints = gpx.tracks[gpx.tracks.length - 1].points;
 
   let duration = 0;
 
@@ -116,27 +115,57 @@ async function insertroute(routeObj) {
   console.log(coincideSearch.rows.length);
   if (coincideSearch.rows.length == 0) {
     const sql_1 = `INSERT INTO
-        route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track, 
+        route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track,
         distance, duration, view_count, public_private, created_at)
     VALUES
         ((SELECT id from users where name ='${routeObj.uploader}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, now())`;
     await pgClient.query(sql_1);
 
-    for (let i = 0; i < geopoints.length; i++) {
-      let location = `POINT (${geopoints[i].lon} ${geopoints[i].lat})`;
-      let ele = geopoints[i].ele;
-      // let coordTimes = geopoints[i].time;
-      let cumul = distanceArr.cumul[i];
-      const sql = `Insert into path_info (route_id, location, ele, cumul) 
+  let maxlon = geopoints[0].lon;
+  let minlon = geopoints[0].lon;
+  let maxlat = geopoints[0].lat;
+  let minlat = geopoints[0].lat;
+
+  for (let i = 0; i < geopoints.length; i++) {
+    let location = `POINT (${geopoints[i].lon} ${geopoints[i].lat})`;
+    let ele = geopoints[i].ele;
+    // let coordTimes = geopoints[i].time;
+    let cumul = distanceArr.cumul[i];
+    const sql = `Insert into path_info (route_id, location, ele, cumul) 
     values ((SELECT id from route where route_name ='${routeObj.routeName}'), $1, $2, $3)`;
-      await pgClient.query(sql, [location, ele, cumul]);
+    await pgClient.query(sql, [location, ele, cumul]);
+
+    if (geopoints[i].lon > maxlon) {
+      maxlon = geopoints[i].lon;
+    }
+    if (geopoints[i].lon < minlon) {
+      minlon = geopoints[i].lon;
+    }
+    if (geopoints[i].lat > maxlat) {
+      maxlat = geopoints[i].lat;
+    }
+    if (geopoints[i].lat < minlat) {
+      minlat = geopoints[i].lat;
     }
   }
+  let midlon = (minlon + maxlon) / 2;
+  let midlat = (minlat + maxlat) / 2;
+  console.log(midlon, midlat);
+
+  let trackCentre = `POINT (${midlon} ${midlat})`;
+  const sql_ctr = `update route set centre = $1
+      where route_name =$2 and users_id = (SELECT id from users where name = $3)`;
+  await pgClient.query(sql_ctr, [
+    trackCentre,
+    routeObj.routeName,
+    routeObj.uploader,
+  ]);
+}
 }
 
-insertroute(route1);
+// insertroute(route1);
 insertroute(route2);
-insertroute(route3);
-insertroute(route4);
-insertroute(route5);
+// insertroute(route3);
+// insertroute(route4);
+// insertroute(route5);
 // main();
