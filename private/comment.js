@@ -22,21 +22,9 @@ async function getAllComment(myParam) {
     console.log(data);
 
   if (res.ok) {
-      let html = " ";
-      for (let i = 0; i < data.row.length; i++) {
-        const comment = data.row[i];
-        const poster = comment.name;
-        const text = comment.content;
-        // console.log(comment);
-        // console.log(poster);
-        // console.log(text);
-        html += `
-              <div id="comment-text">${poster} : ${text}</div>
-              `;
-      }
-      document.getElementById(`coment-text`).innerHTML = html;
+    html(data)
   }else {
-      alert("error!")
+    alert("error!")
   }
   
 }    
@@ -79,19 +67,7 @@ async function comment(myParam) {
         document.getElementById(
           "comment"
         ).innerHTML = `<div id="comment"> </div>`;
-        let html = " ";
-        for (let i = 0; i < data.row.length; i++) {
-          const comment = data.row[i];
-          const poster = comment.name;
-          const text = comment.content;
-          // console.log(comment);
-          // console.log(poster);
-          // console.log(text);
-          html += `
-                <div id="comment-text">${poster} : ${text}</div>
-                `;
-        }
-        document.getElementById(`coment-text`).innerHTML = html;
+        html(data)
         // console.log("haha");
       } else {
         alert(data.message);
@@ -100,7 +76,6 @@ async function comment(myParam) {
     });
   });
 }
-
 
 async function bookmark(myParam) {
   
@@ -119,4 +94,20 @@ async function bookmark(myParam) {
     console.log(data.message);
   });
 
+}
+
+function html(data) {
+  let html = " ";
+      for (let i = 0; i < data.row.length; i++) {
+        const comment = data.row[i];
+        const poster = comment.name;
+        const text = comment.content;
+        // console.log(comment);
+        // console.log(poster);
+        // console.log(text);
+        html += `
+              <div id="comment-text">${poster} : ${text}</div>
+              `;
+      }
+      document.getElementById(`coment-text`).innerHTML = html;
 }
