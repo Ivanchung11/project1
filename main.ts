@@ -153,6 +153,19 @@ app.post("/login", async (req: Request, res: Response) => {
   // res.json({message:"login success",username:username,password:password})
 });
 
+app.post("/getAllComment", async (req: Request, res: Response) => {
+  const data = req.body;
+  const route_id = data.routeId;
+  // console.log(route_id);
+  
+  const getsql = `select users.name, content from comment inner JOIN users ON comment.users_id = users.id where route_id =$1`
+  const getresult= await pgClient.query(getsql, [route_id]) 
+  const row = getresult.rows
+  console.log(row);
+  
+  res.json({row});
+});
+
 app.post("/comment", async (req: Request, res: Response) => {
   const data = req.body;
   const users_id = req.session.userId;

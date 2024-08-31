@@ -125,7 +125,7 @@ async function initMap() {
 
   // The map
   map = new Map(document.getElementById("map"), {
-    zoom: 24,
+    zoom: 12,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
