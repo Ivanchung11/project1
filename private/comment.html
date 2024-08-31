@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search</title>
-
-    <script type="module" src="./js/comment.js"></script>
-    <link rel="stylesheet" type="text/css" href="./css/search.css" />
+    <script type="module" src="./comment.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -45,12 +43,20 @@
           <div class="d-flex justify-content-between align-items-center">
             <p id="coment-text"> </p>
             <div class="btn-group">
+                <button
+                  type="button"
+                  id="commentBtn"
+                  class="btn btn-sm btn-outline-secondary"
+                >
+                  Comment
+                </button>
+            <div class="btn-group">
               <button
                 type="button"
-                id="commentBtn"
+                id="bookmarkBtn"
                 class="btn btn-sm btn-outline-secondary"
               >
-                Comment
+                Bookmark
               </button>
             </div>
           </div>

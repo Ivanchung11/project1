@@ -162,7 +162,7 @@ app.post("/getAllComment", async (req: Request, res: Response) => {
   const getresult= await pgClient.query(getsql, [route_id]) 
   const row = getresult.rows
   console.log(row);
-  
+
   res.json({row});
 });
 
@@ -186,6 +186,21 @@ app.post("/comment", async (req: Request, res: Response) => {
   
     res.json({row});
   
+});
+
+app.post("/bookmark", async (req: Request, res: Response) => {
+  const data = req.body;
+  const users_id = req.session.userId;
+  const route_id = data.routeId;
+  console.log(users_id);
+  console.log(route_id);
+  
+  const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
+  const result = await pgClient.query(sql,[users_id,route_id]);
+  // console.log(result);
+
+  res.json({message:"bookmark success"});
+
 });
 
 app.get("/profile", async function (req: Request, res: Response) {

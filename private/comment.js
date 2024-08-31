@@ -3,38 +3,45 @@ window.onload = async () => {
   const myParam = urlParams.get("route_id");
   console.log(myParam);
 
-  await getComment();
-  async function getComment() {
-    const res = await fetch("/getAllComment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({routeId: myParam}),
-      });
-      const data = await res.json();
-      console.log(data);
+  await getAllComment(myParam);
+  
+  await comment(myParam)
 
-    if (res.ok) {
-        let html = " ";
-        for (let i = 0; i < data.row.length; i++) {
-          const comment = data.row[i];
-          const poster = comment.name;
-          const text = comment.content;
-          // console.log(comment);
-          // console.log(poster);
-          // console.log(text);
-          html += `
-                <div id="comment-text">${poster} : ${text}</div>
-                `;
-        }
-        document.getElementById(`coment-text`).innerHTML = html;
-    }else {
-        alert("error!")
-    }
-    
-  }    
+  await bookmark(myParam)
+};
 
+async function getAllComment(myParam) {
+  const res = await fetch("/getAllComment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({routeId: myParam}),
+    });
+    const data = await res.json();
+    console.log(data);
+
+  if (res.ok) {
+      let html = " ";
+      for (let i = 0; i < data.row.length; i++) {
+        const comment = data.row[i];
+        const poster = comment.name;
+        const text = comment.content;
+        // console.log(comment);
+        // console.log(poster);
+        // console.log(text);
+        html += `
+              <div id="comment-text">${poster} : ${text}</div>
+              `;
+      }
+      document.getElementById(`coment-text`).innerHTML = html;
+  }else {
+      alert("error!")
+  }
+  
+}    
+
+async function comment(myParam) {
   let commentbtn = document.querySelector("#commentBtn");
   commentbtn.addEventListener("click", async (event) => {
     console.log(event.currentTarget);
@@ -92,4 +99,24 @@ window.onload = async () => {
       }
     });
   });
-};
+}
+
+
+async function bookmark(myParam) {
+  
+  let bookmarkbtn = document.querySelector("#bookmarkBtn");
+  bookmarkbtn.addEventListener("click", async (e) => {
+    console.log(myParam);
+  
+    const res = await fetch("/bookmark", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({routeId: myParam}),
+    });
+    const data = await res.json();
+    console.log(data.message);
+  });
+
+}
