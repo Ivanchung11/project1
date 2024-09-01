@@ -4,6 +4,7 @@ import { Client } from "pg";
 import dotenv from "dotenv";
 import expressSession from "express-session";
 import { isLoggedIn } from "./guard";
+import { checkPassword, hashPassword } from "./hash";
 
 dotenv.config();
 
@@ -110,7 +111,7 @@ app.post("/register", async function (req: Request, res: Response) {
     return;
   }
   const sql = `INSERT INTO users (name, password, email ) 
-  VALUES ('${username}', '${password}', '${email}' );`;
+  VALUES ('${username}', '${await hashPassword(password)}', '${email}' );`;
   console.log(sql);
   
   const InsertResult = await pgClient.query(sql);
@@ -124,7 +125,7 @@ app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
   const username = data.username;
   const password = data.password;
-  const sql = `select * from users where name = '${username}' and password = '${password}';`;
+  const sql = `select * from users where name = '${username}';`;
   const result = await pgClient.query(sql);
   const row = result.rows[0];
   const count = result.rowCount;
@@ -138,6 +139,16 @@ app.post("/login", async (req: Request, res: Response) => {
   if (count == 0) {
     res.status(401).json({ message: "username or password is wrong." });
     return;
+  } else {
+    const hashPassword = row.password;
+    const checkingPassword = await checkPassword({
+      plainPassword:password ,
+      hashedPassword: hashPassword
+    })
+    if (!checkingPassword) {
+      res.status(401).json({ message: "username or password is wrong." });
+      return;
+    }
   }
   req.session.userId = row.id;
   // console.log(req.session.userId);
