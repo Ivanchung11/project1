@@ -121,7 +121,8 @@ async function initMap() {
   const position = { lat: 22.323836184109705, lng: 114.17130198913887 };
 
   const { Map } = await google.maps.importLibrary("maps");
-  // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { PinElement } = await google.maps.importLibrary("marker");
 
   // The map
   map = new Map(document.getElementById("map"), {
@@ -228,98 +229,117 @@ async function initMap() {
     });
   });
 
-  // =========Initialize a data layer to hold the points=========
-  parkingLayer = new google.maps.Data();
-  parkingLayer.setMap(map);
-  // Example WKT POINT
-  const res2 = await fetch("http://localhost:8080/parking");
-  const response2 = await res2.json();
-  for (let i = 0; i < response2.data.length; i++) {
-    const wktPoint = response2.data[i].point;
+  // =========Initialize the markers for PARKINGS=========
 
-    // Parse the WKT point
+  const parkingRes = await fetch("http://localhost:8080/parking");
+  const parkingResponse = await parkingRes.json();
+
+  let parkings = [];
+
+  for (let i = 0; i < parkingResponse.data.length; i++) {
+    const wktPoint = parkingResponse.data[i].point;
+
+    // Parse the WKT point into {latlng}
     const coord = parseWKTPoint(wktPoint);
 
-    // Create the Point
-    const point = new google.maps.Data.Point(coord);
-
-    // Add point to the custom data layer
-    parkingLayer.add({
-      geometry: point,
-      properties: {},
+    //set properties for the pins
+    const pin = new PinElement({
+      scale: 0.8,
+      background: "#FBBC04",
     });
+
+    //setup marker element
+    let parking = new AdvancedMarkerElement({
+      //use the {latlng} as position, (instead of point objects)
+      position: coord,
+      map: map,
+      content: pin.element,
+    });
+    parking.map = null;
+    parkings.push(parking);
   }
 
-  // Initially hide the layer
-  parkingLayer.setStyle({
-    visible: false, // Initially hidden
-  });
-
+  // console.log(parkings);
   const controlParkingDiv = document.createElement("div");
   const controlUIParking = createControlUIParking(map);
 
   // Add the control to the map
-  // controlDiv.appendChild(controlUI);
   controlParkingDiv.appendChild(controlUIParking);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlParkingDiv);
 
   // Add click event to toggle the visibility of the custom layer
   controlUIParking.addEventListener("click", function () {
-    const isVisible = parkingLayer.getStyle().visible;
-    parkingLayer.setStyle({
-      strokeColor: "#F0F000", // Retain custom stroke color
-      strokeOpacity: 0.5, // Retain custom stroke opacity
-      strokeWeight: 5, // Retain custom stroke weight
-      visible: !isVisible, // Toggle visibility
-    });
+    //   const isVisible = false;
+
+    for (let parking of parkings) {
+      if (parking.map == null) {
+        parking.map = map;
+      } else {
+        parking.map = null;
+      }
+    }
   });
 
-  // =========Initialize a data layer to hold the points: Water dispenser=========
-  waterLayer = new google.maps.Data();
-  waterLayer.setMap(map);
-  // Example WKT POINT
+  // =========Initialize the markers for WATER DISPENSER=========
+
   const waterRes = await fetch("http://localhost:8080/water_dispenser");
   const waterResponse = await waterRes.json();
+
+  // var infowindow = new google.maps.InfoWindow();
+
+  // var marker ,i;
+  let waters = [];
+
   for (let i = 0; i < waterResponse.data.length; i++) {
     const wktPoint = waterResponse.data[i].point;
 
-    // Parse the WKT point
+    // Parse the WKT point into {latlng}
     const coord = parseWKTPoint(wktPoint);
 
-    // Create the Point
-    const point = new google.maps.Data.Point(coord);
-
-    // Add point to the custom data layer
-    waterLayer.add({
-      geometry: point,
-      properties: {},
+    //set properties for the pins
+    const pin = new PinElement({
+      scale: 0.8,
+      background: "#afe6eb",
+      borderColor: "#1e81b0",
     });
+
+    //setup marker element
+    let water = new AdvancedMarkerElement({
+      //use the {latlng} as position, (instead of point objects)
+      position: coord,
+      map: map,
+      content: pin.element,
+    });
+    water.map = null;
+    waters.push(water);
+    // google.maps.event.addListener(water, 'click', (function(water, i) {
+    //   return function() {
+    //     infowindow.setContent(locations[i][0]);
+    //     infowindow.open(map, water);
+    //   }
+    // })(water, i));
   }
 
-  // Initially hide the layer
-  waterLayer.setStyle({
-    visible: false, // Initially hidden
-  });
-
+  // console.log(parkings);
   const controlWaterDiv = document.createElement("div");
   const controlUIWater = createControlUIWater(map);
 
   // Add the control to the map
-  // controlDiv.appendChild(controlUI);
   controlWaterDiv.appendChild(controlUIWater);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlWaterDiv);
 
   // Add click event to toggle the visibility of the custom layer
   controlUIWater.addEventListener("click", function () {
-    const isVisible = waterLayer.getStyle().visible;
-    waterLayer.setStyle({
-      strokeColor: "#F0F000", // Retain custom stroke color
-      strokeOpacity: 0.5, // Retain custom stroke opacity
-      strokeWeight: 5, // Retain custom stroke weight
-      visible: !isVisible, // Toggle visibility
-    });
-  });
+    //   const isVisible = false;
 
+    for (let water of waters) {
+      if (water.map == null) {
+        water.map = map;
+      } else {
+        water.map = null;
+      }
+    }
+  });
   
   // ==========Initialize a data layer to hold the custom ruote==========
   customRouteLayer = new google.maps.Data();
