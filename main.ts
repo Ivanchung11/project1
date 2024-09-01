@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 import expressSession from "express-session";
 import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
+import formidable from 'formidable'
+import fs from 'fs';
+import { insertroute } from "./utils/parseCustomRoute"
 
 dotenv.config();
 
@@ -163,6 +166,53 @@ app.post("/login", async (req: Request, res: Response) => {
 
   // res.json({message:"login success",username:username,password:password})
 });
+
+
+//============================
+//===========================SEE BELOW
+
+const uploadDir = 'data'
+fs.mkdirSync(uploadDir, { recursive: true })
+
+app.use(express.urlencoded({ extended: true }))
+
+app.post("/uploadroute", async function (req: Request, res: Response) {
+
+  const form = formidable({
+    uploadDir,
+    keepExtensions: true,
+    maxFiles: 1,
+    // maxFileSize: 200 * 1024, // the default limit is 200KB
+    // filter: part => part.mimetype?.startsWith('image/') || false,
+  })
+
+  try {
+    let data = await form.parse(req);
+    let routeObj = {
+      filepath: data[1].gpx![0].newFilename,
+      routeName: data[0].routeName![0],
+      description: data[0].description![0],
+      startDistrict: data[0].startDistrict![0],
+      endDistrict: data[0].endDistrict![0],
+      uploaderId: req.session.userId,
+      isRoad: data[0].isRoad![0],
+      isPublic: data[0].isPublic![0],
+      durationTemp: data[0].durationTemp![0],
+      // id: newCount,
+      // content: data[0].content![0],
+      // image: data[1].image![0].newFilename,
+    };
+    insertroute(routeObj)
+    return res.json({ message: "uploaded" });
+  } catch {
+    return res.json({ message: "data error" })
+  }
+});
+
+//============================SEE ABOVE
+//===========================
+
+
 
 app.get("/getAllComment", async (req: Request, res: Response) => {
   const data = req.query;
