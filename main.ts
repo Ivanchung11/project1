@@ -153,10 +153,10 @@ app.post("/login", async (req: Request, res: Response) => {
   // res.json({message:"login success",username:username,password:password})
 });
 
-app.post("/getAllComment", async (req: Request, res: Response) => {
-  const data = req.body;
+app.get("/getAllComment", async (req: Request, res: Response) => {
+  const data = req.query;
   const route_id = data.routeId;
-  // console.log(route_id);
+  console.log(data);
   
   const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1`
   const getresult= await pgClient.query(getsql, [route_id]) 

@@ -15,13 +15,10 @@ function getRouteId() {
 }
 
 async function getAllComment() {
-  const res = await fetch("/getAllComment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({routeId: getRouteId()}),
-    });
+  const path = "/getAllComment?" + new URLSearchParams({
+    "routeId": getRouteId(),
+  }).toString();
+  const res = await fetch(path);
     const data = await res.json();
     console.log(data);
 
