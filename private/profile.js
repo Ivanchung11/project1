@@ -1,16 +1,13 @@
 window.onload = async () => {
   const usernameLabel = document.querySelector("#username");
-  const logout = document.querySelector("#logout");
-
-  await getProfile();
   
-
+  await getProfile(usernameLabel);
   
-
-  await logout()
 }
+const logout = document.querySelector("#logout");
+ Logout()
 
-async function getProfile() {
+async function getProfile(usernameLabel) {
   const res = await fetch("/profile");
   const data = await res.json();
   // console.log(data.row.username);
@@ -46,7 +43,7 @@ async function getProfile() {
   
 // }
 
-async function logout() {
+ function Logout() {
   logout.addEventListener("click", async (e) => {
     
     const res = await fetch("/logout", {

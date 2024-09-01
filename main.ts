@@ -158,7 +158,7 @@ app.post("/getAllComment", async (req: Request, res: Response) => {
   const route_id = data.routeId;
   // console.log(route_id);
   
-  const getsql = `select users.name, content from comment inner JOIN users ON comment.users_id = users.id where route_id =$1`
+  const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1`
   const getresult= await pgClient.query(getsql, [route_id]) 
   const row = getresult.rows
   console.log(row);
@@ -166,26 +166,44 @@ app.post("/getAllComment", async (req: Request, res: Response) => {
   res.json({row});
 });
 
-app.post("/comment", async (req: Request, res: Response) => {
-  const data = req.body;
+app.post("/comment", async (req: Request, res: Response) => {  
+  if (req.session.userId == undefined) {
+    res.status(500).json({message: "Please login first."})
+  } else {
+    const data = req.body;
+    const users_id = req.session.userId;
+    const route_id = data.routeId;
+    const content = data.content;
+    // console.log(content);
+    // console.log(users_id);
+    // console.log(route_id);
+    
+    const sql = `INSERT INTO comment (users_id, route_id, content) VALUES ('${users_id}','${route_id}','${content}');`;
+    const result = await pgClient.query(sql);
+    // console.log(result);
+  
+    const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1;`
+    const getresult= await pgClient.query(getsql, [route_id]) 
+    const row = getresult.rows
+    console.log(row);
+    
+    res.json({row});
+  }
+  
+});
+
+app.get("/bookmark", async (req: Request, res: Response) => {
+  const data = req.query;
   const users_id = req.session.userId;
   const route_id = data.routeId;
-  const content = data.content;
-  // console.log(content);
-  // console.log(users_id);
-  // console.log(route_id);
   
-  const sql = `INSERT INTO comment (users_id, route_id, content) VALUES ('${users_id}','${route_id}','${content}');`
-  const result = await pgClient.query(sql);
-  // console.log(result);
-
-  const getsql = `select users.name, content from comment inner JOIN users ON comment.users_id = users.id where route_id =$1`
-  const getresult= await pgClient.query(getsql, [route_id]) 
-  const row = getresult.rows
-  console.log(row);
-  
-    res.json({row});
-  
+  const sql = `SELECT * FROM bookmark WHERE users_id = $1 AND route_id = $2;`;
+  const result = await pgClient.query(sql,[users_id,route_id]);
+  if (result.rowCount != null && result.rowCount > 0) {
+    res.json({isBookmarked: true});
+  } else {
+    res.json({isBookmarked: false});
+  }
 });
 
 app.post("/bookmark", async (req: Request, res: Response) => {
@@ -203,9 +221,23 @@ app.post("/bookmark", async (req: Request, res: Response) => {
 
 });
 
+app.delete("/bookmark", async (req: Request, res: Response) => {
+  const data = req.body;
+  const users_id = req.session.userId;
+  const route_id = data.routeId;
+  console.log(users_id);
+  console.log(route_id);
+  
+  const sql = `DELETE FROM bookmark WHERE route_id = $1 AND users_id = $2;`
+  const result = await pgClient.query(sql,[route_id, users_id]);
+  // console.log(result);
+
+  res.json({message:"bookmark deleted"});
+
+});
 app.get("/profile", async function (req: Request, res: Response) {
   const userId = req.session.userId;
-  const sql = `select id, name from users where id = $1`;
+  const sql = `SELECT id, name FROM users WHERE id = $1`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows[0];
   console.log(row);
@@ -213,17 +245,18 @@ app.get("/profile", async function (req: Request, res: Response) {
   res.json({ message: "profile", row });
 });
 
-// app.get("/profileBookmark", async function (req: Request, res: Response) {
-//   const userId = req.session.userId;
-//   console.log(userId);
+app.get("/profileBookmark", async function (req: Request, res: Response) {
+  const userId = req.session.userId;
+  console.log(userId);
   
-//   const sql = ` select users.name, route_id, created_at from bookmark inner JOIN users ON bookmark.users_id = users.id where users_id = $1`;
-//   const result = await pgClient.query(sql, [userId]);
-//   const row = result.rows;
-//   console.log(row);
+  // const sql = ` select users.name, route_id, created_at from bookmark inner JOIN users ON bookmark.users_id = users.id where users_id = $1`;
+  const sql = `SELECT * FROM route INNER JOIN bookmark ON bookmark.route_id = route.id`
+  const result = await pgClient.query(sql, [userId]);
+  const row = result.rows;
+  console.log(row);
 
-//   // res.json({ message: "profile", row });
-// });
+  // res.json({ message: "profile", row });
+});
 
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
