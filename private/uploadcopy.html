@@ -62,161 +62,183 @@
             <button class="btn btn-primary me-2">
               Hi <span id="username">??</span>
             </button>
-            <button class="btn btn-primary me-1" id="Logout">Logout</button>
+            <button class="btn btn-primary me-1" id="logout">Logout</button>
           </div>
         </div>
       </div>
     </nav>
     <br />
     <div class="row">
-      <div class="col-md-4">
-        <div id="header">Upload your route</div>
-        <br />
-        <div id="start">
-          <!-- routename -->
-          <div class="startSelection">
-            <label for="routeName">路線名稱：</label>
-            <input id="routeName" />
+      <form class="col-md-4">
+        <div>
+          <div id="header">Upload your route</div>
+          <br />
+          <div id="start">
+            <!-- routename -->
+            <div class="startSelection">
+              <label for="routeName">Route Name: &nbsp&nbsp</label>
+              <input id="routeName" />
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="start">
-          <!-- start -->
-          <div class="startSelection">
-            <select
-              id="startDistrict"
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option selected>起點地區</option>
-              <option value="中西區">中西區</option>
-              <option value="灣仔區">灣仔區</option>
-              <option value="東區">東區</option>
-              <option value="南區">南區</option>
-              <option value="油尖旺區">油尖旺區</option>
-              <option value="深水埗區">深水埗區</option>
-              <option value="九龍城區">九龍城區</option>
-              <option value="黃大仙區">黃大仙區</option>
-              <option value="觀塘區">觀塘區</option>
-              <option value="葵青區">葵青區</option>
-              <option value="荃灣區">荃灣區</option>
-              <option value="屯門區">屯門區</option>
-              <option value="元朗區">元朗區</option>
-              <option value="北區">北區</option>
-              <option value="大埔區">大埔區</option>
-              <option value="沙田區">沙田區</option>
-              <option value="西貢區">西貢區</option>
-              <option value="離島區">離島區</option>
-            </select>
+          <br />
+          <div id="start">
+            <!-- start -->
+            <div class="startSelection">
+              <label for="startDistrict">District of Starting Point: &nbsp&nbsp</label>
+              <select
+                id="startDistrict"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected></option>
+                <option value="Central and Western">Central and Western</option>
+                <option value="Wan Chai">Wan Chai</option>
+                <option value="Eastern">Eastern</option>
+                <option value="Southern">Southern</option>
+                <option value="Yau Tsim Mong">Yau Tsim Mong</option>
+                <option value="Sham Shui Po">Sham Shui Po</option>
+                <option value="Kowloon City">Kowloon City</option>
+                <option value="Wong Tai Sin">Wong Tai Sin</option>
+                <option value="Kwun Tong">Kwun Tong</option>
+                <option value="Kwai Tsing">Kwai Tsing</option>
+                <option value="Tsuen Wan">Tsuen Wan</option>
+                <option value="Tuen Mun">Tuen Mun</option>
+                <option value="Yuen Long">Yuen Long</option>
+                <option value="North">North</option>
+                <option value="Tai Po">Tai Po</option>
+                <option value="Sha Tin">Sha Tin</option>
+                <option value="Sai Kung">Sai Kung</option>
+                <option value="Islands">Islands</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="end">
-          <!-- end -->
-          <div class="endSelection">
-            <select
-              id="endDistrict"
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option selected>終點地區</option>
-              <option value="中西區">中西區</option>
-              <option value="灣仔區">灣仔區</option>
-              <option value="東區">東區</option>
-              <option value="南區">南區</option>
-              <option value="油尖旺區">油尖旺區</option>
-              <option value="深水埗區">深水埗區</option>
-              <option value="九龍城區">九龍城區</option>
-              <option value="黃大仙區">黃大仙區</option>
-              <option value="觀塘區">觀塘區</option>
-              <option value="葵青區">葵青區</option>
-              <option value="荃灣區">荃灣區</option>
-              <option value="屯門區">屯門區</option>
-              <option value="元朗區">元朗區</option>
-              <option value="北區">北區</option>
-              <option value="大埔區">大埔區</option>
-              <option value="沙田區">沙田區</option>
-              <option value="西貢區">西貢區</option>
-              <option value="離島區">離島區</option>
-            </select>
+          <br />
+          <div id="end">
+            <!-- end -->
+            <div class="endSelection">
+              <label for="endDistrict">District of Finishing Point: &nbsp&nbsp</label>
+              <select
+                id="endDistrict"
+                class="form-select"
+                aria-label="Default select example"
+              >
+              <option selected></option>
+              <option value="Central and Western">Central and Western</option>
+              <option value="Wan Chai">Wan Chai</option>
+              <option value="Eastern">Eastern</option>
+              <option value="Southern">Southern</option>
+              <option value="Yau Tsim Mong">Yau Tsim Mong</option>
+              <option value="Sham Shui Po">Sham Shui Po</option>
+              <option value="Kowloon City">Kowloon City</option>
+              <option value="Wong Tai Sin">Wong Tai Sin</option>
+              <option value="Kwun Tong">Kwun Tong</option>
+              <option value="Kwai Tsing">Kwai Tsing</option>
+              <option value="Tsuen Wan">Tsuen Wan</option>
+              <option value="Tuen Mun">Tuen Mun</option>
+              <option value="Yuen Long">Yuen Long</option>
+              <option value="North">North</option>
+              <option value="Tai Po">Tai Po</option>
+              <option value="Sha Tin">Sha Tin</option>
+              <option value="Sai Kung">Sai Kung</option>
+              <option value="Islands">Islands</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="roadtype">
-          <!-- road type -->
-          <div class="typeSelection">
-            <select
-              id="isRoad"
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option selected>單車徑 / 馬路比例</option>
-              <option value="1">主要單車徑</option>
-              <option value="2">主要馬路</option>
-            </select>
+          <br />
+          <div id="roadtype">
+            <!-- road type -->
+            <div class="typeSelection">
+              <label for="isRoad">Route Mainly Consist of: <br>
+              &nbsp&nbsp<span>Cycling Tracks</span>
+              <label class="switch">
+                <input type="checkbox" id="isRoad" />
+                <span class="slider round"></span>
+              </label>
+              <span>Car Roads</span>
+
+
+              <!-- <select
+                id="isRoad"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected>單車徑 / 馬路比例</option>
+                <option value="1">主要單車徑</option>
+                <option value="2">主要馬路</option>
+              </select> -->
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="duration">
-          需時估計:&nbsp
-          <input
-            id="durationInput"
-            type="text"
-            required
-            pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
-            value="00:00:00"
-            title="Write a duration in the format hh:mm:ss"
-          />
-        </div>
-        <div id="description">
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">描述：</label>
-            <textarea
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="6"
-            ></textarea>
+          <br />
+          <div id="duration">
+            Duration:&nbsp&nbsp
+            <input
+              id="durationInput"
+              type="text"
+              required
+              pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+              value="00:00:00"
+              title="Write a duration in the format hh:mm:ss"
+            />
           </div>
-        </div>
-        <!-- <div class="uploadPhotoButton">
+          <div id="description">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Description</label>
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="6"
+              ></textarea>
+            </div>
+          </div>
+          <!-- <div class="uploadPhotoButton">
           <button type="button" class="btn btn-primary btn-md btn-block">
             上載圖片
           </button>
         </div> -->
-        <div>
-          <label for="gpx">上載路線資料</label>
-          <input type="file" id="gpx" />
-        </div>
-        <div>
-          <label for="photo">上載相片</label>
-          <input type="file" id="photo" />
-        </div>
-        <div class="form-check-1">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckChecked"
-            checked
-          />
-          <label class="form-check-label" for="flexCheckChecked">公開 </label>
-        </div>
-        <div class="form-check-2">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label class="form-check-label" for="flexCheckDefault">非公開 </label>
+          <div class="form-group">
+            <label for="gpx">Upload gpx file below:</label>
+            <input type="file" id="gpx" />
+          </div>
+          <!-- <div>
+            <label for="photo">上載相片</label>
+            <input type="file" id="photo" />
+          </div> -->
+          <div class="form-check-1">
+            <!-- <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckChecked"
+              checked
+            />
+            <label class="form-check-label" for="flexCheckChecked">公開 </label>
+          </div>
+          <div class="form-check-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault"
+              >非公開
+            </label> -->
+            <label for="isPublic">Publish to our mainpage:&nbsp&nbsp
+              <span>Private</span>
+              <label class="switch">
+                <input type="checkbox" id="isPublic" />
+                <span class="slider round"></span>
+              </label>
+              <span>Public</span>
 
-          <div class="submitButton">
-            <button type="button" class="btn btn-primary btn-lg btn-block">
-              提交路線
-            </button>
+            <div class="submitButton">
+              <button type="button" class="btn btn-primary btn-lg btn-block">
+                提交路線
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
 
       <div class="col-md-8">
         <div id="map"></div>

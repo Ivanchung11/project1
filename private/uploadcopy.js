@@ -21,7 +21,9 @@ window.onload = async () => {
     }
   }
 
-  const logout = document.querySelector("#logout");
+  const logout = document.getElementById("logout");
+
+  console.log(logout)
 
   logout.addEventListener("click", async (e) => {
     const res = await fetch("/logout", {
@@ -57,14 +59,16 @@ function uploadRouteListener() {
     let durSec = parseInt(durationString.substring(6));
     let durationTemp = 3600 * durHour + 60 * durMin + durSec;
 
-    formData.append("routeName", form.routeName.value);    //
+    formData.append("routeName", form.routeName.value);    //有
     formData.append("description", form.description.value);    //有
     formData.append("startDistrict", form.startDistrict.value);    //有
     formData.append("endDistrict", form.endDistrict.value);   //有
     formData.append("isRoad", form.isRoad.value);    //有
     formData.append("isPublic", form.isPublic.value);    //有
     formData.append("durationTemp", durationTemp);    //有
-    formData.append("gpx", form.file.files[0]);   //
+    // formData.append("gpx", form.file.files[0]);   //有
+
+    console.log(formData)
 
     let res = await fetch("/uploadroute", {
       method: "post",

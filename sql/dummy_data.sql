@@ -12,25 +12,24 @@ VALUES
 
 -- ======== district ========
 
-INSERT INTO district (name) VALUES ('屯門區');
-INSERT INTO district (name) VALUES ('元朗區');
-INSERT INTO district (name) VALUES ('荃灣區');
-INSERT INTO district (name) VALUES ('葵青區');
-INSERT INTO district (name) VALUES ('北區');
-INSERT INTO district (name) VALUES ('大埔區');
-INSERT INTO district (name) VALUES ('沙田區');
-INSERT INTO district (name) VALUES ('離島區');
-INSERT INTO district (name) VALUES ('西貢區');
-INSERT INTO district (name) VALUES ('深水埗區');
-INSERT INTO district (name) VALUES ('黃大仙區');
-INSERT INTO district (name) VALUES ('灣仔區');
-INSERT INTO district (name) VALUES ('中西區');
-INSERT INTO district (name) VALUES ('東區');
-INSERT INTO district (name) VALUES ('南區');
-INSERT INTO district (name) VALUES ('觀塘區');
-INSERT INTO district (name) VALUES ('九龍城區');
-INSERT INTO district (name) VALUES ('油尖旺區');
-
+INSERT INTO district (name) VALUES ('Central and Western');
+INSERT INTO district (name) VALUES ('Wan Chai');
+INSERT INTO district (name) VALUES ('Eastern');
+INSERT INTO district (name) VALUES ('Southern');
+INSERT INTO district (name) VALUES ('Yau Tsim Mong');
+INSERT INTO district (name) VALUES ('Sham Shui Po');
+INSERT INTO district (name) VALUES ('Kowloon City');
+INSERT INTO district (name) VALUES ('Wong Tai Sin');
+INSERT INTO district (name) VALUES ('Kwun Tong');
+INSERT INTO district (name) VALUES ('Kwai Tsing');
+INSERT INTO district (name) VALUES ('Tsuen Wan');
+INSERT INTO district (name) VALUES ('Tuen Mun');
+INSERT INTO district (name) VALUES ('Yuen Long');
+INSERT INTO district (name) VALUES ('North');
+INSERT INTO district (name) VALUES ('Tai Po');
+INSERT INTO district (name) VALUES ('Sha Tin');
+INSERT INTO district (name) VALUES ('Sai Kung');
+INSERT INTO district (name) VALUES ('Islands');
 
 -- ======== route ========
 
@@ -42,10 +41,10 @@ INSERT INTO district (name) VALUES ('油尖旺區');
 
 -- ======== path_info ========
 
-INSERT INTO
-    path_info (route_id,location, ele, time,cumul)
-VALUES
-    (1,'POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
+-- INSERT INTO
+--     path_info (route_id,location, ele, time,cumul)
+-- VALUES
+--     (1,'POINT(-118.4079 33.9434)',4.5,'00:10:50',3.5);
     
 
 -- ======== photo ========
@@ -70,25 +69,25 @@ INSERT INTO comment (users_id, route_id,content) VALUES (1,1,'this is a nice pla
 
 -- ======== slope ========
 
-INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
+-- INSERT INTO slope (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 -- ======== parking ========
 
-INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
+-- INSERT INTO parking (point_coordinates) VALUES ('point(0 0)');
 
 
 -- ======== water_dispenser ========
 
-INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
+-- INSERT INTO water_dispenser (point_coordinates) VALUES ('point(0 0)');
 
 
 -- ======== blacksite========
 
-INSERT INTO blacksite (point_coordinates) VALUES ('point(0 0)');
+-- INSERT INTO blacksite (point_coordinates) VALUES ('point(0 0)');
 
 -- ======== bicycle_track ========
 
-INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
+-- INSERT INTO bicycle_track (path_coordinates) VALUES ('linestring(0 0,1 1)');
 
 -- ======== news ========
 
