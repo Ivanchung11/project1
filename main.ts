@@ -7,7 +7,7 @@ import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
 import formidable from 'formidable'
 import fs from 'fs';
-import { insertroute } from "./utils/parseCustomRoute"
+import parseCustomRoute from "./utils/parseCustomRoute"
 
 dotenv.config();
 
@@ -181,11 +181,12 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
   const form = formidable({
     uploadDir,
     keepExtensions: true,
-    maxFiles: 1,
+    // maxFiles: 1,
     // maxFileSize: 200 * 1024, // the default limit is 200KB
     // filter: part => part.mimetype?.startsWith('image/') || false,
   })
 
+  console.log(req.session)
   try {
     let data = await form.parse(req);
     let routeObj = {
@@ -197,12 +198,13 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
       uploaderId: req.session.userId,
       isRoad: data[0].isRoad![0],
       isPublic: data[0].isPublic![0],
-      durationTemp: data[0].durationTemp![0],
+      durationTemp: parseInt(data[0].durationTemp![0]),
       // id: newCount,
       // content: data[0].content![0],
       // image: data[1].image![0].newFilename,
     };
-    insertroute(routeObj)
+    console.log(routeObj)
+    await parseCustomRoute(routeObj)
     return res.json({ message: "uploaded" });
   } catch {
     return res.json({ message: "data error" })
