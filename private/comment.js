@@ -1,3 +1,61 @@
+async function initMap() {
+  const { Map } = await google.maps.importLibrary("maps");
+
+  let map = new Map(document.getElementById("map"), {
+    center: { lat: 22.32574171900254, lng: 114.16718211578858 },
+    zoom: 11,
+  });
+}
+
+initMap();
+
+window.onload = async () => {
+  const usernameLabel = document.querySelector("#username");
+  
+  await getProfile(usernameLabel);
+  
+}
+const logout = document.querySelector("#logout");
+ Logout()
+
+async function getProfile(usernameLabel) {
+  const res = await fetch("/profile");
+  const data = await res.json();
+  // console.log(data.row.username);
+  
+  if (res.ok) {
+      // console.log(data.row.username);
+
+      const rows = data.row;
+      usernameLabel.innerHTML = rows.name;
+    } else {
+      alert("error !!!");
+    }
+  
+}
+
+function Logout() {
+  logout.addEventListener("click", async (e) => {
+    
+    const res = await fetch("/logout", {
+      method: "get",
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("logout success")
+      window.location = "/route.html"
+    } else {
+      alert("error!!!")
+    }
+});
+}
+
+
+
+
+
 window.onload = async () => {
   await getAllComment();
 
@@ -41,10 +99,11 @@ function showCommentSection() {
   document.getElementById("comment").innerHTML = 
     `
     <div id="comment">
-    <textarea  id="text" ></textarea>
+    <textarea  id="text" style="width: 70%"></textarea>
     <br>
-    <button type="submit" id="uploadBtn" class="btn btn-sm btn-outline-secondary">upload</button>
+    <button type="submit" id="uploadBtn" class="btn btn-md btn-outline-secondary">Submit</button>
     </div>
+    <br>
     `;
 
     let uploadbtn = document.querySelector("#uploadBtn");
@@ -168,5 +227,5 @@ function html(data) {
               <div id="comment-text">${poster} : ${text}</div>
               `;
       }
-      document.getElementById(`coment-text`).innerHTML = html;
+      document.getElementById(`comment-text`).innerHTML = html;
 }
