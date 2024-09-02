@@ -5,9 +5,13 @@ window.onload = async () => {
 
   await checkBookmarkStatus();
   setupBookmarkButton();
+
+  // await checkFollowStatus()
+  // follow()
 };
 
 let isBookmarked = false;
+let isFollowed = false;
 
 function getRouteId() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -96,6 +100,15 @@ async function uploadComment() {
   }
 }
 
+// async function checkFollowStatus() {
+//   const res = await fetch("/folllow");
+//   const data = await res.json();
+
+//   console.log("follow",data.isFollowed);
+//   isFollowed = data.isFollowed;
+// }
+
+
 async function checkBookmarkStatus() {
   const path = "/bookmark?" + new URLSearchParams({
     "routeId": getRouteId(),
@@ -103,9 +116,31 @@ async function checkBookmarkStatus() {
   const res = await fetch(path);
   const data = await res.json();
 
-  console.log(data.isBookmarked);
+  console.log("bookmark",data.isBookmarked);
   isBookmarked = data.isBookmarked;
 }
+
+// function follow() {
+//   let followbtn = document.querySelector("#followBtn");
+//   followbtn.addEventListener("click", async (e) => {
+
+//     const res = await fetch("/follow", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({routeId: (getRouteId())}),
+//     });
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       isFollowed = true;
+//       alert(data.message);
+//     } else{
+//       alert(data.message);
+//     }
+//   });  
+// } 
 
 function setupBookmarkButton() {
   updateBookmarkButton()
@@ -137,8 +172,15 @@ async function bookmark() {
     body: JSON.stringify({routeId: (getRouteId())}),
   });
   const data = await res.json();
-  isBookmarked = true;
-  alert(data.message);
+
+  if (res.ok) {
+    isBookmarked = true;
+    alert(data.message);
+  } else{
+    alert(data.message);
+    window.location.pathname = "/login.html"
+  }
+  
 }
 
 async function unbookmark() {

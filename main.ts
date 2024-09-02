@@ -203,6 +203,44 @@ app.post("/comment", async (req: Request, res: Response) => {
   
 });
 
+// app.get("/follow", async (req: Request, res: Response) => {
+//   const follower_id = req.session.userId;
+//   const sql = `SELECT users_id , users.name FROM route INNER JOIN users ON users_id = users.id;`;
+//   const result = await pgClient.query(sql);
+//   const followee_id = result.rows[0].users_id;
+//   console.log(followee_id);
+  
+//   if (result.rowCount != null && result.rowCount > 0) {
+//     res.json({isFollowed: true});
+//   } else {
+//     res.json({isFollowed: false});
+//   }
+  
+// });
+
+app.post("/follow", async (req: Request, res: Response) => {
+  // if (req.session.userId == undefined) {
+  //   res.status(500).json({message: "Please login first."})
+  // } else {
+    const data = req.body;
+    const follower_id = req.session.userId;
+    const getsql = `SELECT users_id , users.name FROM route INNER JOIN users ON users_id = users.id;`;
+    const getresult = await pgClient.query(getsql);
+    const followee_id = getresult.rows[0].users_id;
+    const route_id = data.routeId;
+    console.log(follower_id);
+    console.log(followee_id);
+    console.log(route_id);
+    
+    // const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
+    // const result = await pgClient.query(sql,[users_id,route_id]);
+    // console.log(result);
+
+    res.json({message:"follow success"});
+  // }
+});
+
+
 app.get("/bookmark", async (req: Request, res: Response) => {
   const data = req.query;
   const users_id = req.session.userId;
@@ -218,26 +256,29 @@ app.get("/bookmark", async (req: Request, res: Response) => {
 });
 
 app.post("/bookmark", async (req: Request, res: Response) => {
-  const data = req.body;
-  const users_id = req.session.userId;
-  const route_id = data.routeId;
-  console.log(users_id);
-  console.log(route_id);
-  
-  const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
-  const result = await pgClient.query(sql,[users_id,route_id]);
-  // console.log(result);
+  if (req.session.userId == undefined) {
+    res.status(500).json({message: "Please login first."})
+  } else {
+    const data = req.body;
+    const users_id = req.session.userId;
+    const route_id = data.routeId;
+    // console.log(users_id);
+    // console.log(route_id);
+    
+    const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
+    const result = await pgClient.query(sql,[users_id,route_id]);
+    // console.log(result);
 
-  res.json({message:"bookmark success"});
-
+    res.json({message:"bookmark success"});
+  }
 });
 
 app.delete("/bookmark", async (req: Request, res: Response) => {
   const data = req.body;
   const users_id = req.session.userId;
   const route_id = data.routeId;
-  console.log(users_id);
-  console.log(route_id);
+  // console.log(users_id);
+  // console.log(route_id);
   
   const sql = `DELETE FROM bookmark WHERE route_id = $1 AND users_id = $2;`
   const result = await pgClient.query(sql,[route_id, users_id]);
@@ -251,22 +292,27 @@ app.get("/profile", async function (req: Request, res: Response) {
   const sql = `SELECT id, name FROM users WHERE id = $1`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows[0];
-  console.log(row);
+  // console.log(row);
 
   res.json({ message: "profile", row });
 });
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
-  console.log(userId);
+  console.log("hihhi",userId);
   
-  // const sql = ` select users.name, route_id, created_at from bookmark inner JOIN users ON bookmark.users_id = users.id where users_id = $1`;
-  const sql = `SELECT * FROM route INNER JOIN bookmark ON bookmark.route_id = route.id`
-  const result = await pgClient.query(sql, [userId]);
-  const row = result.rows;
+  const sql = ` SELECT route.id, route_name,description,view_count,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = 4 GROUP BY route.id `;
+  // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
+  const result = await pgClient.query(sql);
+  console.log(result);
+  const row = result.rows[0];
   console.log(row);
-
-  // res.json({ message: "profile", row });
+  
+  if (result.rowCount != null && result.rowCount > 0) {
+    res.json({ message: "profilebookmark", row});
+  } else {
+    res.json({ message: "You Don't Have Any Bookmark Route"});
+  }
 });
 
 app.get("/logout", async function (req: Request, res: Response) {
@@ -276,7 +322,7 @@ app.get("/logout", async function (req: Request, res: Response) {
       res.json({message:"logout"})
     });
   } else {
-    res.status(400).json({message:"you haven't login"})
+    res.json({message:"you haven't login"})
   }
   })
 
