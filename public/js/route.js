@@ -38,7 +38,8 @@ function createControlUITrack(map) {
   controlUI.style.marginBottom = "22px";
   controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
-  controlUI.innerHTML = "Toggle Cycling Track";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Cycling Tracks";
 
   return controlUI;
 }
@@ -55,7 +56,8 @@ function createControlUISlope(map) {
   controlUI.style.marginBottom = "22px";
   controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
-  controlUI.innerHTML = "Toggle Slope";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Cycle Slope/Subway/Bridge";
 
   return controlUI;
 }
@@ -71,9 +73,10 @@ function createControlUIParking(map) {
   controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlUI.style.cursor = "pointer";
   controlUI.style.marginBottom = "22px";
-  controlUI.style.marginTop = "22px";
+  controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
-  controlUI.innerHTML = "Toggle Parking Sites";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Bicycle Parking Sites";
 
   return controlUI;
 }
@@ -89,9 +92,10 @@ function createControlUIWater(map) {
   controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlUI.style.cursor = "pointer";
   controlUI.style.marginBottom = "22px";
-  controlUI.style.marginTop = "22px";
+  controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
-  controlUI.innerHTML = "Toggle Water Dispenser Sites";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Water Dispenser Sites";
 
   return controlUI;
 }
@@ -108,9 +112,10 @@ function createControlUICustomRoute(map) {
   controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlUI.style.cursor = "pointer";
   controlUI.style.marginBottom = "22px";
-  controlUI.style.marginTop = "22px";
+  controlUI.style.margin = "22px 30px";
   controlUI.style.textAlign = "center";
-  controlUI.innerHTML = "Toggle customRoute Sites";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "customRoute Sites";
 
   return controlUI;
 }
@@ -377,7 +382,7 @@ async function initMap() {
 
   // Add the control to the map
   controlCustomRouteDiv.appendChild(controlUICustomRoute);
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(
     controlCustomRouteDiv
   );
 
