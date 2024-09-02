@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <title>Route Search</title>
 
-    <script type="module" src="./js/search.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/search.css" />
     <link
       rel="stylesheet"
@@ -51,134 +50,98 @@
           </div>
         </div>
     </nav>
-      <br>
-      <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center"></div>
-      <div class="list-group">單車徑 / 馬路比例
-        <div id="selection-1">   
-        <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-        <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-        主要單車徑
-        <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-        主要馬路 
-        </label>
-        </div> 
-        </div>
-      <!-- <div class="d-flex flex-column flex-md-row p-4 gap-5 py-md-5 align-items-center justify-content-center"> -->
-        <div class="list-group">起點地區
-            <div id="selection-2">   
+
+    <div class="routeSearch">Route Search</div>
+
+    <div class="row">
+      <div class="start col-md-6">
+        <div class="start-district">Starting District</div>
             <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            中西區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            東區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            南區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            灣仔區     
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Central and Western&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Wan Chai&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Eastern&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Southern
+              </label>
+              <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Yau Tsim Mong&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sham Shui Po&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kowloon City&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Wong Tai Sin     
+              </label>
+              <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kwun Tong&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kwai Tsing&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tsuen Wan&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tuen Mun     
+              </label>
+              <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Yuen Long&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >North&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tai Po&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sha Tin     
+              </label>
+              <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sai Kung&nbsp;&nbsp;
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Islands
             </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            九龍城區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            觀塘區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            深水埗區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            黃大仙區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            油尖旺區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            葵青區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            北區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            西貢區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            沙田區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            大埔區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            荃灣區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            屯門區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            元朗區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            離島區
-            </label>
-            </div> 
-        </div>
-        
+      </div>
       
-        <div class="list-group">終點地區
-            <div id="selection-3">   
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            中西區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            東區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            南區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            灣仔區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            九龍城區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            觀塘區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            深水埗區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            黃大仙區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            油尖旺區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            葵青區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            北區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            西貢區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            沙田區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            大埔區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            荃灣區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            屯門區     
-            </label>
-            <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            元朗區
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
-            離島區
-            </label>
-            </div> 
-        </div>
+      <div class="finish col-md-6">
+        <div class="finish-district">Finishing District</div>
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Central and Western&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Wan Chai&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Eastern&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Southern
+          </label>
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Yau Tsim Mong&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sham Shui Po&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kowloon City&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Wong Tai Sin     
+          </label>
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kwun Tong&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Kwai Tsing&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tsuen Wan&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tuen Mun     
+          </label>
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Yuen Long&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >North&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Tai Po&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sha Tin     
+          </label>
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Sai Kung&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >Islands
+          </label>
+      </div>
+    </div>  
+
+        <div class="cycling-road">Route Mainly Consist of:</div>
+        <div class="cycling-road-content">
+          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+          Cycling Tracks&nbsp;&nbsp;
+          <input class="form-check-input flex-shrink-0" type="checkbox" value="" >
+          Car Roads&nbsp;&nbsp;
+          </label>
+        </div> 
+        
 
         <br>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="route-card">
+         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div class="col">
               <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                 <div class="card-body">
                   <p class="fs-4">TITLE</p>
                   <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-body-secondary">View count number</small>
                   </div>
@@ -187,14 +150,13 @@
             </div>
             <div class="col">
               <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                 <div class="card-body">
                   <p class="fs-4">TITLE</p>
                   <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-body-secondary">View count number</small>
                   </div>
@@ -203,27 +165,21 @@
             </div>
             <div class="col">
               <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                 <div class="card-body">
                   <p class="fs-4">TITLE</p>
                   <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-body-secondary">View count number</small>
                   </div>
                 </div>
               </div>
+        </div> 
         </div>
-    
-    
         
-    
-      
-      
-
-    
 </body>
+<script type="module" src="./js/search.js"></script>
 </html>
