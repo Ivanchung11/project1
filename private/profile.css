@@ -2,6 +2,10 @@
   padding: 40px;
 }
 
+.login-button {
+  margin-right: 11px;
+}
+
 .myProfile {
   font-size: 40px;
   text-align: center;
