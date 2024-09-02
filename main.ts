@@ -86,7 +86,7 @@ app.get("/customroute", async (req: Request, res: Response) => {
   
   let linestring = "";
   let resultArr = queryResult.rows;
-  console.log(resultArr);
+  
   for (let element of resultArr){
     let pointcoord = element.point.replace("POINT(","").replace(")","")
     linestring = linestring + pointcoord + ","
@@ -168,8 +168,7 @@ app.post("/login", async (req: Request, res: Response) => {
 });
 
 
-//============================
-//===========================SEE BELOW
+//===========================for uploading
 
 const uploadDir = 'data'
 fs.mkdirSync(uploadDir, { recursive: true })
@@ -199,9 +198,6 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
       isRoad: data[0].isRoad![0],
       isPublic: data[0].isPublic![0],
       durationTemp: parseInt(data[0].durationTemp![0]),
-      // id: newCount,
-      // content: data[0].content![0],
-      // image: data[1].image![0].newFilename,
     };
     console.log(routeObj)
     await parseCustomRoute(routeObj)
@@ -211,7 +207,7 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
   }
 });
 
-//============================SEE ABOVE
+//============================for uploading: end of code
 //===========================
 
 

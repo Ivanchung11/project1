@@ -12,7 +12,6 @@ const path = require("path");
 const { Client } = require("pg");
 
 dotenv.config();
-// console.log(process.env.DB_NAME);
 // PostgreSQL connection details (user and password left empty)
 const pgClient = new Client({
   host: "localhost",
@@ -44,16 +43,13 @@ export async function insertroute(routeObj:any) {
   let path = "./data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
-  console.log(gpx)
   console.log(gpx.metadata.time);
-  // let theName:string = gpx.tracks[gpx.tracks.length - 1].name? "" : gpx.tracks[gpx.tracks.length - 1].name
   console.log(gpx.tracks[gpx.tracks.length - 1].name);
-  // console.log("=============");
+  console.log("=============");
 
   var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;
   var totalDistance = distanceArr.total;
   var geopoints = gpx.tracks[gpx.tracks.length - 1].points;
-  // console.log("into parser")
 
   let recordTime = "";
   if (gpx.metadata.time) {
@@ -64,7 +60,6 @@ export async function insertroute(routeObj:any) {
 
   if (recordTime != "") {
     recordTime = GFG_Fun(recordTime);
-    // console.log(typeof recordTime + ": " + recordTime);
   }
 
   let duration = 0;
@@ -86,11 +81,9 @@ export async function insertroute(routeObj:any) {
   const sql_user = `SELECT name from users where id = $1`
   let username = await pgClient.query(sql_user, [routeObj.uploaderId])
   username = username.rows[0].name
-  // console.log(username)
 
   const sql_find = `SELECT * FROM route where route_name = $1 and users_id = (SELECT id from users where name = $2)`;
   const coincideSearch = await pgClient.query(sql_find, [routeObj.routeName, username]);
-  // console.log(coincideSearch.rows.length);
   if (coincideSearch.rows.length == 0) {
     const sql_1 = `INSERT INTO
         route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track,
@@ -112,8 +105,6 @@ export async function insertroute(routeObj:any) {
 
       const sqlWhat = `SELECT id from route where route_name ='${routeObj.routeName}'`
       const whatResult = await pgClient.query(sqlWhat)
-      console.log(whatResult)
-      console.log(routeObj.routeName)
       const sql = `Insert into path_info (route_id, location, ele, cumul) 
     values ((SELECT id from route where route_name ='${routeObj.routeName}'), $1, $2, $3)`;
       await pgClient.query(sql, [location, ele, cumul]);
