@@ -1,7 +1,7 @@
 async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
 
-  let map = new Map(document.getElementById("map"), {
+  map = new Map(document.getElementById("map"), {
     center: { lat: 22.32574171900254, lng: 114.16718211578858 },
     zoom: 11,
   });
@@ -9,52 +9,48 @@ async function initMap() {
 
 initMap();
 
-window.onload = async () => {
-  const usernameLabel = document.querySelector("#username");
+// window.onload = async () => {
+//   const usernameLabel = document.querySelector("#username");
   
-  await getProfile(usernameLabel);
+//   await getProfile(usernameLabel);
   
-}
-const logout = document.querySelector("#logout");
- Logout()
+// }
+// const logout = document.querySelector("#logout");
+//  Logout()
 
-async function getProfile(usernameLabel) {
-  const res = await fetch("/profile");
-  const data = await res.json();
-  // console.log(data.row.username);
+// async function getProfile(usernameLabel) {
+//   const res = await fetch("/profile");
+//   const data = await res.json();
+//   // console.log(data.row.username);
   
-  if (res.ok) {
-      // console.log(data.row.username);
+//   if (res.ok) {
+//       // console.log(data.row.username);
 
-      const rows = data.row;
-      usernameLabel.innerHTML = rows.name;
-    } else {
-      alert("error !!!");
-    }
+//       const rows = data.row;
+//       usernameLabel.innerHTML = rows.name;
+//     } else {
+//       alert("error !!!");
+//     }
   
-}
+// }
 
-function Logout() {
-  logout.addEventListener("click", async (e) => {
+//  function Logout() {
+//   logout.addEventListener("click", async (e) => {
     
-    const res = await fetch("/logout", {
-      method: "get",
-    });
+//     const res = await fetch("/logout", {
+//       method: "get",
+//     });
 
-    const data = await res.json();
+//     const data = await res.json();
 
-    if (res.ok) {
-      alert("logout success")
-      window.location = "/route.html"
-    } else {
-      alert("error!!!")
-    }
-});
-}
-
-
-
-
+//     if (res.ok) {
+//       alert("logout success")
+//       window.location = "/route.html"
+//     } else {
+//       alert("error!!!")
+//     }
+//   });
+// }
 
 window.onload = async () => {
   await getAllComment();
@@ -63,13 +59,9 @@ window.onload = async () => {
 
   await checkBookmarkStatus();
   setupBookmarkButton();
-
-  // await checkFollowStatus()
-  // follow()
 };
 
 let isBookmarked = false;
-let isFollowed = false;
 
 function getRouteId() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -103,11 +95,10 @@ function showCommentSection() {
   document.getElementById("comment").innerHTML = 
     `
     <div id="comment">
-    <textarea  id="text" style="width: 70%"></textarea>
+    <textarea  id="text" ></textarea>
     <br>
-    <button type="submit" id="uploadBtn" class="btn btn-md btn-outline-secondary">Submit</button>
+    <button type="submit" id="uploadBtn" class="btn btn-sm btn-outline-secondary">upload</button>
     </div>
-    <br>
     `;
 
     let uploadbtn = document.querySelector("#uploadBtn");
@@ -159,15 +150,6 @@ async function uploadComment() {
   }
 }
 
-// async function checkFollowStatus() {
-//   const res = await fetch("/folllow");
-//   const data = await res.json();
-
-//   console.log("follow",data.isFollowed);
-//   isFollowed = data.isFollowed;
-// }
-
-
 async function checkBookmarkStatus() {
   const path = "/bookmark?" + new URLSearchParams({
     "routeId": getRouteId(),
@@ -175,31 +157,9 @@ async function checkBookmarkStatus() {
   const res = await fetch(path);
   const data = await res.json();
 
-  console.log("bookmark",data.isBookmarked);
+  console.log(data.isBookmarked);
   isBookmarked = data.isBookmarked;
 }
-
-// function follow() {
-//   let followbtn = document.querySelector("#followBtn");
-//   followbtn.addEventListener("click", async (e) => {
-
-//     const res = await fetch("/follow", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({routeId: (getRouteId())}),
-//     });
-//     const data = await res.json();
-
-//     if (res.ok) {
-//       isFollowed = true;
-//       alert(data.message);
-//     } else{
-//       alert(data.message);
-//     }
-//   });  
-// } 
 
 function setupBookmarkButton() {
   updateBookmarkButton()
@@ -231,15 +191,8 @@ async function bookmark() {
     body: JSON.stringify({routeId: (getRouteId())}),
   });
   const data = await res.json();
-
-  if (res.ok) {
-    isBookmarked = true;
-    alert(data.message);
-  } else{
-    alert(data.message);
-    window.location.pathname = "/login.html"
-  }
-  
+  isBookmarked = true;
+  alert(data.message);
 }
 
 async function unbookmark() {
@@ -269,5 +222,12 @@ function html(data) {
               <div id="comment-text">${poster} : ${text}</div>
               `;
       }
-      document.getElementById(`comment-text`).innerHTML = html;
+      document.getElementById(`coment-text`).innerHTML = html;
 }
+
+
+
+  
+
+
+  

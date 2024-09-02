@@ -1,11 +1,55 @@
-.list-group {
-    background-color: rgb(182, 182, 182);
-    font-size: 22px;
-    /* justify-content: center; */
+.routeSearch {
+    font-size: 40px;
     text-align: center;
-    border-radius: 0px;
+    background-color: rgb(198, 198, 198);
+    padding: 20px;
+}
+
+.start-district {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
 
 }
+
+.finish-district {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+}
+
+.cycling-road {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+}
+
+
+.start {
+    text-align: center;
+    font-size: 17px;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 2.2;
+}
+
+.finish {
+    text-align: center;
+    font-size: 17px;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 2.2;
+
+}
+
+.cycling-road-content {
+    text-align: center;
+    font-size: 17px;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 2.2;
+}
+
 
 #selection-1 {
     font-size: 18px;
@@ -17,5 +61,10 @@
 
 #selection-3 {
     font-size: 18px;
+}
+
+.route-card {
+    padding-left: 30px;
+    padding-right: 30px;
 }
 

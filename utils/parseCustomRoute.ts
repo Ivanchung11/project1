@@ -35,20 +35,20 @@ let route1 = {
   filepath: "./data/Tung_Chung.gpx",
   routeName: "東涌炮台",
   description: "有段路望到而家填緊海嘅地方",
-  startDistrict: "Islands",
+  startDistrict: "離島區",
   endDistrict: "",
-  uploader: "admin1",
+  uploaderId: 2,
   isRoad: true,
   isPublic: false,
 };
 
 let route2 = {
-  filepath: "./data/2023-01-23-150805.gpx",
+  filepath: "2023-01-23-150805.gpx",
   routeName: "屯門青山公路",
   description: "轉車站附近很適合看日落，但今天很曬",
-  startDistrict: "Tuen Mun",
-  endDistrict: "Tsuen Wan",
-  uploader: "admin5",
+  startDistrict: "屯門區",
+  endDistrict: "荃灣區",
+  uploaderId: 3,
   isRoad: false,
   isPublic: true,
 };
@@ -57,9 +57,9 @@ let route3 = {
   filepath: "./data/Yuen_Long.gpx",
   routeName: "元朗-南生圍-錦繡花園-上水",
   description: "錦田附近很多魚塘很美",
-  startDistrict: "Yuen Long",
-  endDistrict: "North",
-  uploader: "admin",
+  startDistrict: "元朗區",
+  endDistrict: "北區",
+  uploaderId: 1,
   isRoad: false,
   isPublic: true,
 };
@@ -68,35 +68,38 @@ let route4 = {
   filepath: "./data/Tsuen_Wan.gpx",
   routeName: "荃灣海濱",
   description: "荃灣海濱路徑短，風景美",
-  startDistrict: "Tsuen Wan",
+  startDistrict: "元朗區",
   endDistrict: "",
-  uploader: "admin",
+  uploaderId: 1,
   isRoad: true,
   isPublic: true,
 };
 
 let route5 = {
-  filepath: "./data/small_round.gpx",
+  filepath: "small_round.gpx",
   routeName: "深水埗-上水-深水埗",
   description: "呢條友係唔係有咩睇唔開，踩埋條令人差啲虛脫嘅路線",
-  startDistrict: "Sham Shui Po",
-  endDistrict: "Sham Shui Po",
-  uploader: "admin",
+  startDistrict: "深水埗區",
+  endDistrict: "深水埗區",
+  uploaderId: 1,
   isRoad: true,
   isPublic: false,
 };
 
-function GFG_Fun(theDate) {
+function GFG_Fun(theDate: string) :string{
   let date = new Date(theDate);
   return (
     "TIMESTAMP '" +
-    date.toISOString().split("T")[0]
-     + " " + date.toTimeString().split(" ")[0] + "'"
+    date.toISOString().split("T")[0] +
+    " " +
+    date.toTimeString().split(" ")[0] +
+    "'"
   );
 }
 
-async function insertroute(routeObj) {
-  let data = await fs.promises.readFile(routeObj.filepath, "utf8"); //import the gpx file as string
+export async function insertroute(routeObj:any) {
+  let path = "./data/" + routeObj.filepath;
+  let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
   console.log(gpx.tracks[gpx.tracks.length - 1].name);
   console.log(gpx.metadata.time);
@@ -115,7 +118,7 @@ async function insertroute(routeObj) {
 
   if (recordTime != "") {
     recordTime = GFG_Fun(recordTime);
-    console.log(typeof(recordTime)+": "+recordTime);
+    console.log(typeof recordTime + ": " + recordTime);
   }
 
   let duration = 0;
@@ -130,18 +133,26 @@ async function insertroute(routeObj) {
         longseg.push(i);
       }
     }
+  } else if (routeObj.durationTemp){
+    duration = routeObj.durationTemp;
   }
 
-  const sql_find = `SELECT * FROM route where route_name = '${routeObj.routeName}' and users_id = (SELECT id from users where name = '${routeObj.uploader}')`;
-  const coincideSearch = await pgClient.query(sql_find);
+  const sql_user = `SELECT name from users where id = $1`
+  let username = await pgClient.query(sql_user, [routeObj.uploaderId])
+  username = username.rows[0].name
+  console.log(username)
+
+  const sql_find = `SELECT * FROM route where route_name = $1 and users_id = (SELECT id from users where name = $2)`;
+  const coincideSearch = await pgClient.query(sql_find, [routeObj.routeName, username]);
   console.log(coincideSearch.rows.length);
   if (coincideSearch.rows.length == 0) {
     const sql_1 = `INSERT INTO
         route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track,
         distance, duration, view_count, public_private, created_at)
     VALUES
-        ((SELECT id from users where name ='${routeObj.uploader}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, ${recordTime})`;
+        ((SELECT id from users where name ='${username}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, ${recordTime})`;
     await pgClient.query(sql_1);
+    console.log("Route uploaded")
 
     let maxlon = geopoints[0].lon;
     let minlon = geopoints[0].lon;
@@ -153,6 +164,11 @@ async function insertroute(routeObj) {
       let ele = geopoints[i].ele;
       // let coordTimes = geopoints[i].time;
       let cumul = distanceArr.cumul[i];
+
+      const sqlWhat = `SELECT id from route where route_name ='${routeObj.routeName}'`
+      const whatResult = await pgClient.query(sqlWhat)
+      console.log(whatResult)
+      console.log(routeObj.routeName)
       const sql = `Insert into path_info (route_id, location, ele, cumul) 
     values ((SELECT id from route where route_name ='${routeObj.routeName}'), $1, $2, $3)`;
       await pgClient.query(sql, [location, ele, cumul]);
@@ -176,11 +192,11 @@ async function insertroute(routeObj) {
 
     let trackCentre = `POINT (${midlon} ${midlat})`;
     const sql_ctr = `update route set centre = $1
-      where route_name =$2 and users_id = (SELECT id from users where name = $3)`;
+      where route_name = $2 and users_id = (SELECT id from users where name = $3)`;
     await pgClient.query(sql_ctr, [
       trackCentre,
       routeObj.routeName,
-      routeObj.uploader,
+      username,
     ]);
   }
 }
