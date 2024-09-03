@@ -248,18 +248,18 @@ app.post("/search", async function (req: Request, res: Response) {
 
   console.log("start: ", startDistricts, "finish: ", endDistricts, "isRoad: ", isRoads)
 
-  const sql = `SELECT id, route_name from route 
+  const sql = `SELECT route.id, route_name, description, view_count, centre, json_agg(ST_AsText(path_info.location)) as path
+  from route  JOIN path_info on route.id = path_info.route_id
   where (star_district_id IN (SELECT id from district WHERE name IN ${startDistricts}))
   and (end_district_id IN (SELECT id from district WHERE name IN ${endDistricts}))
   and (road_bicyle_track IN ${isRoads})
+  GROUP BY route.id
   `
 
   const result = await pgClient.query(sql)
-  let suitableRoute = result.rows
-  console.log(result.rows.length)
-  console.log(suitableRoute)
+  let row = result.rows
 
-    return res.json({ message: "see the search results: " + suitableRoute, routes: suitableRoute });
+    return res.json({ message: "see the search results: ", row });
   } catch {
     return res.json({ message: "data error" })
   }
