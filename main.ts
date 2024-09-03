@@ -371,11 +371,11 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
   // console.log("hihhi",userId);
   
-  const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = 4 GROUP BY route.id `;
+  const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = $1 GROUP BY route.id `;
   // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
-  const result = await pgClient.query(sql);
+  const result = await pgClient.query(sql,[userId]);
   // console.log(result);
-  const row = result.rows[0];
+  const row = result.rows;
   // console.log(row);
   
   if (result.rowCount != null && result.rowCount > 0) {

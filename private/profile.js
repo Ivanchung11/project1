@@ -23,25 +23,52 @@ async function getProfile(usernameLabel) {
 
 async function profileBookmark() {
   const res = await fetch("/profileBookmark");
-  const data = await res.json();
+  const data1 = await res.json();
+  
   // console.log(data);
 
   if (res.ok) {
-    if (data.message === "You Don't Have Any Bookmark Route") {
-      document.getElementById("nobookmark").innerHTML = `
+    if (data1.message === "You Don't Have Any Bookmark Route") {
+      document.getElementById("bookmark-card").innerHTML = `
       <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
       `;
     } else {
-      mapTOurl(data)
+      console.log(data1.row,"ahsfgjh")
+      let html = "";
+      for (let i = 0; i < data1.row.length; i++) {
+        let data = data1.row[i];
+        mapTOurl(data)
+        html +=  `
+          <div id="col1">
+            <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}" >
+              <div class="card-body">
+                <p class="fs-4">${data.route_name}</p>
+                <p class="card-text">${data.description}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.id}" role="button">Details</a>
+                  </div>
+                  <small class="text-body-secondary">${data.view_count}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+      `;
+      }
+      document.getElementById("bookmark-card").innerHTML = html
+      console.log(html);
+      
       
     }
   }
 }
 
 function mapTOurl(data) {
-  let path = data.row.path;
+  let path = data.path;
       let arrayPath = [];
-      let centrePath = data.row.centre;
+      let centrePath = data.centre;
+      // let html = "";
       // console.log(centrePath);
       
       centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
@@ -62,27 +89,8 @@ function mapTOurl(data) {
       }
       path = "color:0x0000ff|weight:5|" + newpath;
       // console.log(path);
-      photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=12&path=${path}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
+      photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=11.5&path=${path}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
       // console.log(photo);
-
-      document.getElementById("col1").innerHTML = `
-     <div id="col1">
-            <div class="card shadow-sm">
-              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}" >
-              <div class="card-body">
-                <p class="fs-4">${data.row.route_name}</p>
-                <p class="card-text">${data.row.description}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.row.id}" role="button">Details</a>
-                    
-                  </div>
-                  <small class="text-body-secondary">${data.row.view_count}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-      `;
       // console.log("yes");
       // profileGetDetail()
 }
