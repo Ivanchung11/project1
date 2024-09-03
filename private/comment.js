@@ -13,6 +13,15 @@ window.onload = async () => {
   const usernameLabel = document.querySelector("#username");
   
   await getProfile(usernameLabel);
+
+  await getRouteDetails() 
+
+  await getAllComment();
+
+  setupCommentButton();
+
+  await checkBookmarkStatus();
+  setupBookmarkButton();
   
 }
 const logout = document.querySelector("#logout");
@@ -56,17 +65,17 @@ function Logout() {
 
 
 
-window.onload = async () => {
-  await getAllComment();
+// window.onload = async () => {
+//   await getAllComment();
 
-  setupCommentButton();
+//   setupCommentButton();
 
-  await checkBookmarkStatus();
-  setupBookmarkButton();
+//   await checkBookmarkStatus();
+//   setupBookmarkButton();
 
-  // await checkFollowStatus()
-  // follow()
-};
+//   // await checkFollowStatus()
+//   // follow()
+// };
 
 let isBookmarked = false;
 let isFollowed = false;
@@ -74,6 +83,49 @@ let isFollowed = false;
 function getRouteId() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("route_id");
+}
+
+async function getRouteDetails() {
+
+  const path = "/getRouteDetails?" + new URLSearchParams({
+    "routeId": getRouteId(),
+  }).toString();
+  const res = await fetch(path);
+    const data = await res.json();
+
+    const user_name = data.row.users_name;
+    const route_name = data.row.route_name;
+    const description = data.row.description;
+    const distance = MeterToKM(data.row.distance);
+    const duration = secondsToHms(data.row.duration);
+    const created_at = data.row.created_at.substring(0,10);
+    const start_district = data.row.start_district;
+    const end_district = data.row.end_district;
+    
+    console.log(route_name,description,distance,duration,created_at,start_district);
+    
+    document.getElementById("route_name").innerHTML = 
+    `<div id="route_name">Title : ${route_name}</div>`
+    document.getElementById("descripationText").innerHTML = 
+    `<div id="descripationText">${description}</div>`
+    document.getElementById("created_at").innerHTML = 
+    `<div id="created_at">Date : ${created_at}</div>`
+    document.getElementById("distance").innerHTML = 
+    `<div id="distance">Distance<br>${distance}</div>`
+    document.getElementById("duration").innerHTML = 
+    `<div id="duration">Duration<br>${duration}</div>`
+    document.getElementById("created_at").innerHTML = 
+    `<div id="created_at">Date : ${created_at}</div>`
+    document.getElementById("start_district").innerHTML = 
+    `<div id="start_district">Start district<br>${start_district}</div>`
+    document.getElementById("end_district").innerHTML = 
+    `<div id="end_district">Finish district<br>${end_district}</div>`
+    document.getElementById("created_by").innerHTML = 
+    `<div id="created_by">Created by : ${user_name}</div>`
+    
+
+    
+    
 }
 
 async function getAllComment() {
@@ -270,4 +322,19 @@ function html(data) {
               `;
       }
       document.getElementById(`comment-text`).innerHTML = html;
+}
+
+function secondsToHms(d) {
+  d = Number(d);
+  let h = Math.floor(d / 3600);
+  let m = Math.floor(d % 3600 / 60);
+  let s = Math.floor(d % 3600 % 60);
+  return `${h} : ${m} : ${s}`; 
+}
+
+function MeterToKM(d) {
+  d = Number(d);
+  let km= Math.floor(d / 1000);
+  let m= Math.floor(d % 1000 /100)
+  return `${km}.${m} KM`; 
 }

@@ -86,7 +86,7 @@ app.get("/customroute", async (req: Request, res: Response) => {
   
   let linestring = "";
   let resultArr = queryResult.rows;
-  console.log(resultArr);
+  // console.log(resultArr);
   for (let element of resultArr){
     let pointcoord = element.point.replace("POINT(","").replace(")","")
     linestring = linestring + pointcoord + ","
@@ -115,7 +115,7 @@ app.post("/register", async function (req: Request, res: Response) {
   }
   const sql = `INSERT INTO users (name, password, email ) 
   VALUES ('${username}', '${await hashPassword(password)}', '${email}' );`;
-  console.log(sql);
+  // console.log(sql);
   
   const InsertResult = await pgClient.query(sql);
   
@@ -212,17 +212,32 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
 //============================SEE ABOVE
 //===========================
 
+app.get("/getRouteDetails", async (req: Request, res: Response) => {
+  const data = req.query;
+  const route_id = data.routeId;
+  // console.log(data);
 
+  const sql = 
+  `SELECT users.name AS users_name, route_name, description, distance, duration, view_count, route.created_at, star_district.name AS start_district, end_district.name AS end_district
+FROM route INNER JOIN users ON route.users_id =users.id 
+INNER JOIN district AS star_district ON route.star_district_id= star_district.id 
+INNER JOIN district AS end_district ON route.end_district_id= end_district.id 
+WHERE route.id = $1;`
+  const result = await pgClient.query(sql, [route_id])
+  const row = result.rows[0]
+  // console.log(row);
+  res.json({row});
+});
 
 app.get("/getAllComment", async (req: Request, res: Response) => {
   const data = req.query;
   const route_id = data.routeId;
-  console.log(data);
+  // console.log(data);
   
   const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1`
   const getresult= await pgClient.query(getsql, [route_id]) 
   const row = getresult.rows
-  console.log(row);
+  // console.log(row);
 
   res.json({row});
 });
@@ -246,7 +261,7 @@ app.post("/comment", async (req: Request, res: Response) => {
     const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1;`
     const getresult= await pgClient.query(getsql, [route_id]) 
     const row = getresult.rows
-    console.log(row);
+    // console.log(row);
     
     res.json({row});
   }
@@ -268,27 +283,27 @@ app.post("/comment", async (req: Request, res: Response) => {
   
 // });
 
-app.post("/follow", async (req: Request, res: Response) => {
-  // if (req.session.userId == undefined) {
-  //   res.status(500).json({message: "Please login first."})
-  // } else {
-    const data = req.body;
-    const follower_id = req.session.userId;
-    const getsql = `SELECT users_id , users.name FROM route INNER JOIN users ON users_id = users.id;`;
-    const getresult = await pgClient.query(getsql);
-    const followee_id = getresult.rows[0].users_id;
-    const route_id = data.routeId;
-    console.log(follower_id);
-    console.log(followee_id);
-    console.log(route_id);
+// app.post("/follow", async (req: Request, res: Response) => {
+//   // if (req.session.userId == undefined) {
+//   //   res.status(500).json({message: "Please login first."})
+//   // } else {
+//     const data = req.body;
+//     const follower_id = req.session.userId;
+//     const getsql = `SELECT users_id , users.name FROM route INNER JOIN users ON users_id = users.id;`;
+//     const getresult = await pgClient.query(getsql);
+//     const followee_id = getresult.rows[0].users_id;
+//     const route_id = data.routeId;
+//     console.log(follower_id);
+//     console.log(followee_id);
+//     console.log(route_id);
     
-    // const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
-    // const result = await pgClient.query(sql,[users_id,route_id]);
-    // console.log(result);
+//     // const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
+//     // const result = await pgClient.query(sql,[users_id,route_id]);
+//     // console.log(result);
 
-    res.json({message:"follow success"});
-  // }
-});
+//     res.json({message:"follow success"});
+//   // }
+// });
 
 
 app.get("/bookmark", async (req: Request, res: Response) => {
@@ -339,6 +354,8 @@ app.delete("/bookmark", async (req: Request, res: Response) => {
 });
 app.get("/profile", async function (req: Request, res: Response) {
   const userId = req.session.userId;
+  // console.log("hahahaaaa",userId);
+  
   const sql = `SELECT id, name FROM users WHERE id = $1`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows[0];
@@ -349,14 +366,14 @@ app.get("/profile", async function (req: Request, res: Response) {
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
-  console.log("hihhi",userId);
+  // console.log("hihhi",userId);
   
-  const sql = ` SELECT route.id, route_name,description,view_count,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = 4 GROUP BY route.id `;
+  const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = 4 GROUP BY route.id `;
   // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
   const result = await pgClient.query(sql);
-  console.log(result);
+  // console.log(result);
   const row = result.rows[0];
-  console.log(row);
+  // console.log(row);
   
   if (result.rowCount != null && result.rowCount > 0) {
     res.json({ message: "profilebookmark", row});

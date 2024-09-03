@@ -29,18 +29,27 @@ async function profileBookmark() {
 
   if (res.ok) {
     if (data.message === "You Don't Have Any Bookmark Route") {
-      document.getElementById("col1").innerHTML = `
-      <h1>You Don't Have Any Bookmark Route</h1>
+      document.getElementById("nobookmark").innerHTML = `
+      <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
       `;
     } else {
       // console.log(data.row.route_name);
       // console.log(data.row.description);
       // console.log(data.row.view_count);
       // console.log(data.row.id);
+      // console.log(data.row.centre);
+      
 
       let path = data.row.path;
       let arrayPath = [];
-      console.log(path[1024 / 2]);
+      let centrePath = data.row.centre;
+      // console.log(centrePath);
+      
+      centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
+      centrePathsubstring = centrePathsubstring.split(" ");
+      centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
+      // console.log(centrePathsubstring);
+      
 
       for (let i = 0; i < path.length; i = i + 15) {
         let eachpoint = path[i];
@@ -48,8 +57,6 @@ async function profileBookmark() {
         pathsubstring = pathsubstring.split(" ");
         // console.log(pathsubstring)
         pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
-        // console.log(pathsubstring)
-        // pathsubstring = pathsubstring.replace(" ",",")
         arrayPath.push(pathsubstring);
 
         newpath = arrayPath.join("|");
@@ -57,7 +64,7 @@ async function profileBookmark() {
       }
       path = "color:0x0000ff|weight:5|" + newpath;
       // console.log(path);
-      photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=22.367607,114.00037&zoom=12&path=${path}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
+      photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=12&path=${path}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
       // console.log(photo);
 
       document.getElementById("col1").innerHTML = `
