@@ -210,6 +210,36 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
 //============================for uploading: end of code
 //===========================
 
+
+//===========================CODE FOR SEARCH
+
+app.post("/search", async function (req: Request, res: Response) {
+
+  console.log(req.session)
+  try {
+  let { startDistricts, endDistricts, isRoads } = req.body
+
+  startDistricts = startDistricts.map((name:string)=>"'"+name+"'").join(",")
+  startDistricts = "("+startDistricts+")"
+  console.log(startDistricts)
+
+  const sql = `SELECT id, route_name from route 
+  where star_district_id IN (SELECT id from district WHERE name IN ${startDistricts})`
+
+  const result = await pgClient.query(sql)
+  let suitableRoute = result.rows
+  let routes 
+  console.log(suitableRoute)
+
+    return res.json({ message: "see the search results: " + suitableRoute, routes: suitableRoute });
+  } catch {
+    return res.json({ message: "data error" })
+  }
+});
+
+//============================CODE FOR SEARCH END
+
+
 app.get("/getRouteDetails", async (req: Request, res: Response) => {
   const data = req.query;
   const route_id = data.routeId;
