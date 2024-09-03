@@ -99,22 +99,3 @@ function Logout() {
     }
   });
 }
-
-
-// function profileGetDetail() {
-//   const  viewBtn = document.querySelector("#viewBtn");
-//   viewBtn.addEventListener("click",async (e) => {
-//     console.log(e.target);
-//     const res = await fetch("/profileGetDetail", {
-//       method: "get",
-//     });
-//     const data = await res.json();
-//     if (res.ok) {
-      
-//       window.location = `/comment.html?route_id=${data.row.id}`
-//     }else {
-//       alert("error")
-//     }
-    
-//   })
-// }
