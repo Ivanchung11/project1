@@ -68,7 +68,8 @@ async function profileBookmark() {
                 <p class="card-text">${data.row.description}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button id="viewBtn" type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.row.id}" role="button">Details</a>
+                    
                   </div>
                   <small class="text-body-secondary">${data.row.view_count}</small>
                 </div>
@@ -77,7 +78,7 @@ async function profileBookmark() {
           </div>
       `;
       // console.log("yes");
-      profileGetDetail()
+      // profileGetDetail()
     }
   }
 }
@@ -100,20 +101,20 @@ function Logout() {
 }
 
 
-function profileGetDetail() {
-  const  viewBtn = document.querySelector("#viewBtn");
-  viewBtn.addEventListener("click",async (e) => {
-    console.log(e.target);
-    const res = await fetch("/profileGetDetail", {
-      method: "get",
-    });
-    const data = await res.json();
-    if (res.ok) {
+// function profileGetDetail() {
+//   const  viewBtn = document.querySelector("#viewBtn");
+//   viewBtn.addEventListener("click",async (e) => {
+//     console.log(e.target);
+//     const res = await fetch("/profileGetDetail", {
+//       method: "get",
+//     });
+//     const data = await res.json();
+//     if (res.ok) {
       
-      window.location = `/comment.html?route_id=${data.row.id}`
-    }else {
-      alert("error")
-    }
+//       window.location = `/comment.html?route_id=${data.row.id}`
+//     }else {
+//       alert("error")
+//     }
     
-  })
-}
+//   })
+// }

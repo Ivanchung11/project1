@@ -362,14 +362,14 @@ app.get("/profile", async function (req: Request, res: Response) {
   res.json({ message: "profile", row });
 });
 
-app.get("/profileGetDetail", async function (req: Request, res: Response) {
-  const sql = `SELECT id FROM route`;
-  const result = await pgClient.query(sql);
-  const row = result.rows[0];
-  // console.log(row);
+// app.get("/profileGetDetail", async function (req: Request, res: Response) {
+//   const sql = `SELECT id FROM route`;
+//   const result = await pgClient.query(sql);
+//   const row = result.rows[0];
+//   // console.log(row);
 
-  res.json({row});
-});
+//   res.json({row});
+// });
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
