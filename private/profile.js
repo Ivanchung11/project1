@@ -1,6 +1,5 @@
 window.onload = async () => {
   const usernameLabel = document.querySelector("#username");
-
   await getProfile(usernameLabel);
   profileBookmark();
 };
@@ -33,12 +32,6 @@ async function profileBookmark() {
       <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
       `;
     } else {
-      // console.log(data.row.route_name);
-      // console.log(data.row.description);
-      // console.log(data.row.view_count);
-      // console.log(data.row.id);
-      // console.log(data.row.centre);
-      
 
       let path = data.row.path;
       let arrayPath = [];
@@ -50,7 +43,6 @@ async function profileBookmark() {
       centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
       // console.log(centrePathsubstring);
       
-
       for (let i = 0; i < path.length; i = i + 15) {
         let eachpoint = path[i];
         let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
@@ -76,7 +68,7 @@ async function profileBookmark() {
                 <p class="card-text">${data.row.description}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button id="viewBtn" type="button" class="btn btn-sm btn-outline-secondary">View</button>
                   </div>
                   <small class="text-body-secondary">${data.row.view_count}</small>
                 </div>
@@ -84,7 +76,8 @@ async function profileBookmark() {
             </div>
           </div>
       `;
-      console.log("yes");
+      // console.log("yes");
+      profileGetDetail()
     }
   }
 }
@@ -104,4 +97,23 @@ function Logout() {
       alert("error!!!");
     }
   });
+}
+
+
+function profileGetDetail() {
+  const  viewBtn = document.querySelector("#viewBtn");
+  viewBtn.addEventListener("click",async (e) => {
+    console.log(e.target);
+    const res = await fetch("/profileGetDetail", {
+      method: "get",
+    });
+    const data = await res.json();
+    if (res.ok) {
+      
+      window.location = `/comment.html?route_id=${data.row.id}`
+    }else {
+      alert("error")
+    }
+    
+  })
 }
