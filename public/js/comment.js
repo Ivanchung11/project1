@@ -7,12 +7,13 @@ async function initMap() {
   });
 }
 
-initMap();
+// initMap();
 
 window.onload = async () => {
-  const usernameLabel = document.querySelector("#username");
-  
-  await getProfile(usernameLabel);
+  // const usernameLabel = document.querySelector("#username");
+  await initMap();
+
+  await getProfile();
 
   await getRouteDetails() 
 
@@ -24,27 +25,42 @@ window.onload = async () => {
   setupBookmarkButton();
   
 }
-const logout = document.querySelector("#logout");
- Logout()
 
-async function getProfile(usernameLabel) {
+
+async function getProfile() {
   const res = await fetch("/profile");
   const data = await res.json();
-  // console.log(data.row.username);
+  // console.log();
+  
   
   if (res.ok) {
-      // console.log(data.row.username);
-
       const rows = data.row;
-      usernameLabel.innerHTML = rows.name;
+      document.querySelector("#commentBarBtn").innerHTML = 
+      `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
+            <div class="login-button">
+            <button class="btn btn-outline-primary" >
+              <div>Hi&nbsp<span>${rows.name}</span></div>
+              </button>
+            </div>
+            <button class="btn btn-primary me-1" id="logout">Logout</button>
+      </div>`
+
+      const logout = document.querySelector("#logout");
+      Logout();
+
     } else {
-      alert("error !!!");
+      // alert(data.message);
+      console.log("please login first");
+      
     }
+    
   
 }
 
-function Logout() {
+ async function Logout() {
   logout.addEventListener("click", async (e) => {
+    console.log(e.target);
+    
     
     const res = await fetch("/logout", {
       method: "get",
@@ -60,22 +76,6 @@ function Logout() {
     }
 });
 }
-
-
-
-
-
-// window.onload = async () => {
-//   await getAllComment();
-
-//   setupCommentButton();
-
-//   await checkBookmarkStatus();
-//   setupBookmarkButton();
-
-//   // await checkFollowStatus()
-//   // follow()
-// };
 
 let isBookmarked = false;
 let isFollowed = false;

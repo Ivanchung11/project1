@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Route Details Comment</title>
-    <link rel="stylesheet" type="text/css" href="./comment.css" />
+    <link rel="stylesheet" type="text/css" href="./css/comment.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -55,13 +55,11 @@
               <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
             </li>
           </ul>
-          <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+          <div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
             <div class="login-button">
-              <button class="btn btn-outline-primary">
-                Hi <span id="username">??</span>
-              </button>
-              </div>
-              <button class="btn btn-primary me-1" id="logout">Logout</button>
+              <a class="btn btn-outline-primary" href="http://localhost:8080/login.html" role="button">Login</a>
+            </div>
+            <a class="btn btn-primary" href="http://localhost:8080/register.html" role="button">Register</a>
           </div>
         </div>
       </div>
@@ -159,5 +157,5 @@
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
       ({key: "AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM", v: "weekly"});</script>
   </body>
-  <script src="./comment.js"></script>
+  <script src="./js/comment.js"></script>
 </html>

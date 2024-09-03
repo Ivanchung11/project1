@@ -351,6 +351,9 @@ app.delete("/bookmark", async (req: Request, res: Response) => {
 
 });
 app.get("/profile", async function (req: Request, res: Response) {
+  if (req.session.userId == undefined) {
+    res.status(400).json({message: "Please login first."})
+  } else {
   const userId = req.session.userId;
   // console.log("hahahaaaa",userId);
   
@@ -360,6 +363,7 @@ app.get("/profile", async function (req: Request, res: Response) {
   // console.log(row);
 
   res.json({ message: "profile", row });
+  }
 });
 
 
