@@ -76,7 +76,8 @@ async function profileBookmark() {
                 <p class="card-text">${data.row.description}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=1" role="button">Details</a>
+                    
                   </div>
                   <small class="text-body-secondary">${data.row.view_count}</small>
                 </div>
