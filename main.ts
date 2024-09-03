@@ -385,6 +385,16 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
   }
 });
 
+app.get("/showAllRoute", async function (req: Request, res: Response) {
+  const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id `;
+  const result = await pgClient.query(sql);
+  console.log(result);
+  const row = result.rows;
+  // console.log(row);
+
+  res.json({row});
+});
+
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
     req.session.destroy(() => {
