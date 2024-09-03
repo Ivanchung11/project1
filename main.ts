@@ -211,6 +211,7 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
 //===========================
 
 
+//============================
 //===========================CODE FOR SEARCH
 
 app.post("/search", async function (req: Request, res: Response) {
@@ -219,16 +220,43 @@ app.post("/search", async function (req: Request, res: Response) {
   try {
   let { startDistricts, endDistricts, isRoads } = req.body
 
-  startDistricts = startDistricts.map((name:string)=>"'"+name+"'").join(",")
-  startDistricts = "("+startDistricts+")"
-  console.log(startDistricts)
+  let AllDistricts = ["Central and Western", "Wan Chai", "Eastern", "Southern",
+    "Yau Tsim Mong", "Sham Shui Po", "Kowloon City", "Wong Tai Sin", "Kwun Tong",
+    "Kwai Tsing", "Tsuen Wan", "Tuen Mun", "Yuen Long", "North", "Tai Po", "Sha Tin",
+    "Sai Kung", "Islands"
+  ]
+
+  if (startDistricts == null){
+    startDistricts = AllDistricts
+  }
+  if (endDistricts == null){
+    endDistricts = AllDistricts
+  }
+  if (isRoads == null){
+    isRoads = ["false", "true"]
+  }
+
+  let arrayToPsqlStr = function(arr:string[]){
+    let str:string = arr.map((name:string)=>"'"+name+"'").join(",")
+    str = "("+str+")"
+    return str
+  }
+
+  startDistricts = arrayToPsqlStr(startDistricts);
+  endDistricts = arrayToPsqlStr(endDistricts);
+  isRoads = arrayToPsqlStr(isRoads);
+
+  console.log("start: ", startDistricts, "finish: ", endDistricts, "isRoad: ", isRoads)
 
   const sql = `SELECT id, route_name from route 
-  where star_district_id IN (SELECT id from district WHERE name IN ${startDistricts})`
+  where (star_district_id IN (SELECT id from district WHERE name IN ${startDistricts}))
+  and (end_district_id IN (SELECT id from district WHERE name IN ${endDistricts}))
+  and (road_bicyle_track IN ${isRoads})
+  `
 
   const result = await pgClient.query(sql)
   let suitableRoute = result.rows
-  let routes 
+  console.log(result.rows.length)
   console.log(suitableRoute)
 
     return res.json({ message: "see the search results: " + suitableRoute, routes: suitableRoute });
