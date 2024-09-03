@@ -34,8 +34,9 @@ let route1 = {
   routeName: "東涌炮台",
   description: "有段路望到而家填緊海嘅地方",
   startDistrict: "Islands",
-  endDistrict: "",
+  endDistrict: "Islands",
   uploader: "admin1",
+  durationTemp: 0,
   isRoad: true,
   isPublic: false,
 };
@@ -47,6 +48,7 @@ let route2 = {
   startDistrict: "Tuen Mun",
   endDistrict: "Tsuen Wan",
   uploader: "admin5",
+  durationTemp: 0,
   isRoad: false,
   isPublic: true,
 };
@@ -58,6 +60,7 @@ let route3 = {
   startDistrict: "Yuen Long",
   endDistrict: "North",
   uploader: "admin",
+  durationTemp: 0,
   isRoad: false,
   isPublic: true,
 };
@@ -67,29 +70,130 @@ let route4 = {
   routeName: "荃灣海濱",
   description: "荃灣海濱路徑短，風景美",
   startDistrict: "Tsuen Wan",
-  endDistrict: "",
+  endDistrict: "Tsuen Wan",
   uploader: "admin",
+  durationTemp: 0,
   isRoad: true,
   isPublic: true,
 };
 
 let route5 = {
   filepath: "small_round.gpx",
-  routeName: "深水埗-上水-深水埗",
-  description: "呢條友係唔係有咩睇唔開，踩埋條令人差啲虛脫嘅路線",
+  routeName: "深水埗-錦田-大圍",
+  description: "去到錦田小歇一會，食左一餐巴基斯坦咖哩",
   startDistrict: "Sham Shui Po",
-  endDistrict: "Sham Shui Po",
+  endDistrict: "Sha Tin",
   uploader: "admin",
+  durationTemp: 0,
   isRoad: true,
   isPublic: false,
 };
+
+let route6 = {
+  filepath: "NgauChiWan-KowloonPeak.gpx",
+  routeName: "飛鵝山繞圈路線",
+  description: "第一條的山路",
+  startDistrict: "Wong Tai Sin",
+  endDistrict: "Wong Tai Sin",
+  uploader: "admin5",
+  durationTemp: 0,
+  isRoad: false,
+  isPublic: true,
+};
+
+let route7 = {
+  filepath: "Mount_Parker.gpx",
+  routeName: "畢拉山及柏架山",
+  description: "港島也可以好好踩",
+  startDistrict: "Eastern",
+  endDistrict: "Eastern",
+  uploader: "admin5",
+  durationTemp: 0,
+  isRoad: false,
+  isPublic: false,
+};
+
+let route8 = {
+  filepath: "SSP_to_TSW_route.gpx",
+  routeName: "深水埗至天水圍",
+  description: "深入不毛",
+  startDistrict: "Sham Shui Po",
+  endDistrict: "Yuen Long",
+  uploader: "admin",
+  durationTemp: 0,
+  isRoad: true,
+  isPublic: true,
+};
+
+let route9 = {
+  filepath: "WTS_short_ride_2.gpx",
+  routeName: "天馬苑直落沙田坳",
+  description: "斜路直落",
+  startDistrict: "Wong Tai Sin",
+  endDistrict: "Wong Tai Sin",
+  uploader: "admin1",
+  durationTemp: 0,
+  isRoad: true,
+  isPublic: true,
+};
+
+let route10 = {
+  filepath: "Through_Tai_Lam.gpx",
+  routeName: "荃灣海濱-大欖水塘-元朗大棠",
+  description: "我直入元朗你卻在大排檔",
+  startDistrict: "Tsuen Wan",
+  endDistrict: "Yuen Long",
+  uploader: "admin",
+  durationTemp: 0,
+  isRoad: false,
+  isPublic: true,
+};
+
+let route11 = {
+  filepath: "Through_Tai_Lam.gpx",
+  routeName: "荃灣海濱-大欖水塘-元朗大棠",
+  description: "我直入元朗你卻在大排檔",
+  startDistrict: "Tsuen Wan",
+  endDistrict: "Yuen Long",
+  uploader: "admin",
+  durationTemp: 0,
+  isRoad: false,
+  isPublic: true,
+}
+
+let route12 = {
+  filepath: "烏溪沙-萬宜.gpx",
+  routeName: "烏溪沙-萬宜",
+  description: "現在夏季，騎到萬宜，太陽仍然高掛，天仍未黑，我們可以慢慢拍照，直至快要入黑才回程。",
+  startDistrict: "Sha Tin",
+  endDistrict: "Sai Kung",
+  uploader: "admin",
+  durationTemp: 0,
+  isRoad: true,
+  isPublic: true,
+}
+
+let route13 = {
+  filepath: "HongHum_TKO_LamTin.gpx",
+  routeName: "紅磡-將軍澳-茶果嶺",
+  description: "上山落山上山又落山",
+  startDistrict: "Kowloon City",
+  endDistrict: "Kwun Tong",
+  uploader: "admin",
+  durationTemp: 0,
+  isRoad: true,
+  isPublic: true,
+}
+
 
 function GFG_Fun(theDate) {
   let date = new Date(theDate);
   return (
     "TIMESTAMP '" +
-    date.toISOString().split("T")[0]
-     + " " + date.toTimeString().split(" ")[0] + "'"
+    date.toISOString().split("T")[0] +
+    " " +
+    date.toTimeString().split(" ")[0] +
+    "'"
   );
 }
 
@@ -115,7 +219,7 @@ async function insertroute(routeObj) {
 
   if (recordTime != "") {
     recordTime = GFG_Fun(recordTime);
-    console.log(typeof(recordTime)+": "+recordTime);
+    console.log(typeof recordTime + ": " + recordTime);
   }
 
   let duration = 0;
@@ -130,6 +234,8 @@ async function insertroute(routeObj) {
         longseg.push(i);
       }
     }
+  } else if (routeObj.durationTemp) {
+    duration = routeObj.durationTemp;
   }
 
   const sql_find = `SELECT * FROM route where route_name = '${routeObj.routeName}' and users_id = (SELECT id from users where name = '${routeObj.uploader}')`;
@@ -191,6 +297,16 @@ async function main() {
   await insertroute(route3);
   await insertroute(route4);
   await insertroute(route5);
+  await insertroute(route6);
+  await insertroute(route7);
+  await insertroute(route8);
+  await insertroute(route9);
+  await insertroute(route10);
+  await insertroute(route11);
+  await insertroute(route12);
+  await insertroute(route13);
+  // await insertroute(route14);
+  // await insertroute(route15);
   pgClient.end();
 }
 
