@@ -57,9 +57,6 @@ async function profileBookmark() {
       `;
       }
       document.getElementById("bookmark-card").innerHTML = html
-      console.log(html);
-      
-      
     }
   }
 }
@@ -75,8 +72,11 @@ function mapTOurl(data) {
       centrePathsubstring = centrePathsubstring.split(" ");
       centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
       // console.log(centrePathsubstring);
+      // console.log(path.length);
+      let point = Math.ceil((path.length)/90)
+      // console.log(point);
       
-      for (let i = 0; i < path.length; i = i + 15) {
+      for (let i = 0; i < path.length; i = i + point) {
         let eachpoint = path[i];
         let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
         pathsubstring = pathsubstring.split(" ");
