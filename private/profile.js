@@ -32,8 +32,14 @@ async function profileBookmark() {
       <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
       `;
     } else {
+      mapTOurl(data)
+      
+    }
+  }
+}
 
-      let path = data.row.path;
+function mapTOurl(data) {
+  let path = data.row.path;
       let arrayPath = [];
       let centrePath = data.row.centre;
       // console.log(centrePath);
@@ -79,8 +85,6 @@ async function profileBookmark() {
       `;
       // console.log("yes");
       // profileGetDetail()
-    }
-  }
 }
 
 function Logout() {
