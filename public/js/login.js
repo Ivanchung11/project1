@@ -28,8 +28,8 @@ window.onload = () => {
             // console.log("yes");
             
         } else {
-            // alert(data.message)
-            console.log("no");
+            alert(data.message)
+            // console.log("no");
             
         }
     })
