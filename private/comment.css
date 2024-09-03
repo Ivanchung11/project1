@@ -86,9 +86,9 @@ div.scroll-container {
 }
 
 .bookmark {
-    padding-left: 30px;
+    /* padding-left: 30px;
     padding-right: 30px;
-    padding-top: 25px;
+    padding-top: 25px; */
     text-align: center;
     align-items: center;
 }
