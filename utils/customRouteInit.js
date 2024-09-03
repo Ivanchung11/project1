@@ -29,10 +29,8 @@ pgClient.connect();
 
 var gpx = new gpxParser(); //Create gpxParser Object
 
-let file1 = "./data/Tsuen_Wan.gpx";
-
 let route1 = {
-  filepath: "./data/Tung_Chung.gpx",
+  filepath: "Tung_Chung.gpx",
   routeName: "東涌炮台",
   description: "有段路望到而家填緊海嘅地方",
   startDistrict: "Islands",
@@ -43,7 +41,7 @@ let route1 = {
 };
 
 let route2 = {
-  filepath: "./data/2023-01-23-150805.gpx",
+  filepath: "2023-01-23-150805.gpx",
   routeName: "屯門青山公路",
   description: "轉車站附近很適合看日落，但今天很曬",
   startDistrict: "Tuen Mun",
@@ -54,7 +52,7 @@ let route2 = {
 };
 
 let route3 = {
-  filepath: "./data/Yuen_Long.gpx",
+  filepath: "Yuen_Long.gpx",
   routeName: "元朗-南生圍-錦繡花園-上水",
   description: "錦田附近很多魚塘很美",
   startDistrict: "Yuen Long",
@@ -65,7 +63,7 @@ let route3 = {
 };
 
 let route4 = {
-  filepath: "./data/Tsuen_Wan.gpx",
+  filepath: "Tsuen_Wan.gpx",
   routeName: "荃灣海濱",
   description: "荃灣海濱路徑短，風景美",
   startDistrict: "Tsuen Wan",
@@ -76,7 +74,7 @@ let route4 = {
 };
 
 let route5 = {
-  filepath: "./data/small_round.gpx",
+  filepath: "small_round.gpx",
   routeName: "深水埗-上水-深水埗",
   description: "呢條友係唔係有咩睇唔開，踩埋條令人差啲虛脫嘅路線",
   startDistrict: "Sham Shui Po",
@@ -96,7 +94,9 @@ function GFG_Fun(theDate) {
 }
 
 async function insertroute(routeObj) {
-  let data = await fs.promises.readFile(routeObj.filepath, "utf8"); //import the gpx file as string
+  // const path = require("path");
+  let path = "./data/" + routeObj.filepath;
+  let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
   console.log(gpx.tracks[gpx.tracks.length - 1].name);
   console.log(gpx.metadata.time);
@@ -185,15 +185,12 @@ async function insertroute(routeObj) {
   }
 }
 
-// insertroute(route1);
-// insertroute(route2);
-// insertroute(route3);
-// insertroute(route4);
-// insertroute(route5);
-// main();
-
 async function main() {
+  await insertroute(route1);
   await insertroute(route2);
+  await insertroute(route3);
+  await insertroute(route4);
+  await insertroute(route5);
   pgClient.end();
 }
 

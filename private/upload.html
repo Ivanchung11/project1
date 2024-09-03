@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Upload</title>
+    <title>Route Upload</title>
     <link rel="stylesheet" type="text/css" href="./upload.css" />
     <link
       rel="stylesheet"
@@ -40,159 +40,208 @@
         </button>
         <div class="navbar"></div>
         <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <a class="navbar-brand col-lg-3 me-0" href="#">Cycling-E</a>
+          <a class="navbar-brand col-lg-3 me-0" href="http://localhost:8080/route.html">Cycling-E</a>
           <ul class="navbar-nav col-lg-6 justify-content-lg-center">
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Route</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/route.html">Route</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Upload</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/upload.html">Upload</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Search</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/search.html">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
             </li>
           </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-            <button class="btn btn-primary me-2">
+            <div class="login-button">
+            <button class="btn btn-outline-primary">
               Hi <span id="username">??</span>
             </button>
-            <button class="btn btn-primary me-1" id="Logout">Logout</button>
+            </div>
+            <button class="btn btn-primary me-1" id="logout">Logout</button>
           </div>
         </div>
       </div>
     </nav>
     <br />
     <div class="row">
-      <div class="col-md-4">
-        <div id="header">Upload your route</div>
-        <br />
-        <div id="start">
-          <!-- start -->
-          <div class="startSelection">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Start District</option>
-              <option value="1">Central and Western</option>
-              <option value="2">Wan Chai</option>
-              <option value="3">Eastern</option>
-              <option value="4">Southern</option>
-              <option value="5">Yau Tsim Mong</option>
-              <option value="6">Sham Shui Po</option>
-              <option value="7">Kowloon City</option>
-              <option value="8">Wong Tai Sin</option>
-              <option value="9">Kwun Tong</option>
-              <option value="10">Kwai Tsing</option>
-              <option value="11">Tsuen Wan</option>
-              <option value="12">Tuen Mun</option>
-              <option value="13">Yuen Long</option>
-              <option value="14">North</option>
-              <option value="15">Tai Po</option>
-              <option value="16">Sha Tin</option>
-              <option value="17">Sai Kung</option>
-              <option value="18">Islands</option>
-            </select>
+      <form class="col-md-4" id="route-form">
+        <div>
+          <div id="header">Upload your route</div>
+          <br />
+          <div id="start">
+            <!-- routename -->
+            <div class="startSelection">
+              <label for="routeName">Route Name: &nbsp&nbsp</label>
+              <input id="routeName" />
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="end">
-          <!-- end -->
-          <div class="endSelection">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Finish District</option>
-              <option value="1">Central and Western</option>
-              <option value="2">Wan Chai</option>
-              <option value="3">Eastern</option>
-              <option value="4">Southern</option>
-              <option value="5">Yau Tsim Mong</option>
-              <option value="6">Sham Shui Po</option>
-              <option value="7">Kowloon City</option>
-              <option value="8">Wong Tai Sin</option>
-              <option value="9">Kwun Tong</option>
-              <option value="10">Kwai Tsing</option>
-              <option value="11">Tsuen Wan</option>
-              <option value="12">Tuen Mun</option>
-              <option value="13">Yuen Long</option>
-              <option value="14">North</option>
-              <option value="15">Tai Po</option>
-              <option value="16">Sha Tin</option>
-              <option value="17">Sai Kung</option>
-              <option value="18">Islands</option>
-            </select>
+          <br />
+          <div id="start">
+            <!-- start -->
+            <div class="startSelection">
+              <label for="startDistrict"
+                >District of Starting Point: &nbsp&nbsp</label
+              >
+              <select
+                id="startDistrict"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected></option>
+                <option value="Central and Western">Central and Western</option>
+                <option value="Wan Chai">Wan Chai</option>
+                <option value="Eastern">Eastern</option>
+                <option value="Southern">Southern</option>
+                <option value="Yau Tsim Mong">Yau Tsim Mong</option>
+                <option value="Sham Shui Po">Sham Shui Po</option>
+                <option value="Kowloon City">Kowloon City</option>
+                <option value="Wong Tai Sin">Wong Tai Sin</option>
+                <option value="Kwun Tong">Kwun Tong</option>
+                <option value="Kwai Tsing">Kwai Tsing</option>
+                <option value="Tsuen Wan">Tsuen Wan</option>
+                <option value="Tuen Mun">Tuen Mun</option>
+                <option value="Yuen Long">Yuen Long</option>
+                <option value="North">North</option>
+                <option value="Tai Po">Tai Po</option>
+                <option value="Sha Tin">Sha Tin</option>
+                <option value="Sai Kung">Sai Kung</option>
+                <option value="Islands">Islands</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="roadtype">
-          <!-- road type -->
-          <div class="typeSelection">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Road Type</option>
-              <option value="1">Cycling Tracks</option>
-              <option value="2">Road</option>
-            </select>
+          <br />
+          <div id="end">
+            <!-- end -->
+            <div class="endSelection">
+              <label for="endDistrict"
+                >District of Finishing Point: &nbsp&nbsp</label
+              >
+              <select
+                id="endDistrict"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected></option>
+                <option value="Central and Western">Central and Western</option>
+                <option value="Wan Chai">Wan Chai</option>
+                <option value="Eastern">Eastern</option>
+                <option value="Southern">Southern</option>
+                <option value="Yau Tsim Mong">Yau Tsim Mong</option>
+                <option value="Sham Shui Po">Sham Shui Po</option>
+                <option value="Kowloon City">Kowloon City</option>
+                <option value="Wong Tai Sin">Wong Tai Sin</option>
+                <option value="Kwun Tong">Kwun Tong</option>
+                <option value="Kwai Tsing">Kwai Tsing</option>
+                <option value="Tsuen Wan">Tsuen Wan</option>
+                <option value="Tuen Mun">Tuen Mun</option>
+                <option value="Yuen Long">Yuen Long</option>
+                <option value="North">North</option>
+                <option value="Tai Po">Tai Po</option>
+                <option value="Sha Tin">Sha Tin</option>
+                <option value="Sai Kung">Sai Kung</option>
+                <option value="Islands">Islands</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <br />
-        <div id="duration">
-          Duration:&nbsp
-          <input
-            id="duration-input"
-            type="text"
-            required
-            pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
-            value="00:00:00"
-            title="Write a duration in the format hh:mm:ss"
-          />
-        </div>
-        <div id="descripation">
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Descripation:</label>
-            <textarea
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              rows="6"
-            ></textarea>
-          </div>
-        </div>
-        <div class="uploadPhotoButton">
-          <button type="button" class="btn btn-primary btn-md btn-block">
-            Upload Photo
-          </button>
-        </div>
-        
-        <div class="form-check-1">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckChecked"
-            checked
-          />
-          <label class="form-check-label" for="flexCheckChecked"
-            >Public
-          </label>
-        </div>
-        <div class="form-check-2">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label class="form-check-label" for="flexCheckDefault"
-            >Private
-          </label>
+          <br />
 
-        <div class="submitButton">
-          <button type="button" class="btn btn-primary btn-lg btn-block">SUBMIT</button> 
-        </div>  
-         
+          <!-- road type -->
+
+          <div id="roadtype">
+            <div class="form-check-1">
+              <legend>The Route Mainly Consist of:&nbsp&nbsp</legend>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="isRoad"
+                  id="private"
+                  value="false"
+                  checked
+                />
+                <label class="form-check-label" for="private">
+                  Cycling Tracks
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="isRoad"
+                  id="public"
+                  value="true"
+                />
+                <label class="form-check-label" for="public"> Car Roads </label>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <div id="duration">
+            Duration:&nbsp&nbsp
+            <input
+              id="durationInput"
+              type="text"
+              required
+              pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+              value="00:00:00"
+              title="Write a duration in the format hh:mm:ss"
+            />
+          </div>
+          <div id="descriptionDiv">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="6"
+              ></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="gpx">Upload gpx file below:</label>
+            <input type="file" id="gpx" />
+          </div>
+          <!-- <div>
+            <label for="photo">上載相片</label>
+            <input type="file" id="photo" />
+          </div> -->
+          <div class="form-check-1">
+            <legend>Publish to our mainpage:&nbsp&nbsp</legend>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="isPublic"
+                id="private"
+                value="false"
+                checked
+              />
+              <label class="form-check-label" for="private"> Private </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="isPublic"
+                id="public"
+                value="true"
+              />
+              <label class="form-check-label" for="public"> Public </label>
+            </div>
+          </div>
+
+          <div class="submitButton">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+              提交路線
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
 
       <div class="col-md-8">
         <div id="map"></div>
@@ -237,5 +286,5 @@
       })({ key: "AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM", v: "weekly" });
     </script>
   </body>
-  <script src="./upload.js"></script>
+  <script src="./upload.js" type="text/javaScript"></script>
 </html>

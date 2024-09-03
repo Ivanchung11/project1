@@ -7,7 +7,7 @@ import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
 import formidable from 'formidable'
 import fs from 'fs';
-import { insertroute } from "./utils/parseCustomRoute"
+import parseCustomRoute from "./utils/parseCustomRoute"
 
 dotenv.config();
 
@@ -86,7 +86,7 @@ app.get("/customroute", async (req: Request, res: Response) => {
   
   let linestring = "";
   let resultArr = queryResult.rows;
-  // console.log(resultArr);
+  
   for (let element of resultArr){
     let pointcoord = element.point.replace("POINT(","").replace(")","")
     linestring = linestring + pointcoord + ","
@@ -168,8 +168,7 @@ app.post("/login", async (req: Request, res: Response) => {
 });
 
 
-//============================
-//===========================SEE BELOW
+//===========================for uploading
 
 const uploadDir = 'data'
 fs.mkdirSync(uploadDir, { recursive: true })
@@ -181,11 +180,12 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
   const form = formidable({
     uploadDir,
     keepExtensions: true,
-    maxFiles: 1,
+    // maxFiles: 1,
     // maxFileSize: 200 * 1024, // the default limit is 200KB
     // filter: part => part.mimetype?.startsWith('image/') || false,
   })
 
+  console.log(req.session)
   try {
     let data = await form.parse(req);
     let routeObj = {
@@ -197,19 +197,17 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
       uploaderId: req.session.userId,
       isRoad: data[0].isRoad![0],
       isPublic: data[0].isPublic![0],
-      durationTemp: data[0].durationTemp![0],
-      // id: newCount,
-      // content: data[0].content![0],
-      // image: data[1].image![0].newFilename,
+      durationTemp: parseInt(data[0].durationTemp![0]),
     };
-    insertroute(routeObj)
+    console.log(routeObj)
+    await parseCustomRoute(routeObj)
     return res.json({ message: "uploaded" });
   } catch {
     return res.json({ message: "data error" })
   }
 });
 
-//============================SEE ABOVE
+//============================for uploading: end of code
 //===========================
 
 app.get("/getRouteDetails", async (req: Request, res: Response) => {
