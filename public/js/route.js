@@ -465,7 +465,7 @@ for (let i = 0; i < data1.row.length; i++) {
                   <div class="btn-group">
                     <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.id}" role="button">Details</a>
                   </div>
-                  <small class="text-body-secondary">${data.view_count}</small>
+                  <small class="text-body-secondary">${data.view_count} View</small>
                 </div>
               </div>
             </div>
@@ -525,7 +525,6 @@ logout.addEventListener("click", async (e) => {
   }
 });
 }
-
 
 initMap();
 getProfile("#routeBarBtn");

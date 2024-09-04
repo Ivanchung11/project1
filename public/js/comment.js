@@ -2,6 +2,8 @@ window.onload = async () => {
   // const usernameLabel = document.querySelector("#username");
   await initMap();
 
+  changeViewCount()
+
   await getProfile("#commentBarBtn");
 
   await getRouteDetails();
@@ -392,6 +394,22 @@ async function unbookmark() {
   const data = await res.json();
   isBookmarked = false;
   alert(data.message);
+}
+
+// ========================================================================================
+
+//====================  view count =========================
+
+async function changeViewCount() {
+  const path =
+    "/viewCount?" +
+    new URLSearchParams({
+      routeId: getRouteId(),
+    }).toString();
+  const res = await fetch(path);
+  const data = await res.json();
+
+  console.log(data);
 }
 
 // ========================================================================================
