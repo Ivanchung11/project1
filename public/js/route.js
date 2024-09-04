@@ -295,13 +295,18 @@ async function initMap() {
   const waterRes = await fetch("http://localhost:8080/water_dispenser");
   const waterResponse = await waterRes.json();
 
-  // var infowindow = new google.maps.InfoWindow();
+  var infowindow = new google.maps.InfoWindow();
 
-  // var marker ,i;
+  var water ,i;
   let waters = [];
 
-  for (let i = 0; i < waterResponse.data.length; i++) {
+//waterResponse.data.length
+
+  for (let i = 0; i < 3; i++) {
+
+
     const wktPoint = waterResponse.data[i].point;
+    console.log(waterResponse.data[i])
 
     // Parse the WKT point into {latlng}
     const coord = parseWKTPoint(wktPoint);
@@ -322,12 +327,12 @@ async function initMap() {
     });
     water.map = null;
     waters.push(water);
-    // google.maps.event.addListener(water, 'click', (function(water, i) {
-    //   return function() {
-    //     infowindow.setContent(locations[i][0]);
-    //     infowindow.open(map, water);
-    //   }
-    // })(water, i));
+    google.maps.event.addListener(water, 'click', (function(water, i) {
+      return function() {
+        infowindow.setContent("<h6>"+waterResponse.data[i].facility+"</h6>" + "<br/>" + waterResponse.data[i].locationdetail);
+        infowindow.open(map, water);
+      }
+    })(water, i));
   }
 
   // console.log(parkings);
@@ -357,7 +362,7 @@ async function initMap() {
   // Example WKT LINESTRING
   const customRouteRes = await fetch("http://localhost:8080/customroute");
   const customRouteResponse = await customRouteRes.json();
-  console.log(customRouteResponse);
+  // console.log(customRouteResponse);
   
   for (let i = 0; i < customRouteResponse.data.length; i++) {
     const wktLineString = customRouteResponse.data[i].path;
@@ -413,7 +418,7 @@ async function showAllRoute() {
   const res = await fetch("/showAllRoute");
   const data1= await res.json();
 
-  console.log(data1);
+  // console.log(data1);
   
   if (res.ok) {
     createCard(data1,"route-card")

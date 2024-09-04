@@ -70,7 +70,7 @@ app.get("/parking", async (req: Request, res: Response) => {
 
 app.get("/water_dispenser", async (req: Request, res: Response) => {
   let queryResult = await pgClient.query(
-    "SELECT ST_AsText(point_coordinates) as point FROM water_dispenser ;"
+    "SELECT facility, location_detail as locationDetail,ST_AsText(point_coordinates) as point FROM water_dispenser ;"
   );
 
   // console.log(queryResult.rows);

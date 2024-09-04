@@ -148,7 +148,9 @@ CREATE TABLE parking(
 
 CREATE TABLE water_dispenser(
     id SERIAL primary key,
-    point_coordinates GEOGRAPHY(point,4326) not null
+    point_coordinates GEOGRAPHY(point,4326) not null,
+    facility TEXT null,
+    location_detail TEXT null
 );
 
 
