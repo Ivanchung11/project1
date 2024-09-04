@@ -404,33 +404,30 @@ async function initMap() {
     });
   });
 }
-
-
-initMap();
-getProfile("#routeBarBtn");
-showAllRoute();
-
+// ==========show all the public route==========
 
 async function showAllRoute() {
-  const res = await fetch("/showAllRoute");
-  const data1= await res.json();
+const res = await fetch("/showAllRoute");
+const data1= await res.json();
 
-  console.log(data1);
-  
-  if (res.ok) {
-    createCard(data1,"route-card")
-  }
+console.log(data1.row);
+
+if (res.ok) {
+  createCard(data1,"route-card")
+}
 }
 function createCard(data1,cardId) {
-  let html = "";
-      for (let i = 0; i < data1.row.length; i++) {
-        let data = data1.row[i];
-        let path = data.path;
-      let arrayPath = [];
-      let centrePath = data.centre;
-      let newpath ;
-      // console.log(centrePath);
-      
+let html = "";
+for (let i = 0; i < data1.row.length; i++) {
+    let data = data1.row[i];
+    let path = data.path;
+    let isPublic = data.public_private
+    let arrayPath = [];
+    let centrePath = data.centre;
+    let newpath ;
+    // console.log(isPublic);
+
+    if (isPublic) {
       let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
       centrePathsubstring = centrePathsubstring.split(" ");
       centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
@@ -471,53 +468,63 @@ function createCard(data1,cardId) {
             </div>
           </div>
       `;
-      }
+      
       document.getElementById(cardId).innerHTML = html
+    } else {
+      console.log("this is private route");
+    }
+}
 }
 
-
+// ==========change login ang register button on the navbar==========
 async function getProfile(buttonId) {
-  const res = await fetch("/profile");
-  const data = await res.json();
-  // console.log();
+const res = await fetch("/profile");
+const data = await res.json();
+// console.log();
 
-  if (data.message == "Please login first.") {
-    // alert(data.message);
-    console.log("please login first");
-  } else {
-    const rows = data.row;
-    document.querySelector(
-      buttonId
-    ).innerHTML = `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
-            <div class="login-button">
-            <button class="btn btn-outline-primary" >
-              <div>Hi&nbsp<span>${rows.name}</span></div>
-              </button>
-            </div>
-            <button class="btn btn-primary me-1" id="logout">Logout</button>
-      </div>`;
+if (data.message == "Please login first.") {
+  // alert(data.message);
+  console.log("please login first");
+} else {
+  const rows = data.row;
+  document.querySelector(
+    buttonId
+  ).innerHTML = `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
+          <div class="login-button">
+          <button class="btn btn-outline-primary" >
+            <div>Hi&nbsp<span>${rows.name}</span></div>
+            </button>
+          </div>
+          <button class="btn btn-primary me-1" id="logout">Logout</button>
+    </div>`;
 
-    const logout = document.querySelector("#logout");
-    Logout();
-    
-  }
+  const logout = document.querySelector("#logout");
+  Logout();
+  
+}
 }
 
 async function Logout() {
-  logout.addEventListener("click", async (e) => {
-    console.log(e.target);
+logout.addEventListener("click", async (e) => {
+  console.log(e.target);
 
-    const res = await fetch("/logout", {
-      method: "get",
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("logout success");
-      window.location = "/route.html";
-    } else {
-      alert("error!!!");
-    }
+  const res = await fetch("/logout", {
+    method: "get",
   });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("logout success");
+    window.location = "/route.html";
+  } else {
+    alert("error!!!");
+  }
+});
 }
+
+
+initMap();
+getProfile("#routeBarBtn");
+showAllRoute();
+
