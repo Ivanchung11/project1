@@ -37,6 +37,9 @@ declare module "express-session" {
   }
 }
 
+
+//  =============== route page  ==================
+
 app.get("/bicycle_route", async (req: Request, res: Response) => {
   let queryResult = await pgClient.query(
     "SELECT ST_AsText(path_coordinates) as path FROM bicycle_track ;"
@@ -99,6 +102,20 @@ app.get("/customroute", async (req: Request, res: Response) => {
   res.json({ data: linestringArr });
 });
 
+app.get("/showAllRoute", async function (req: Request, res: Response) {
+  const sql = ` SELECT route.id, route_name,description,view_count,route.public_private,centre,json_agg(ST_AsText(path_info.location)) as path 
+  from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id`;
+  const result = await pgClient.query(sql);
+  // console.log(result);
+  const row = result.rows;
+  // console.log(row);
+
+  res.json({row});
+});
+
+
+//  =============== register page ==================
+
 app.post("/register", async function (req: Request, res: Response) {
   const data = req.body;
   const username = data.username;
@@ -122,7 +139,7 @@ app.post("/register", async function (req: Request, res: Response) {
   res.json({ message: "register success" });
 });
 
-
+// =============== login page ==================
 
 app.post("/login", async (req: Request, res: Response) => {
   const data = req.body;
@@ -267,6 +284,7 @@ app.post("/search", async function (req: Request, res: Response) {
 
 //============================CODE FOR SEARCH END
 
+// =============== route detail page ==================
 
 app.get("/getRouteDetails", async (req: Request, res: Response) => {
   const data = req.query;
@@ -324,6 +342,37 @@ app.post("/comment", async (req: Request, res: Response) => {
   
 });
 
+app.get("/showRouteDetails", async function (req: Request, res: Response) {
+  const data = req.query;
+  const route_id = data.routeId;
+  // console.log(route_id,"ahsghfhjas");
+  const centresql = `
+  SELECT centre FROM route WHERE id = $1`;
+  const centreResult = await pgClient.query(centresql,[route_id]);
+  const centrePoint = centreResult.rows[0];
+  const sql = `
+  SELECT ST_AsText(location) as point FROM path_info WHERE route_id = $1`;
+  const result = await pgClient.query(sql,[route_id]);
+  let linestring = "";
+  let resultArr = result.rows;
+  
+  
+  for (let element of resultArr){
+    let pointcoord = element.point.replace("POINT(","").replace(")","")
+    linestring = linestring + pointcoord + ","
+  }
+  // console.log(linestring);
+  
+  linestring = linestring.substring(0, linestring.length - 1)
+  linestring = 'LINESTRING(' + linestring + ")";
+  let linestringObj = { path : linestring}
+  let linestringArr = [linestringObj]
+  // console.log(linestringArr);
+  
+
+  res.json({ row: linestringArr , centrePoint:centrePoint});
+});
+
 // app.get("/follow", async (req: Request, res: Response) => {
 //   const follower_id = req.session.userId;
 //   const sql = `SELECT users_id , users.name FROM route INNER JOIN users ON users_id = users.id;`;
@@ -361,6 +410,7 @@ app.post("/comment", async (req: Request, res: Response) => {
 //   // }
 // });
 
+// =============== bookmark ==================
 
 app.get("/bookmark", async (req: Request, res: Response) => {
   const data = req.query;
@@ -408,6 +458,9 @@ app.delete("/bookmark", async (req: Request, res: Response) => {
   res.json({message:"bookmark deleted"});
 
 });
+
+// =============== profile page ==================
+
 app.get("/profile", async function (req: Request, res: Response) {
   if (req.session.userId == undefined) {
     res.status(200).json({message: "Please login first."})
@@ -455,47 +508,7 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
   }
 });
 
-app.get("/showAllRoute", async function (req: Request, res: Response) {
-  const sql = ` SELECT route.id, route_name,description,view_count,route.public_private,centre,json_agg(ST_AsText(path_info.location)) as path 
-  from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id`;
-  const result = await pgClient.query(sql);
-  // console.log(result);
-  const row = result.rows;
-  // console.log(row);
-
-  res.json({row});
-});
-
-app.get("/showRouteDetails", async function (req: Request, res: Response) {
-  const data = req.query;
-  const route_id = data.routeId;
-  // console.log(route_id,"ahsghfhjas");
-  const centresql = `
-  SELECT centre FROM route WHERE id = $1`;
-  const centreResult = await pgClient.query(centresql,[route_id]);
-  const centrePoint = centreResult.rows[0];
-  const sql = `
-  SELECT ST_AsText(location) as point FROM path_info WHERE route_id = $1`;
-  const result = await pgClient.query(sql,[route_id]);
-  let linestring = "";
-  let resultArr = result.rows;
-  
-  
-  for (let element of resultArr){
-    let pointcoord = element.point.replace("POINT(","").replace(")","")
-    linestring = linestring + pointcoord + ","
-  }
-  // console.log(linestring);
-  
-  linestring = linestring.substring(0, linestring.length - 1)
-  linestring = 'LINESTRING(' + linestring + ")";
-  let linestringObj = { path : linestring}
-  let linestringArr = [linestringObj]
-  // console.log(linestringArr);
-  
-
-  res.json({ row: linestringArr , centrePoint:centrePoint});
-});
+// =============== logout button ==================
 
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
