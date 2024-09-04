@@ -3,8 +3,8 @@
 }
 
 .col-md-8 {
-  height: 800px;
-  margin-top: 50px;
+  height: 900px;
+  margin-top: 30px;
 }
 
 html,
@@ -23,55 +23,71 @@ body,
 }
 
 #start {
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: bold;
   padding-left: 20px;
 }
 
 #end {
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: bold;
   padding-left: 20px;
 }
 
-#roadtype {
+/* #roadtype {
   font-size: 20px;
   padding-left: 20px;
-}
+} */
 
 #duration {
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: bold;
   padding-left: 20px;
   justify-content: center;
   align-items: center;
 }
 
 .form-group {
-  font-size: 20px;
+  font-size: 19px;
+  font-weight: bold;
   padding-left: 20px;
   padding-top: 20px;
 }
 
 .uploadPhotoButton {
-  font-size: 20px;
+  font-size: 19px;
   padding-left: 20px;
   padding-top: 20px;
 }
 
 .form-check-1 {
-  font-size: 20px;
+  font-size: 19px;
   padding-left: 20px;
-  padding-top: 10px;
+  /* padding-top: 20px; */
 }
 
 .form-check-2 {
-  font-size: 20px;
+  font-size: 19px;
   padding-left: 20px;
   padding-top: 5px;
+}
+
+.form-check-3 {
+  font-size: 19px;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .submitButton {
   font-size: 20px;
   padding-top: 20px;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
+
+.form-check-label{
+  font-size: 18px; 
+ }
