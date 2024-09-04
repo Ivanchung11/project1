@@ -14,6 +14,8 @@ window.onload = async () => {
   setupBookmarkButton();
 };
 // ========================================================================================
+
+//==================== the layer with the googlemap =========================
 let customRouteLayer;
 
 function parseWKTLineString(wkt) {
@@ -97,6 +99,7 @@ async function initMap() {
 
 // ========================================================================================
 
+//==================== change the login and register button with the navbar =========================
   async function getProfile(buttonId) {
   const res = await fetch("/profile");
   const data = await res.json();
@@ -143,13 +146,9 @@ async function initMap() {
   });
 }
 
-let isBookmarked = false;
-let isFollowed = false;
+// ========================================================================================
 
-function getRouteId() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("route_id");
-}
+//====================  get detail with the route by route.id =========================
 
 async function getRouteDetails() {
   const path =
@@ -206,6 +205,10 @@ async function getRouteDetails() {
     "created_by"
   ).innerHTML = `<div id="created_by">Created by : ${user_name}</div>`;
 }
+
+// ========================================================================================
+
+//====================  comment =========================
 
 async function getAllComment() {
   const path =
@@ -296,19 +299,6 @@ async function uploadComment() {
 //   isFollowed = data.isFollowed;
 // }
 
-async function checkBookmarkStatus() {
-  const path =
-    "/bookmark?" +
-    new URLSearchParams({
-      routeId: getRouteId(),
-    }).toString();
-  const res = await fetch(path);
-  const data = await res.json();
-
-  console.log("bookmark", data.isBookmarked);
-  isBookmarked = data.isBookmarked;
-}
-
 // function follow() {
 //   let followbtn = document.querySelector("#followBtn");
 //   followbtn.addEventListener("click", async (e) => {
@@ -330,6 +320,26 @@ async function checkBookmarkStatus() {
 //     }
 //   });
 // }
+
+// ========================================================================================
+
+//====================  bookmark and unbookmark=========================
+
+let isBookmarked = false;
+let isFollowed = false;
+
+async function checkBookmarkStatus() {
+  const path =
+    "/bookmark?" +
+    new URLSearchParams({
+      routeId: getRouteId(),
+    }).toString();
+  const res = await fetch(path);
+  const data = await res.json();
+
+  console.log("bookmark", data.isBookmarked);
+  isBookmarked = data.isBookmarked;
+}
 
 function setupBookmarkButton() {
   updateBookmarkButton();
@@ -384,6 +394,11 @@ async function unbookmark() {
   alert(data.message);
 }
 
+// ========================================================================================
+
+//====================  other function =========================
+
+
 function html(data) {
   let html = " ";
   for (let i = 0; i < data.row.length; i++) {
@@ -415,5 +430,7 @@ function MeterToKM(d) {
   return `${km}.${m} KM`;
 }
 
-
-// export {getProfile}
+function getRouteId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("route_id");
+}
