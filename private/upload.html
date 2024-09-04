@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Route Upload</title>
+    <title>Upload</title>
     <link rel="stylesheet" type="text/css" href="./upload.css" />
     <link
       rel="stylesheet"
@@ -40,27 +40,28 @@
         </button>
         <div class="navbar"></div>
         <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <a class="navbar-brand col-lg-3 me-0" href="http://localhost:8080/route.html">Cycling-E</a>
+          <a class="navbar-brand col-lg-3 me-0" href="#">Cycling-E</a>
           <ul class="navbar-nav col-lg-6 justify-content-lg-center">
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/route.html">Route</a>
+              <a class="nav-link active me-1" aria-current="page" href="#"
+                >Route</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/upload.html">Upload</a>
+              <a class="nav-link active me-1" aria-current="page" href="#"
+                >Upload</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/search.html">Search</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
+              <a class="nav-link active me-1" aria-current="page" href="#"
+                >Search</a
+              >
             </li>
           </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-            <div class="login-button">
-            <button class="btn btn-outline-primary">
+            <button class="btn btn-primary me-2">
               Hi <span id="username">??</span>
             </button>
-            </div>
             <button class="btn btn-primary me-1" id="logout">Logout</button>
           </div>
         </div>
@@ -159,11 +160,11 @@
                   class="form-check-input"
                   type="radio"
                   name="isRoad"
-                  id="private"
+                  id="CyclingTracks"
                   value="false"
                   checked
                 />
-                <label class="form-check-label" for="private">
+                <label class="form-check-label" for="CyclingTracks">
                   Cycling Tracks
                 </label>
               </div>
@@ -172,10 +173,10 @@
                   class="form-check-input"
                   type="radio"
                   name="isRoad"
-                  id="public"
+                  id="CarRoad"
                   value="true"
                 />
-                <label class="form-check-label" for="public"> Car Roads </label>
+                <label class="form-check-label" for="CarRoad"> Car Roads </label>
               </div>
             </div>
           </div>
@@ -206,10 +207,10 @@
             <label for="gpx">Upload gpx file below:</label>
             <input type="file" id="gpx" />
           </div>
-          <!-- <div>
-            <label for="photo">上載相片</label>
-            <input type="file" id="photo" />
-          </div> -->
+          <div class="form-group">
+            <label for="photo">Upload photos below:</label>
+            <input type="file" id="photo" multiple/>
+          </div>
           <div class="form-check-1">
             <legend>Publish to our mainpage:&nbsp&nbsp</legend>
             <div class="form-check">
