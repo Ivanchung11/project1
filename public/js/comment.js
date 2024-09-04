@@ -2,7 +2,7 @@ window.onload = async () => {
   // const usernameLabel = document.querySelector("#username");
   await initMap();
 
-  await getProfile();
+  await getProfile("#commentBarBtn");
 
   await getRouteDetails();
 
@@ -97,15 +97,18 @@ async function initMap() {
 
 // ========================================================================================
 
-async function getProfile() {
+  async function getProfile(buttonId) {
   const res = await fetch("/profile");
   const data = await res.json();
   // console.log();
 
-  if (res.ok) {
+  if (data.message == "Please login first.") {
+    // alert(data.message);
+    console.log("please login first");
+  } else {
     const rows = data.row;
     document.querySelector(
-      "#commentBarBtn"
+      buttonId
     ).innerHTML = `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
             <div class="login-button">
             <button class="btn btn-outline-primary" >
@@ -117,13 +120,11 @@ async function getProfile() {
 
     const logout = document.querySelector("#logout");
     Logout();
-  } else {
-    // alert(data.message);
-    console.log("please login first");
+    
   }
 }
 
-async function Logout() {
+ async function Logout() {
   logout.addEventListener("click", async (e) => {
     console.log(e.target);
 
@@ -413,3 +414,6 @@ function MeterToKM(d) {
   let m = Math.floor((d % 1000) / 100);
   return `${km}.${m} KM`;
 }
+
+
+// export {getProfile}

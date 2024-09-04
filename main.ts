@@ -410,7 +410,7 @@ app.delete("/bookmark", async (req: Request, res: Response) => {
 });
 app.get("/profile", async function (req: Request, res: Response) {
   if (req.session.userId == undefined) {
-    res.status(400).json({message: "Please login first."})
+    res.status(200).json({message: "Please login first."})
   } else {
   const userId = req.session.userId;
   // console.log("hahahaaaa",userId);
@@ -424,6 +424,18 @@ app.get("/profile", async function (req: Request, res: Response) {
   }
 });
 
+app.get("/recentRecords", async function (req: Request, res: Response) {
+  const userId = req.session.userId;
+  // console.log("hihhi",userId);
+  
+  const sql = ` 
+  SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path 
+  from route JOIN path_info on route.id = path_info.route_id 
+  JOIN users on route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
+  const result = await pgClient.query(sql,[userId]);
+  const row = result.rows;
+  res.json({row});
+});
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
@@ -446,7 +458,7 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
 app.get("/showAllRoute", async function (req: Request, res: Response) {
   const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id `;
   const result = await pgClient.query(sql);
-  console.log(result);
+  // console.log(result);
   const row = result.rows;
   // console.log(row);
 

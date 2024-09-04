@@ -1,4 +1,4 @@
-
+// import { getProfile } from "./comment.js";
 
 // Initialize and add the map
 let map;
@@ -407,7 +407,9 @@ async function initMap() {
 
 
 initMap();
+getProfile("#routeBarBtn");
 showAllRoute();
+
 
 async function showAllRoute() {
   const res = await fetch("/showAllRoute");
@@ -471,4 +473,51 @@ function createCard(data1,cardId) {
       `;
       }
       document.getElementById(cardId).innerHTML = html
+}
+
+
+async function getProfile(buttonId) {
+  const res = await fetch("/profile");
+  const data = await res.json();
+  // console.log();
+
+  if (data.message == "Please login first.") {
+    // alert(data.message);
+    console.log("please login first");
+  } else {
+    const rows = data.row;
+    document.querySelector(
+      buttonId
+    ).innerHTML = `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
+            <div class="login-button">
+            <button class="btn btn-outline-primary" >
+              <div>Hi&nbsp<span>${rows.name}</span></div>
+              </button>
+            </div>
+            <button class="btn btn-primary me-1" id="logout">Logout</button>
+      </div>`;
+
+    const logout = document.querySelector("#logout");
+    Logout();
+    
+  }
+}
+
+async function Logout() {
+  logout.addEventListener("click", async (e) => {
+    console.log(e.target);
+
+    const res = await fetch("/logout", {
+      method: "get",
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("logout success");
+      window.location = "/route.html";
+    } else {
+      alert("error!!!");
+    }
+  });
 }
