@@ -3,8 +3,8 @@
   
   }
 
-.img {
-    height: 10vh;
+.image {
+    height: 90%;
 }
 
 .image {
@@ -18,8 +18,14 @@
 .title {
     position: absolute;
     text-align: center;
-    /* font-size: 20px; */
+    font-size: 25px;
+    line-height: 2;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+/* .button {
+    
+    
+} */
