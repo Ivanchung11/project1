@@ -1,10 +1,10 @@
 .login-button {
-    margin-right: 11px;
+  margin-right: 11px;
 }
 
 .col-md-8 {
-    height: 800px;
-    margin-top: 50px;
+  height: 900px;
+  margin-top: 30px;
 }
 
 html,
@@ -15,61 +15,79 @@ body,
 }
 
 #header {
-    font-size: 30px;
-    text-align: center;
-    margin-top: 20px;
+  font-size: 32px;
+  text-align: center;
+  margin-top: 15px;
+  color: rgb(49, 108, 244);
+  font-weight: bold;
 }
 
 #start {
-    font-size: 20px; 
-    padding-left: 20px;
+  font-size: 19px;
+  font-weight: bold;
+  padding-left: 20px;
 }
 
 #end {
-    font-size: 20px; 
-    padding-left: 20px;
+  font-size: 19px;
+  font-weight: bold;
+  padding-left: 20px;
 }
 
-#roadtype {
-    font-size: 20px; 
-    padding-left: 20px;  
-}
+/* #roadtype {
+  font-size: 20px;
+  padding-left: 20px;
+} */
 
 #duration {
-    font-size: 20px; 
-    padding-left: 20px;
-    justify-content: center;  
-    align-items: center;  
+  font-size: 19px;
+  font-weight: bold;
+  padding-left: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-group {
-    font-size: 20px; 
-    padding-left: 20px;
-    padding-top: 20px; 
+  font-size: 19px;
+  font-weight: bold;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .uploadPhotoButton {
-    font-size: 20px; 
-    padding-left: 20px;
-    padding-top: 20px; 
+  font-size: 19px;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .form-check-1 {
-    font-size: 20px; 
-    padding-left: 20px;
-    padding-top: 20px; 
+  font-size: 19px;
+  padding-left: 20px;
+  /* padding-top: 20px; */
 }
 
 .form-check-2 {
-    font-size: 20px; 
-    padding-left: 20px;
-    padding-top: 5px; 
+  font-size: 19px;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.form-check-3 {
+  font-size: 19px;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .submitButton {
-    font-size: 20px; 
-    padding-top: 20px; 
-    justify-content: center;  
-    align-items: center;
-    text-align: center;
+  font-size: 20px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+
+.form-check-label{
+  font-size: 18px; 
+ }

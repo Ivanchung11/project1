@@ -40,22 +40,19 @@
         </button>
         <div class="navbar"></div>
         <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <a class="navbar-brand col-lg-3 me-0" href="#">Cycling-E</a>
+          <a class="navbar-brand col-lg-3 me-0" href="http://localhost:8080/route.html">Cycling-E</a>
           <ul class="navbar-nav col-lg-6 justify-content-lg-center">
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Route</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/route.html">Route</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Upload</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/upload.html">Upload</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="#"
-                >Search</a
-              >
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/search.html">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
             </li>
           </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
@@ -77,7 +74,7 @@
             <!-- routename -->
             <div class="startSelection">
               <label for="routeName">Route Name: &nbsp&nbsp</label>
-              <input id="routeName" />
+              <input id="routeName">
             </div>
           </div>
           <br />
@@ -154,7 +151,9 @@
 
           <div id="roadtype">
             <div class="form-check-1">
-              <legend>The Route Mainly Consist of:&nbsp&nbsp</legend>
+              <!-- <div class="roadtype-header"></div> -->
+              <legend style="font-size:19px; font-weight:bold" >The Route Mainly Consist of:&nbsp&nbsp</legend>
+              
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -211,8 +210,8 @@
             <label for="photo">Upload photos below:</label>
             <input type="file" id="photo" multiple/>
           </div>
-          <div class="form-check-1">
-            <legend>Publish to our mainpage:&nbsp&nbsp</legend>
+          <div class="form-check-3">
+            <legend style="font-size:19px; font-weight:bold">Publish to our mainpage:&nbsp&nbsp</legend>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -238,7 +237,7 @@
 
           <div class="submitButton">
             <button type="submit" class="btn btn-primary btn-lg btn-block">
-              提交路線
+              SUBMIT
             </button>
           </div>
         </div>
