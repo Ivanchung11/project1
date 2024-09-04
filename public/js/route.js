@@ -300,9 +300,7 @@ async function initMap() {
   var water ,i;
   let waters = [];
 
-//waterResponse.data.length
-
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < waterResponse.data.length; i++) {
 
 
     const wktPoint = waterResponse.data[i].point;
@@ -415,11 +413,11 @@ async function showAllRoute() {
 const res = await fetch("/showAllRoute");
 const data1= await res.json();
 
-  // console.log(data1);
-  
-  if (res.ok) {
-    createCard(data1,"route-card")
-  }
+console.log(data1.row);
+
+if (res.ok) {
+  createCard(data1,"route-card")
+}
 }
 function createCard(data1,cardId) {
 let html = "";
