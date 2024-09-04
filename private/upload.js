@@ -67,11 +67,8 @@ function uploadRouteListener() {
     let durSec = parseInt(durationString.substring(6));
     let durationTemp = 3600 * durHour + 60 * durMin + durSec;
 
-    console.log("start to submit")
-    console.log(form)
     let isPublic = document.querySelector('input[name="isPublic"]:checked').value
     let isRoad = document.querySelector('input[name="isRoad"]:checked').value
-    console.log(isPublic, isRoad)
 
     formData.append("routeName", form.routeName.value);    //有
     formData.append("description", form.description.value);    //有
@@ -82,9 +79,12 @@ function uploadRouteListener() {
     formData.append("durationTemp", durationTemp);    //有
     formData.append("gpx", form.gpx.files[0]);   //有
 
-    // for (let key in formData){
-    //   console.log(key, ": ", formData[key])
-    // }
+    for (let key in form.photo.files){
+      if (parseInt(key)+1){
+        file = document.getElementById("photo").files[key];
+        formData.append(`photo${key}`, file)
+      }
+    }
 
     let res = await fetch("/uploadroute", {
       method: "post",

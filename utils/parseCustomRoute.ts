@@ -43,8 +43,9 @@ export async function insertroute(routeObj:any) {
   let path = "./data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
-  console.log(gpx.metadata.time);
-  console.log(gpx.tracks[gpx.tracks.length - 1].name);
+  console.log("Meta: ", gpx.metadata);
+  console.log("Time: ", gpx.metadata.time);
+  console.log("Trackname: ", gpx.tracks[gpx.tracks.length - 1].name);
   console.log("=============");
 
   var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;

@@ -218,6 +218,15 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
     };
     console.log(routeObj)
     await parseCustomRoute(routeObj)
+
+    for (let key in data[1]){
+      if (key.includes("photo")){
+        let imagePath = data[1][key]![0].newFilename;
+        let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`
+        await pgClient.query(sql,[routeObj.routeName, imagePath])
+      }
+    }
+
     return res.json({ message: "uploaded" });
   } catch {
     return res.json({ message: "data error" })
