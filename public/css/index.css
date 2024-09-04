@@ -1,7 +1,11 @@
 .login-button {
     margin-right: 11px;
-  
   }
+
+.text {
+    font-family: Arial;
+    font-size: 25px;
+}
 
 .image {
     height: 90%;
