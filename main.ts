@@ -425,6 +425,37 @@ app.get("/showAllRoute", async function (req: Request, res: Response) {
   res.json({row});
 });
 
+app.get("/showRouteDetails", async function (req: Request, res: Response) {
+  const data = req.query;
+  const route_id = data.routeId;
+  // console.log(route_id,"ahsghfhjas");
+  const centresql = `
+  SELECT centre FROM route WHERE id = $1`;
+  const centreResult = await pgClient.query(centresql,[route_id]);
+  const centrePoint = centreResult.rows[0];
+  const sql = `
+  SELECT ST_AsText(location) as point FROM path_info WHERE route_id = $1`;
+  const result = await pgClient.query(sql,[route_id]);
+  let linestring = "";
+  let resultArr = result.rows;
+  
+  
+  for (let element of resultArr){
+    let pointcoord = element.point.replace("POINT(","").replace(")","")
+    linestring = linestring + pointcoord + ","
+  }
+  // console.log(linestring);
+  
+  linestring = linestring.substring(0, linestring.length - 1)
+  linestring = 'LINESTRING(' + linestring + ")";
+  let linestringObj = { path : linestring}
+  let linestringArr = [linestringObj]
+  // console.log(linestringArr);
+  
+
+  res.json({ row: linestringArr , centrePoint:centrePoint});
+});
+
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
     req.session.destroy(() => {

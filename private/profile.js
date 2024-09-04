@@ -63,6 +63,8 @@ function createCard(data1,cardId) {
         // console.log(pathsubstring)
         pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
         arrayPath.push(pathsubstring);
+        console.log(arrayPath);
+        
 
         newpath = arrayPath.join("|");
         // console.log(newpath);

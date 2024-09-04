@@ -195,9 +195,12 @@ async function initMap() {
   const SlopeResponse = await SlopeRes.json();
   for (let i = 0; i < SlopeResponse.data.length; i++) {
     const wktLineString = SlopeResponse.data[i].path;
+// console.log(wktLineString);
 
     // Parse the WKT string
     const coordinates = parseWKTLineString(wktLineString);
+    // console.log(coordinates);
+    
 
     // Create the LineString
     const pathCoordinates = coordinates.map(
@@ -354,6 +357,8 @@ async function initMap() {
   // Example WKT LINESTRING
   const customRouteRes = await fetch("http://localhost:8080/customroute");
   const customRouteResponse = await customRouteRes.json();
+  console.log(customRouteResponse);
+  
   for (let i = 0; i < customRouteResponse.data.length; i++) {
     const wktLineString = customRouteResponse.data[i].path;
 
