@@ -286,6 +286,15 @@ app.post("/search", async function (req: Request, res: Response) {
 
 // =============== route detail page ==================
 
+app.get("/viewCount", async (req: Request, res: Response) => {
+  const data = req.query;
+  const route_id = data.routeId;
+  
+  const sql = `UPDATE route SET view_count = view_count + 1 WHERE id = $1`
+  const result = await pgClient.query(sql, [route_id])
+  res.json({message:"view count + 1"});
+});
+
 app.get("/getRouteDetails", async (req: Request, res: Response) => {
   const data = req.query;
   const route_id = data.routeId;

@@ -415,19 +415,11 @@ async function showAllRoute() {
 const res = await fetch("/showAllRoute");
 const data1= await res.json();
 
-<<<<<<< HEAD
   // console.log(data1);
   
   if (res.ok) {
     createCard(data1,"route-card")
   }
-=======
-console.log(data1.row);
-
-if (res.ok) {
-  createCard(data1,"route-card")
-}
->>>>>>> 22f14ee453c5c74608786f747963572e7523f981
 }
 function createCard(data1,cardId) {
 let html = "";
@@ -475,7 +467,7 @@ for (let i = 0; i < data1.row.length; i++) {
                   <div class="btn-group">
                     <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.id}" role="button">Details</a>
                   </div>
-                  <small class="text-body-secondary">${data.view_count}</small>
+                  <small class="text-body-secondary">${data.view_count} View</small>
                 </div>
               </div>
             </div>
@@ -535,7 +527,6 @@ logout.addEventListener("click", async (e) => {
   }
 });
 }
-
 
 initMap();
 getProfile("#routeBarBtn");
