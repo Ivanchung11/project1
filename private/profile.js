@@ -1,6 +1,7 @@
 window.onload = async () => {
   const usernameLabel = document.querySelector("#username");
   await getProfile(usernameLabel);
+  recentRecords()
   profileBookmark();
 };
 const logout = document.querySelector("#logout");
@@ -18,6 +19,21 @@ async function getProfile(usernameLabel) {
     usernameLabel.innerHTML = rows.name;
   } else {
     alert("error !!!");
+  }
+}
+
+async function recentRecords() {
+  const res = await fetch("/recentRecords");
+  const data1 = await res.json();
+  // console.log(data1);
+  if (res.ok) {
+    if (data1.message === "You Don't Have Any Bookmark Route") {
+      document.getElementById("bookmark-card").innerHTML = `
+      <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
+      `;
+    } else {
+      createCard(data1,"upload-card")
+    }
   }
 }
 
@@ -63,7 +79,7 @@ function createCard(data1,cardId) {
         // console.log(pathsubstring)
         pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
         arrayPath.push(pathsubstring);
-        console.log(arrayPath);
+        // console.log(arrayPath);
         
 
         newpath = arrayPath.join("|");
