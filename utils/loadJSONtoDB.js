@@ -24,6 +24,7 @@ async function parseJsonPoint(jsonpath, dbTable) {
   let theFile = await fs.promises.readFile(theFilePath, "utf8");
 
   theFile = await JSON.parse(theFile);
+  console.log(theFile)
 
   //convert to WKT
   const coordinates = theFile.map((point) => {
@@ -33,8 +34,8 @@ async function parseJsonPoint(jsonpath, dbTable) {
   //save data to sql database
   if (coordinates.length > 0) {
     for (let i = 0; i < coordinates.length; i++) {
-      const query = `INSERT INTO ${dbTable} (point_coordinates) VALUES (ST_GeogFromText($1))`;
-      await client.query(query, [coordinates[i]]);
+      const query = `INSERT INTO ${dbTable} (point_coordinates, facility, location_detail) VALUES (ST_GeogFromText($1), $2, $3)`;
+      await client.query(query, [coordinates[i], theFile[i]["Name of Building/Facility"], theFile[i]["Location of Water Dispenser"]]);
       console.log(i + 1, "th uploaded", coordinates[i]);
     }
   } else {
