@@ -1,6 +1,6 @@
 window.onload = async () => {
     console.log("hello");
-  
+    getProfile("#searchBarBtn")
     searchButtonListener();
   
     let toggles = document.querySelectorAll(".toggle");
@@ -9,43 +9,6 @@ window.onload = async () => {
         console.log(toggle.value);
       });
     }
-  
-    const usernameLabel = document.querySelector("#username");
-  
-    const logoutBtn = document.querySelector("#logout");
-  
-    await getProfile();
-    async function getProfile() {
-      const res = await fetch("/profile");
-      const data = await res.json();
-      // console.log(data.row.username);
-  
-      if (res.ok) {
-        // console.log(data.row.username);
-  
-        const rows = data.row;
-        usernameLabel.innerHTML = rows.name;
-      } else {
-        alert("error !!!");
-      }
-    }
-  
-    const logout = document.getElementById("logout");
-  
-    logout.addEventListener("click", async (e) => {
-      const res = await fetch("/logout", {
-        method: "get",
-      });
-  
-      const data = await res.json();
-  
-      if (res.ok) {
-        alert("logout success");
-        window.location = "/route.html";
-      } else {
-        alert("error!!!");
-      }
-    });
   };
   
   //================================
@@ -100,6 +63,7 @@ window.onload = async () => {
   
       if (res.status == 200) {
         createCard(response, "route-card");
+        window.scrollTo(0, document.body.scrollHeight);
       } else {
         let response = await res.json();
         alert(response.message);
@@ -167,4 +131,51 @@ window.onload = async () => {
   
   //================================SEE ABOVE
   //================================
+
+
+  // ==========change login ang register button on the navbar==========
+async function getProfile(buttonId) {
+  const res = await fetch("/profile");
+  const data = await res.json();
+  // console.log();
   
+  if (data.message == "Please login first.") {
+    // alert(data.message);
+    console.log("please login first");
+  } else {
+    const rows = data.row;
+    document.querySelector(
+      buttonId
+    ).innerHTML = `<div class="d-lg-flex col-lg-3 justify-content-lg-end" id="commentBarBtn">
+            <div class="login-button">
+            <button class="btn btn-outline-primary" >
+              <div>Hi&nbsp<span>${rows.name}</span></div>
+              </button>
+            </div>
+            <button class="btn btn-primary me-1" id="logout">Logout</button>
+      </div>`;
+  
+    const logout = document.querySelector("#logout");
+    Logout();
+    
+  }
+  }
+  
+  async function Logout() {
+  logout.addEventListener("click", async (e) => {
+    console.log(e.target);
+  
+    const res = await fetch("/logout", {
+      method: "get",
+    });
+  
+    const data = await res.json();
+  
+    if (res.ok) {
+      alert("logout success");
+      window.location = "/route.html";
+    } else {
+      alert("error!!!");
+    }
+  });
+  }
