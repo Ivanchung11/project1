@@ -63,6 +63,7 @@ window.onload = async () => {
   
       if (res.status == 200) {
         createCard(response, "route-card");
+        window.scrollTo(0, document.body.scrollHeight);
       } else {
         let response = await res.json();
         alert(response.message);
