@@ -549,7 +549,7 @@ app.get("/profilePhoto", async function (req: Request, res: Response) {
   const userId = req.session.userId;
   // console.log("hihhi",userId);
 
-  const sql = `SELECT image_path from photo where route_id IN (SELECT id from route where (users_id = $1))`;
+  const sql = `SELECT image_path, route_id from photo where route_id IN (SELECT id from route where (users_id = $1))`;
   // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
   const result = await pgClient.query(sql, [userId]);
   // console.log(result);

@@ -59,7 +59,7 @@ async function profilePhoto() {
   const res = await fetch("/profilephoto");
   const data1 = await res.json();
 
-  console.log(data1.row);
+  console.log(data1);
 
   if (res.ok) {
     if (data1.message === "You Don't Have Any Photo") {
@@ -70,7 +70,7 @@ async function profilePhoto() {
       for (let photo of data1.row) {
         console.log(photo)
         document.getElementById("photo-container").innerHTML += `
-        <a href="http://localhost:8080/comment.html?route_id=14"><li
+        <a href="http://localhost:8080/comment.html?route_id=${photo.route_id}"><li
         style="
         background-image: url(./data/${photo.image_path});
         "
