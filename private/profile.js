@@ -92,7 +92,7 @@ function createCard(data1,cardId) {
         html +=  `
           <div class="col">
             <div class="card shadow-sm">
-              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}" >
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}">
               <div class="card-body">
                 <p class="fs-4">${data.route_name}</p>
                 <p class="card-text">${data.description}</p>
