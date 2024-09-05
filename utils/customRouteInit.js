@@ -281,13 +281,11 @@ async function insertroute(routeObj) {
     console.log(midlon, midlat);
 
     let trackCentre = `POINT (${midlon} ${midlat})`;
-    const sql_ctr = `update route set centre = $1
-      where route_name =$2 and users_id = (SELECT id from users where name = $3)`;
-    await pgClient.query(sql_ctr, [
-      trackCentre,
-      routeObj.routeName,
-      routeObj.uploader,
-    ]);
+    let latDiff = maxlat - minlat;
+    // let lonDiff = maxlon - minlon;
+    const sql_ctr = `update route set centre = $1, lat_diff = $2
+      where route_name = $3 and users_id = (SELECT id from users where name = $4)`;
+    await pgClient.query(sql_ctr, [trackCentre, latDiff, routeObj.routeName, routeObj.uploader]);  
   }
 }
 

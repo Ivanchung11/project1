@@ -61,7 +61,7 @@ async function initMap() {
 
     let map = new Map(document.getElementById("map"), {
       center: position,
-      zoom: 11.8
+      zoom: 11.8,
     });
 
   customRouteLayer = new google.maps.Data();

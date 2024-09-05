@@ -45,6 +45,7 @@ CREATE TABLE route(
     distance integer not null,
     duration integer not null,
     centre text null,
+    lat_diff float null,
     view_count integer null,
     public_private boolean not null,
     created_at TIMESTAMP not null default now(),

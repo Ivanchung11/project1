@@ -6,36 +6,36 @@
   margin-right: 11px;
 }
 
-/* The hero image */
-.headerImage {
-  /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
-  background-image: linear-gradient(
-    109.6deg,
-    rgba(0, 0, 0, 0.93) 11.2%,
-    rgb(63, 61, 61) 78.9%
-  );
 
-  /* Set a specific height */
-  /* height: auto;
-    width: 100%; */
-
-  /* Position and center the image to scale nicely on all screens */
-  background-position: center;
-  background-repeat: no-repeat;
+.header {
+  padding: 80px;
+  text-align: center;
+  background-image: url('./search.png');
   background-size: cover;
-  position: relative;
+  background-position: center;
+  height: 250px;
+  font-size: 50px;
+  font-weight: bold;
+  /* display: flex; */
+  align-items: center;
+  color: rgb(255, 255, 255);
+  letter-spacing: 1.5px;
+  /* text-shadow: rgb(255, 255, 255) 5px 0 10px; */
+  /* color: rgb(126, 8, 8);
+  font-size: 30px; */
 }
 
+
 /* Place text in the middle of the image */
-.hero-text {
-  font-size: 80px;
-  text-align: center;
+/* .hero-text {
   position: absolute;
+  text-align: center;
+  font-size: 25px;
+  line-height: 2;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-}
+} */
 
 
 .routeSearch {
@@ -49,20 +49,17 @@
   font-weight: bold;
   font-size: 25px;
   text-align: center;
-  /* background-color: rgb(185, 185, 185); */
-  /* border-bottom: 10px red; */
-  color: rgb(74, 74, 74);
-  padding: 0;
+  color: rgb(49, 108, 244);
+  padding-top: 20px;
 }
 
 .finish-district {
   font-weight: bold;
   font-size: 25px;
   text-align: center;
-  /* background-color: rgb(228, 108, 61); */
-  /* border-bottom: 10px red; */
-  color: rgb(74, 74, 74);
-  padding: 0;
+  color: rgb(49, 108, 244);
+  padding-top: 20px;
+  /* letter-spacing: 1px; */
 }
 
 .list-group-item1 {
@@ -71,7 +68,7 @@
 }
 
 .list-group-item2 {
-  background-color: rgb(200, 200, 200);
+  background-color: rgba(200, 200, 200, 0.5);
   line-height: 3;
 }
 
@@ -81,7 +78,7 @@
 }
 
 .list-group-item4 {
-  background-color: rgb(200, 200, 200);
+  background-color: rgba(200, 200, 200, 0.5);
   line-height: 3;
 }
 
@@ -91,27 +88,27 @@
 }
 
 .list-group-item6 {
-    background-color: rgb(200, 200, 200);
+  /* background-color: rgba(200, 200, 200, 0.5); */
     line-height: 3;
 }
 
 .list-group-item7 {
-    /* background-color: rgb(200, 200, 200); */
+    background-color: rgba(200, 200, 200, 0.5);
     line-height: 3;
 }
 
 .list-group-item8 {
-    background-color: rgb(200, 200, 200);
+    /* background-color: rgba(200, 200, 200, 0.5); */
     line-height: 3;
 }
 
 .list-group-item9 {
-    /* background-color: rgb(200, 200, 200); */
+    background-color: rgba(200, 200, 200, 0.5);
     line-height: 3;
 }
 
 .list-group-item10 {
-    background-color: rgb(200, 200, 200);
+    /* background-color: rgba(200, 200, 200, 0.5); */
     line-height: 3;
 }
 
@@ -133,10 +130,10 @@
 
 .cycling-road {
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
     text-align: center;
-    padding-top: 20px;
-    color: rgb(74, 74, 74);
+    padding-top: 30px;
+    color: rgb(49, 108, 244);
   }
 
 .cycling-road-content {
