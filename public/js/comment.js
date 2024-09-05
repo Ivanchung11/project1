@@ -50,6 +50,7 @@ async function initMap() {
   const data = await res.json();
   let position ;
   let centrePoint = data.centrePoint;
+  console.log(data)
 
   const coord = parseWKTPoint(centrePoint)
   // console.log(coord);
@@ -101,11 +102,7 @@ async function initMap() {
   });
   
 
-  const marker = new google.maps.Marker({ 
-    map, 
-    position: position,
 
-   });
 
 function success(pos) {
   const crd = pos.coords;
@@ -135,11 +132,14 @@ function success(pos) {
   //   title: "A marker using a FontAwesome icon for the glyph.",
   // });
 
-  marker.setPosition({
-    lat: crd.latitude,
-    lng: crd.longitude,
-  });
-
+  // marker.setPosition();
+  const marker = new google.maps.Marker({ 
+    map, 
+    position: {
+      lat: crd.latitude,
+      lng: crd.longitude,
+    },
+   });
   // faMarker.setPosition({
   //   lat: crd.latitude,
   //   lng: crd.longitude,
