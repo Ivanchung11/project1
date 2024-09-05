@@ -214,6 +214,13 @@ async function getRouteDetails() {
   document.getElementById(
     "created_by"
   ).innerHTML = `<div id="created_by">Created by : ${user_name}</div>`;
+
+  for (let photo of (data.photorow)){
+    console.log(photo.image_path)
+    document.getElementById(
+      "photo-container"
+    ).innerHTML += `<img src="./data/${photo.image_path}" alt="Mountains">`;
+  }
 }
 
 // ========================================================================================

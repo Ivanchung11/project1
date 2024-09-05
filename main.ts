@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 import expressSession from "express-session";
 import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
-import formidable from 'formidable'
-import fs from 'fs';
-import parseCustomRoute from "./utils/parseCustomRoute"
+import formidable from "formidable";
+import fs from "fs";
+import parseCustomRoute from "./utils/parseCustomRoute";
 
 dotenv.config();
 
@@ -37,7 +37,6 @@ declare module "express-session" {
   }
 }
 
-
 //  =============== route page  ==================
 
 app.get("/bicycle_route", async (req: Request, res: Response) => {
@@ -49,7 +48,6 @@ app.get("/bicycle_route", async (req: Request, res: Response) => {
 
   res.json({ data: queryResult.rows });
 });
-
 
 app.get("/slope", async (req: Request, res: Response) => {
   let queryResult = await pgClient.query(
@@ -81,23 +79,22 @@ app.get("/water_dispenser", async (req: Request, res: Response) => {
   res.json({ data: queryResult.rows });
 });
 
-
 app.get("/customroute", async (req: Request, res: Response) => {
   let queryResult = await pgClient.query(
     "SELECT route_id as routeId, ST_AsText(location) as point FROM path_info ;"
   );
-  
+
   let linestring = "";
   let resultArr = queryResult.rows;
-  
-  for (let element of resultArr){
-    let pointcoord = element.point.replace("POINT(","").replace(")","")
-    linestring = linestring + pointcoord + ","
+
+  for (let element of resultArr) {
+    let pointcoord = element.point.replace("POINT(", "").replace(")", "");
+    linestring = linestring + pointcoord + ",";
   }
-  linestring = linestring.substring(0, linestring.length - 1)
-  linestring = 'LINESTRING(' + linestring + ")";
-  let linestringObj = { path : linestring}
-  let linestringArr = [linestringObj]
+  linestring = linestring.substring(0, linestring.length - 1);
+  linestring = "LINESTRING(" + linestring + ")";
+  let linestringObj = { path: linestring };
+  let linestringArr = [linestringObj];
 
   res.json({ data: linestringArr });
 });
@@ -110,9 +107,8 @@ app.get("/showAllRoute", async function (req: Request, res: Response) {
   const row = result.rows;
   // console.log(row);
 
-  res.json({row});
+  res.json({ row });
 });
-
 
 //  =============== register page ==================
 
@@ -133,9 +129,9 @@ app.post("/register", async function (req: Request, res: Response) {
   const sql = `INSERT INTO users (name, password, email ) 
   VALUES ('${username}', '${await hashPassword(password)}', '${email}' );`;
   // console.log(sql);
-  
+
   const InsertResult = await pgClient.query(sql);
-  
+
   res.json({ message: "register success" });
 });
 
@@ -162,9 +158,9 @@ app.post("/login", async (req: Request, res: Response) => {
   } else {
     const hashPassword = row.password;
     const checkingPassword = await checkPassword({
-      plainPassword:password ,
-      hashedPassword: hashPassword
-    })
+      plainPassword: password,
+      hashedPassword: hashPassword,
+    });
     if (!checkingPassword) {
       res.status(401).json({ message: "username or password is wrong." });
       return;
@@ -184,25 +180,23 @@ app.post("/login", async (req: Request, res: Response) => {
   // res.json({message:"login success",username:username,password:password})
 });
 
-
 //===========================for uploading
 
-const uploadDir = 'data'
-fs.mkdirSync(uploadDir, { recursive: true })
+const uploadDir = "data";
+fs.mkdirSync(uploadDir, { recursive: true });
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 app.post("/uploadroute", async function (req: Request, res: Response) {
-
   const form = formidable({
     uploadDir,
     keepExtensions: true,
     // maxFiles: 1,
     // maxFileSize: 200 * 1024, // the default limit is 200KB
     // filter: part => part.mimetype?.startsWith('image/') || false,
-  })
+  });
 
-  console.log(req.session)
+  console.log(req.session);
   try {
     let data = await form.parse(req);
     let routeObj = {
@@ -216,79 +210,99 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
       isPublic: data[0].isPublic![0],
       durationTemp: parseInt(data[0].durationTemp![0]),
     };
-    console.log(routeObj)
-    await parseCustomRoute(routeObj)
+    console.log(routeObj);
+    await parseCustomRoute(routeObj);
 
-    for (let key in data[1]){
-      if (key.includes("photo")){
+    for (let key in data[1]) {
+      if (key.includes("photo")) {
         let imagePath = data[1][key]![0].newFilename;
-        let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`
-        await pgClient.query(sql,[routeObj.routeName, imagePath])
-        console.log("photo" + key + "upload.")
+        let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`;
+        await pgClient.query(sql, [routeObj.routeName, imagePath]);
+        console.log("photo" + key + "upload.");
       }
     }
 
     return res.json({ message: "uploaded" });
   } catch {
-    return res.json({ message: "data error" })
+    return res.json({ message: "data error" });
   }
 });
 
 //============================for uploading: end of code
 //===========================
 
-
 //============================
 //===========================CODE FOR SEARCH
 
 app.post("/search", async function (req: Request, res: Response) {
-
-  console.log(req.session)
+  console.log(req.session);
   try {
-  let { startDistricts, endDistricts, isRoads } = req.body
+    let { startDistricts, endDistricts, isRoads } = req.body;
 
-  let AllDistricts = ["Central and Western", "Wan Chai", "Eastern", "Southern",
-    "Yau Tsim Mong", "Sham Shui Po", "Kowloon City", "Wong Tai Sin", "Kwun Tong",
-    "Kwai Tsing", "Tsuen Wan", "Tuen Mun", "Yuen Long", "North", "Tai Po", "Sha Tin",
-    "Sai Kung", "Islands"
-  ]
+    let AllDistricts = [
+      "Central and Western",
+      "Wan Chai",
+      "Eastern",
+      "Southern",
+      "Yau Tsim Mong",
+      "Sham Shui Po",
+      "Kowloon City",
+      "Wong Tai Sin",
+      "Kwun Tong",
+      "Kwai Tsing",
+      "Tsuen Wan",
+      "Tuen Mun",
+      "Yuen Long",
+      "North",
+      "Tai Po",
+      "Sha Tin",
+      "Sai Kung",
+      "Islands",
+    ];
 
-  if (startDistricts == null){
-    startDistricts = AllDistricts
-  }
-  if (endDistricts == null){
-    endDistricts = AllDistricts
-  }
-  if (isRoads == null){
-    isRoads = ["false", "true"]
-  }
+    if (startDistricts == null) {
+      startDistricts = AllDistricts;
+    }
+    if (endDistricts == null) {
+      endDistricts = AllDistricts;
+    }
+    if (isRoads == null) {
+      isRoads = ["false", "true"];
+    }
 
-  let arrayToPsqlStr = function(arr:string[]){
-    let str:string = arr.map((name:string)=>"'"+name+"'").join(",")
-    str = "("+str+")"
-    return str
-  }
+    let arrayToPsqlStr = function (arr: string[]) {
+      let str: string = arr.map((name: string) => "'" + name + "'").join(",");
+      str = "(" + str + ")";
+      return str;
+    };
 
-  startDistricts = arrayToPsqlStr(startDistricts);
-  endDistricts = arrayToPsqlStr(endDistricts);
-  isRoads = arrayToPsqlStr(isRoads);
+    startDistricts = arrayToPsqlStr(startDistricts);
+    endDistricts = arrayToPsqlStr(endDistricts);
+    isRoads = arrayToPsqlStr(isRoads);
 
-  console.log("start: ", startDistricts, "finish: ", endDistricts, "isRoad: ", isRoads)
+    console.log(
+      "start: ",
+      startDistricts,
+      "finish: ",
+      endDistricts,
+      "isRoad: ",
+      isRoads
+    );
 
-  const sql = `SELECT route.id, route_name, description, view_count, centre, json_agg(ST_AsText(path_info.location)) as path
+    const sql = `SELECT route.id, route_name, description, view_count, centre, json_agg(ST_AsText(path_info.location)) as path
   from route  JOIN path_info on route.id = path_info.route_id
   where (star_district_id IN (SELECT id from district WHERE name IN ${startDistricts}))
   and (end_district_id IN (SELECT id from district WHERE name IN ${endDistricts}))
   and (road_bicyle_track IN ${isRoads})
   GROUP BY route.id
-  `
+  `;
 
-  const result = await pgClient.query(sql)
-  let row = result.rows
+    const result = await pgClient.query(sql);
+    let row = result.rows;
 
     return res.json({ message: "see the search results: ", row });
   } catch {
-    return res.json({ message: "data error" })
+    return res.json({ message: "data error" });
   }
 });
 
@@ -299,10 +313,10 @@ app.post("/search", async function (req: Request, res: Response) {
 app.get("/viewCount", async (req: Request, res: Response) => {
   const data = req.query;
   const route_id = data.routeId;
-  
-  const sql = `UPDATE route SET view_count = view_count + 1 WHERE id = $1`
-  const result = await pgClient.query(sql, [route_id])
-  res.json({message:"view count + 1"});
+
+  const sql = `UPDATE route SET view_count = view_count + 1 WHERE id = $1`;
+  const result = await pgClient.query(sql, [route_id]);
+  res.json({ message: "view count + 1" });
 });
 
 app.get("/getRouteDetails", async (req: Request, res: Response) => {
@@ -310,34 +324,39 @@ app.get("/getRouteDetails", async (req: Request, res: Response) => {
   const route_id = data.routeId;
   // console.log(data);
 
-  const sql = 
-  `SELECT users.name AS users_name, route_name, description, distance, duration, view_count, route.created_at, star_district.name AS start_district, end_district.name AS end_district
+  const sql = `SELECT users.name AS users_name, route_name, description, distance, duration, view_count, route.created_at, star_district.name AS start_district, end_district.name AS end_district
 FROM route INNER JOIN users ON route.users_id =users.id 
 INNER JOIN district AS star_district ON route.star_district_id= star_district.id 
 INNER JOIN district AS end_district ON route.end_district_id= end_district.id 
-WHERE route.id = $1;`
-  const result = await pgClient.query(sql, [route_id])
-  const row = result.rows[0]
+WHERE route.id = $1;`;
+  const result = await pgClient.query(sql, [route_id]);
+  const row = result.rows[0];
   // console.log(row);
-  res.json({row});
+
+  const photosql = `SELECT image_path from photo where route_id = $1`;
+  const photoresult = await pgClient.query(photosql, [route_id]);
+  const photorow = photoresult.rows;
+  console.log(photorow)
+
+  res.json({ row, photorow });
 });
 
 app.get("/getAllComment", async (req: Request, res: Response) => {
   const data = req.query;
   const route_id = data.routeId;
   // console.log(data);
-  
-  const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1`
-  const getresult= await pgClient.query(getsql, [route_id]) 
-  const row = getresult.rows
+
+  const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1`;
+  const getresult = await pgClient.query(getsql, [route_id]);
+  const row = getresult.rows;
   // console.log(row);
 
-  res.json({row});
+  res.json({ row });
 });
 
-app.post("/comment", async (req: Request, res: Response) => {  
+app.post("/comment", async (req: Request, res: Response) => {
   if (req.session.userId == undefined) {
-    res.status(500).json({message: "Please login first."})
+    res.status(500).json({ message: "Please login first." });
   } else {
     const data = req.body;
     const users_id = req.session.userId;
@@ -346,19 +365,18 @@ app.post("/comment", async (req: Request, res: Response) => {
     // console.log(content);
     // console.log(users_id);
     // console.log(route_id);
-    
+
     const sql = `INSERT INTO comment (users_id, route_id, content) VALUES ('${users_id}','${route_id}','${content}');`;
     const result = await pgClient.query(sql);
     // console.log(result);
-  
-    const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1;`
-    const getresult= await pgClient.query(getsql, [route_id]) 
-    const row = getresult.rows
+
+    const getsql = `SELECT users.name, content FROM comment INNER JOIN users ON comment.users_id = users.id WHERE route_id =$1;`;
+    const getresult = await pgClient.query(getsql, [route_id]);
+    const row = getresult.rows;
     // console.log(row);
-    
-    res.json({row});
+
+    res.json({ row });
   }
-  
 });
 
 app.get("/showRouteDetails", async function (req: Request, res: Response) {
@@ -367,31 +385,29 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
   // console.log(route_id,"ahsghfhjas");
   const centresql = `
   SELECT centre, lat_diff as latdiff FROM route WHERE id = $1`;
-  const centreResult = await pgClient.query(centresql,[route_id]);
+  const centreResult = await pgClient.query(centresql, [route_id]);
   const centrePoint = centreResult.rows[0].centre;
   const latDiff = centreResult.rows[0].latdiff;
-  console.log(centrePoint, latDiff)
+  console.log(centrePoint, latDiff);
   const sql = `
   SELECT ST_AsText(location) as point FROM path_info WHERE route_id = $1`;
-  const result = await pgClient.query(sql,[route_id]);
+  const result = await pgClient.query(sql, [route_id]);
   let linestring = "";
   let resultArr = result.rows;
-  
-  
-  for (let element of resultArr){
-    let pointcoord = element.point.replace("POINT(","").replace(")","")
-    linestring = linestring + pointcoord + ","
+
+  for (let element of resultArr) {
+    let pointcoord = element.point.replace("POINT(", "").replace(")", "");
+    linestring = linestring + pointcoord + ",";
   }
   // console.log(linestring);
-  
-  linestring = linestring.substring(0, linestring.length - 1)
-  linestring = 'LINESTRING(' + linestring + ")";
-  let linestringObj = { path : linestring}
-  let linestringArr = [linestringObj]
-  // console.log(linestringArr);
-  
 
-  res.json({ row: linestringArr , centrePoint:centrePoint, latDiff: latDiff});
+  linestring = linestring.substring(0, linestring.length - 1);
+  linestring = "LINESTRING(" + linestring + ")";
+  let linestringObj = { path: linestring };
+  let linestringArr = [linestringObj];
+  // console.log(linestringArr);
+
+  res.json({ row: linestringArr, centrePoint: centrePoint, latDiff: latDiff });
 });
 
 // app.get("/follow", async (req: Request, res: Response) => {
@@ -400,13 +416,13 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
 //   const result = await pgClient.query(sql);
 //   const followee_id = result.rows[0].users_id;
 //   console.log(followee_id);
-  
+
 //   if (result.rowCount != null && result.rowCount > 0) {
 //     res.json({isFollowed: true});
 //   } else {
 //     res.json({isFollowed: false});
 //   }
-  
+
 // });
 
 // app.post("/follow", async (req: Request, res: Response) => {
@@ -422,7 +438,7 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
 //     console.log(follower_id);
 //     console.log(followee_id);
 //     console.log(route_id);
-    
+
 //     // const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
 //     // const result = await pgClient.query(sql,[users_id,route_id]);
 //     // console.log(result);
@@ -437,31 +453,31 @@ app.get("/bookmark", async (req: Request, res: Response) => {
   const data = req.query;
   const users_id = req.session.userId;
   const route_id = data.routeId;
-  
+
   const sql = `SELECT * FROM bookmark WHERE users_id = $1 AND route_id = $2;`;
-  const result = await pgClient.query(sql,[users_id,route_id]);
+  const result = await pgClient.query(sql, [users_id, route_id]);
   if (result.rowCount != null && result.rowCount > 0) {
-    res.json({isBookmarked: true});
+    res.json({ isBookmarked: true });
   } else {
-    res.json({isBookmarked: false});
+    res.json({ isBookmarked: false });
   }
 });
 
 app.post("/bookmark", async (req: Request, res: Response) => {
   if (req.session.userId == undefined) {
-    res.status(500).json({message: "Please login first."})
+    res.status(500).json({ message: "Please login first." });
   } else {
     const data = req.body;
     const users_id = req.session.userId;
     const route_id = data.routeId;
     // console.log(users_id);
     // console.log(route_id);
-    
-    const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`
-    const result = await pgClient.query(sql,[users_id,route_id]);
+
+    const sql = `INSERT INTO bookmark (users_id, route_id) VALUES ($1,$2);`;
+    const result = await pgClient.query(sql, [users_id, route_id]);
     // console.log(result);
 
-    res.json({message:"bookmark success"});
+    res.json({ message: "bookmark success" });
   }
 });
 
@@ -471,61 +487,60 @@ app.delete("/bookmark", async (req: Request, res: Response) => {
   const route_id = data.routeId;
   // console.log(users_id);
   // console.log(route_id);
-  
-  const sql = `DELETE FROM bookmark WHERE route_id = $1 AND users_id = $2;`
-  const result = await pgClient.query(sql,[route_id, users_id]);
+
+  const sql = `DELETE FROM bookmark WHERE route_id = $1 AND users_id = $2;`;
+  const result = await pgClient.query(sql, [route_id, users_id]);
   // console.log(result);
 
-  res.json({message:"bookmark deleted"});
-
+  res.json({ message: "bookmark deleted" });
 });
 
 // =============== profile page ==================
 
 app.get("/profile", async function (req: Request, res: Response) {
   if (req.session.userId == undefined) {
-    res.status(200).json({message: "Please login first."})
+    res.status(200).json({ message: "Please login first." });
   } else {
-  const userId = req.session.userId;
-  // console.log("hahahaaaa",userId);
-  
-  const sql = `SELECT id, name FROM users WHERE id = $1`;
-  const result = await pgClient.query(sql, [userId]);
-  const row = result.rows[0];
-  // console.log(row);
+    const userId = req.session.userId;
+    // console.log("hahahaaaa",userId);
 
-  res.json({ message: "profile", row });
+    const sql = `SELECT id, name FROM users WHERE id = $1`;
+    const result = await pgClient.query(sql, [userId]);
+    const row = result.rows[0];
+    // console.log(row);
+
+    res.json({ message: "profile", row });
   }
 });
 
 app.get("/recentRecords", async function (req: Request, res: Response) {
   const userId = req.session.userId;
   // console.log("hihhi",userId);
-  
+
   const sql = ` 
   SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path 
   from route JOIN path_info on route.id = path_info.route_id 
   JOIN users on route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
-  const result = await pgClient.query(sql,[userId]);
+  const result = await pgClient.query(sql, [userId]);
   const row = result.rows;
-  res.json({row});
+  res.json({ row });
 });
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
   // console.log("hihhi",userId);
-  
+
   const sql = ` SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path from route JOIN path_info on route.id = path_info.route_id JOIN bookmark on bookmark.route_id = route.id WHERE bookmark.users_id = $1 GROUP BY route.id `;
   // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
-  const result = await pgClient.query(sql,[userId]);
+  const result = await pgClient.query(sql, [userId]);
   // console.log(result);
   const row = result.rows;
   // console.log(row);
-  
+
   if (result.rowCount != null && result.rowCount > 0) {
-    res.json({ message: "profilebookmark", row});
+    res.json({ message: "profilebookmark", row });
   } else {
-    res.json({ message: "You Don't Have Any Bookmark Route"});
+    res.json({ message: "You Don't Have Any Bookmark Route" });
   }
 });
 
@@ -534,14 +549,14 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
 app.get("/logout", async function (req: Request, res: Response) {
   if (req.session.userId) {
     req.session.destroy(() => {
-      
-      res.json({message:"logout"})
+      res.json({ message: "logout" });
     });
   } else {
-    res.json({message:"you haven't login"})
+    res.json({ message: "you haven't login" });
   }
-  })
+});
 
+app.use("/data",express.static("data"))
 app.use(express.static("public"));
 app.use(isLoggedIn, express.static("private"));
 
