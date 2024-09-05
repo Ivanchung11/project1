@@ -1,6 +1,7 @@
 window.onload = async () => {
     console.log("hello");
     getProfile("#searchBarBtn")
+    allSearchBtnListener()
     searchButtonListener();
   
     let toggles = document.querySelectorAll(".toggle");
@@ -69,6 +70,17 @@ window.onload = async () => {
         alert(response.message);
       }
     });
+  }
+
+  function allSearchBtnListener() {
+    const allBox = document.querySelector("#allCheckBox");
+    allBox.addEventListener("click", (e) => {
+      const startDistrict = document.getElementsByName("startDistrict")
+      for (let i = 0; i < startDistrict.length; i++) {
+        startDistrict[i].setAttribute("checked","true")
+      }
+        
+    })
   }
   
   //================================SEE ABOVE

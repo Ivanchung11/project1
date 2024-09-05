@@ -563,5 +563,5 @@ app.use(isLoggedIn, express.static("private"));
 const PORT = 8080;
 
 app.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}/route.html`);
+  console.log(`Listening at http://localhost:${PORT}/index.html`);
 });

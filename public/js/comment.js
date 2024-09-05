@@ -49,7 +49,7 @@ async function initMap() {
   const res = await fetch(path);
   const data = await res.json();
   let position ;
-  let centrePoint = data.centrePoint.centre;
+  let centrePoint = data.centrePoint;
 
   const coord = parseWKTPoint(centrePoint)
   // console.log(coord);
