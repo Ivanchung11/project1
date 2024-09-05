@@ -2,7 +2,7 @@ window.onload = async () => {
   // const usernameLabel = document.querySelector("#username");
   await initMap();
 
-  changeViewCount()
+  await changeViewCount()
 
   await getProfile("#commentBarBtn");
 
@@ -31,9 +31,15 @@ function parseWKTLineString(wkt) {
   return coordinates;
 }
 
+function parseWKTPoint(wkt) {
+  const matches = wkt.match(/POINT\s*\(([^)]+)\)/);
+  if (!matches) return [];
+  const coord = matches[1];
+  const [lng, lat] = coord.trim().split(" ").map(Number);
+  return { lat, lng };
+}
+
 async function initMap() {
-  
-  let position = { lat: 22.323836184109705, lng: 114.17130198913887 };
   
   const path =
     "/showRouteDetails?" +
@@ -42,20 +48,16 @@ async function initMap() {
     }).toString();
   const res = await fetch(path);
   const data = await res.json();
+  let position ;
   let centrePoint = data.centrePoint.centre;
-  let linestring = "";
-  let centrepointcoord = centrePoint.replace("POINT(","").replace(")","")
-    linestring = linestring + centrepointcoord + ","
-    // console.log(linestring);
 
-    linestring = linestring.substring(7, linestring.length - 1)
-    linestring = 'LINESTRING(' + linestring + ")";
-    // console.log(linestring);
-    const centreCoordinates = parseWKTLineString(linestring);
-    // console.log(centreCoordinates);
-    position = centreCoordinates[0];
+  const coord = parseWKTPoint(centrePoint)
+  // console.log(coord);
+  position = coord
   
   const { Map } = await google.maps.importLibrary("maps");
+  // const { PinElement } = await google.maps.importLibrary("marker");
+  // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     let map = new Map(document.getElementById("map"), {
       center: position,
@@ -73,7 +75,7 @@ async function initMap() {
 
     // Parse the WKT string
     const coordinates = parseWKTLineString(wktLineString);
-    // console.log(coordinates);
+    // console.log(coordinates,coordinates[0],coordinates[111],coordinates[(111*2)],coordinates[(111*3)],coordinates[(111*4)],coordinates[(111*5)]);
 
     // // Create the LineString
     const pathCoordinates = coordinates.map(
@@ -97,6 +99,72 @@ async function initMap() {
       strokeOpacity: 0.7, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
   });
+  
+
+  const marker = new google.maps.Marker({ 
+    map, 
+    position: position,
+
+   });
+
+function success(pos) {
+  const crd = pos.coords;
+
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+
+
+  // const icon = document.createElement("div");
+
+  // icon.innerHTML = '<i class="fa fa-pizza-slice fa-lg"></i>';
+  
+  // const faPin = new PinElement({
+  //   glyph: icon,
+  //   glyphColor: "#ff8300",
+  //   background: "#FFD514",
+  //   borderColor: "#ff8300",
+  // });
+  // const faMarker = new AdvancedMarkerElement({
+  //   map,
+  //   position: {
+  //       lat: crd.latitude,
+  //       lng: crd.longitude,
+  //     },
+  //   content: faPin.element,
+  //   title: "A marker using a FontAwesome icon for the glyph.",
+  // });
+
+  marker.setPosition({
+    lat: crd.latitude,
+    lng: crd.longitude,
+  });
+
+  // faMarker.setPosition({
+  //   lat: crd.latitude,
+  //   lng: crd.longitude,
+  // });
+
+  // Center map to user's position.
+  // map.panTo({
+  //   lat: crd.latitude,
+  //   lng: crd.longitude,
+  // });
+
+  // navigator.geolocation.clearWatch(id);
+}
+
+function error(err) {
+  console.log("change location");
+}
+
+// options = {
+//   enableHighAccuracy: false,
+//   timeout: 1000,
+//   maximumAge: 0,
+// };
+
+id = navigator.geolocation.watchPosition(success, error);
 }
 
 // ========================================================================================
@@ -181,7 +249,7 @@ async function getRouteDetails() {
 
   document.getElementById(
     "route_name"
-  ).innerHTML = `<div id="route_name">Title : ${route_name}</div>`;
+  ).innerHTML = `<div id="route_name">${route_name}</div>`;
   document.getElementById(
     "descripationText"
   ).innerHTML = `<div id="descripationText">${description}</div>`;
@@ -190,19 +258,19 @@ async function getRouteDetails() {
   ).innerHTML = `<div id="created_at">Date : ${created_at}</div>`;
   document.getElementById(
     "distance"
-  ).innerHTML = `<div id="distance">Distance<br>${distance}</div>`;
+  ).innerHTML = `<div id="distance"><b>Distance</b><br>${distance}</div>`;
   document.getElementById(
     "duration"
-  ).innerHTML = `<div id="duration">Duration<br>${duration}</div>`;
+  ).innerHTML = `<div id="duration"><b>Duration</b><br>${duration}</div>`;
   document.getElementById(
     "created_at"
   ).innerHTML = `<div id="created_at">Date : ${created_at}</div>`;
   document.getElementById(
     "start_district"
-  ).innerHTML = `<div id="start_district">Start district<br>${start_district}</div>`;
+  ).innerHTML = `<div id="start_district"><b>Start district</b><br>${start_district}</div>`;
   document.getElementById(
     "end_district"
-  ).innerHTML = `<div id="end_district">Finish district<br>${end_district}</div>`;
+  ).innerHTML = `<div id="end_district"><b>Finish district</b><br>${end_district}</div>`;
   document.getElementById(
     "created_by"
   ).innerHTML = `<div id="created_by">Created by : ${user_name}</div>`;
@@ -245,6 +313,8 @@ function showCommentSection() {
     </div>
     <br>
     `;
+
+    window.scrollTo(0, document.body.scrollHeight);
 
   let uploadbtn = document.querySelector("#uploadBtn");
   uploadbtn.addEventListener("click", async (event) => {
