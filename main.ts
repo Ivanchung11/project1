@@ -366,9 +366,11 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
   const route_id = data.routeId;
   // console.log(route_id,"ahsghfhjas");
   const centresql = `
-  SELECT centre FROM route WHERE id = $1`;
+  SELECT centre, lat_diff as latdiff FROM route WHERE id = $1`;
   const centreResult = await pgClient.query(centresql,[route_id]);
-  const centrePoint = centreResult.rows[0];
+  const centrePoint = centreResult.rows[0].centre;
+  const latDiff = centreResult.rows[0].latdiff;
+  console.log(centrePoint, latDiff)
   const sql = `
   SELECT ST_AsText(location) as point FROM path_info WHERE route_id = $1`;
   const result = await pgClient.query(sql,[route_id]);
@@ -389,7 +391,7 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
   // console.log(linestringArr);
   
 
-  res.json({ row: linestringArr , centrePoint:centrePoint});
+  res.json({ row: linestringArr , centrePoint:centrePoint, latDiff: latDiff});
 });
 
 // app.get("/follow", async (req: Request, res: Response) => {

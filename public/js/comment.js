@@ -42,7 +42,8 @@ async function initMap() {
     }).toString();
   const res = await fetch(path);
   const data = await res.json();
-  let centrePoint = data.centrePoint.centre;
+  console.log(data)
+  let centrePoint = data.centrePoint;
   let linestring = "";
   let centrepointcoord = centrePoint.replace("POINT(","").replace(")","")
     linestring = linestring + centrepointcoord + ","
@@ -54,12 +55,19 @@ async function initMap() {
     const centreCoordinates = parseWKTLineString(linestring);
     // console.log(centreCoordinates);
     position = centreCoordinates[0];
+
+    // ========== RESERVE FOR ZOOMING ADJUSTMENT==========
+    // let latDiff = data.latDiff;
+    // let loglatDiff = Math.log(latDiff) / Math.log(2)
+    // console.log(loglatDiff)
+    // let zoomind = 21.5+(loglatDiff);
+    // console.log(zoomind)
   
   const { Map } = await google.maps.importLibrary("maps");
 
     let map = new Map(document.getElementById("map"), {
       center: position,
-      zoom: 11.8
+      zoom: 11.8,
     });
 
   customRouteLayer = new google.maps.Data();
