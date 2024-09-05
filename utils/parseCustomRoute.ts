@@ -28,7 +28,7 @@ pgClient.connect();
 
 var gpx = new gpxParser(); //Create gpxParser Object
 
-function GFG_Fun(theDate: string) :string{
+function GFG_Fun(theDate: string): string {
   let date = new Date(theDate);
   return (
     "TIMESTAMP '" +
@@ -39,14 +39,14 @@ function GFG_Fun(theDate: string) :string{
   );
 }
 
-export async function insertroute(routeObj:any) {
+export async function insertroute(routeObj: any) {
   let path = "./data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
-  console.log("Meta: ", gpx.metadata);
-  console.log("Time: ", gpx.metadata.time);
-  console.log("Trackname: ", gpx.tracks[gpx.tracks.length - 1].name);
-  console.log("=============");
+  // console.log("Meta: ", gpx.metadata);
+  // console.log("Time: ", gpx.metadata.time);
+  // console.log("Trackname: ", gpx.tracks[gpx.tracks.length - 1].name);
+  // console.log("=============");
 
   var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;
   var totalDistance = distanceArr.total;
@@ -75,16 +75,31 @@ export async function insertroute(routeObj:any) {
         longseg.push(i);
       }
     }
-  } else if (routeObj.durationTemp){
+  } else if (routeObj.durationTemp) {
     duration = routeObj.durationTemp;
   }
 
-  const sql_user = `SELECT name from users where id = $1`
-  let username = await pgClient.query(sql_user, [routeObj.uploaderId])
-  username = username.rows[0].name
+  console.log(routeObj);
+  
+  let sql_alluser = `SELECT name from users`;
+  let allUsername = await pgClient.query(sql_alluser);
+  console.log(allUsername);
 
-  const sql_find = `SELECT * FROM route where route_name = $1 and users_id = (SELECT id from users where name = $2)`;
-  const coincideSearch = await pgClient.query(sql_find, [routeObj.routeName, username]);
+  let sql_user = `SELECT name from users where id = $1`;
+  console.log(routeObj.uploaderId);
+  let username = await pgClient.query(sql_user, [routeObj.uploaderId]);
+  console.log(routeObj.uploaderId, "  ", username);
+
+  username = username.rows[0].name;
+
+  let sql_find = `SELECT * FROM route where route_name = $1 and users_id = (SELECT id from users where name = $2)`;
+  let coincideSearch = await pgClient.query(sql_find, [
+    routeObj.routeName,
+    username,
+  ]);
+
+  console.log([routeObj.routeName, username], coincideSearch.rows);
+
   if (coincideSearch.rows.length == 0) {
     const sql_1 = `INSERT INTO
         route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track,
@@ -104,8 +119,8 @@ export async function insertroute(routeObj:any) {
       // let coordTimes = geopoints[i].time;
       let cumul = distanceArr.cumul[i];
 
-      const sqlWhat = `SELECT id from route where route_name ='${routeObj.routeName}'`
-      const whatResult = await pgClient.query(sqlWhat)
+      const sqlWhat = `SELECT id from route where route_name ='${routeObj.routeName}'`;
+      const whatResult = await pgClient.query(sqlWhat);
       const sql = `Insert into path_info (route_id, location, ele, cumul) 
     values ((SELECT id from route where route_name ='${routeObj.routeName}'), $1, $2, $3)`;
       await pgClient.query(sql, [location, ele, cumul]);
@@ -130,15 +145,12 @@ export async function insertroute(routeObj:any) {
     let trackCentre = `POINT (${midlon} ${midlat})`;
     const sql_ctr = `update route set centre = $1
       where route_name = $2 and users_id = (SELECT id from users where name = $3)`;
-    await pgClient.query(sql_ctr, [
-      trackCentre,
-      routeObj.routeName,
-      username,
-    ]);
+    await pgClient.query(sql_ctr, [trackCentre, routeObj.routeName, username]);
   }
 }
 
 export default async function main(routeObj: any) {
+  
   await insertroute(routeObj);
-  pgClient.end();
+  // await pgClient.end();
 }

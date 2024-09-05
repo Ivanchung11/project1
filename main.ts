@@ -224,6 +224,7 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
         let imagePath = data[1][key]![0].newFilename;
         let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`
         await pgClient.query(sql,[routeObj.routeName, imagePath])
+        console.log("photo" + key + "upload.")
       }
     }
 
