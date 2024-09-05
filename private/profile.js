@@ -1,8 +1,9 @@
 window.onload = async () => {
   const usernameLabel = document.querySelector("#username");
   await getProfile(usernameLabel);
-  recentRecords()
+  recentRecords();
   profileBookmark();
+  profilePhoto();
 };
 const logout = document.querySelector("#logout");
 Logout();
@@ -32,7 +33,7 @@ async function recentRecords() {
       <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
       `;
     } else {
-      createCard(data1,"upload-card")
+      createCard(data1, "upload-card");
     }
   }
 }
@@ -40,56 +41,81 @@ async function recentRecords() {
 async function profileBookmark() {
   const res = await fetch("/profileBookmark");
   const data1 = await res.json();
-  
+
   // console.log(data);
 
   if (res.ok) {
     if (data1.message === "You Don't Have Any Bookmark Route") {
       document.getElementById("bookmark-card").innerHTML = `
-      <div id="nobookmark"><h2>You Don't Have Any Bookmark Route</h2></div>
+      <div id="nobookmark"><h2>You Don't Have Any Bookmark Route.</h2></div>
       `;
     } else {
-      createCard(data1,"bookmark-card")
+      createCard(data1, "bookmark-card");
     }
   }
 }
 
-function createCard(data1,cardId) {
-  let html = "";
-      for (let i = 0; i < data1.row.length; i++) {
-        let data = data1.row[i];
-        let path = data.path;
-      let arrayPath = [];
-      let centrePath = data.centre;
-      let newpath ;
-      // console.log(centrePath);
-      
-      let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
-      centrePathsubstring = centrePathsubstring.split(" ");
-      centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
-      // console.log(centrePathsubstring);
-      // console.log(path.length);
-      let point = Math.ceil((path.length)/90)
-      // console.log(point);
-      
-      for (let i = 0; i < path.length; i = i + point) {
-        let eachpoint = path[i];
-        let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
-        pathsubstring = pathsubstring.split(" ");
-        // console.log(pathsubstring)
-        pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
-        arrayPath.push(pathsubstring);
-        // console.log(arrayPath);
-        
+async function profilePhoto() {
+  const res = await fetch("/profilephoto");
+  const data1 = await res.json();
 
-        newpath = arrayPath.join("|");
-        // console.log(newpath);
+  console.log(data1.row);
+
+  if (res.ok) {
+    if (data1.message === "You Don't Have Any Photo") {
+      document.getElementById("photo-container").innerHTML = `
+      <div id="nophoto"><h2>You Don't Have Any Photo</h2></div>
+      `;
+    } else {
+      for (let photo of data1.row) {
+        console.log(photo)
+        document.getElementById("photo-container").innerHTML += `
+        <a href="http://localhost:8080/comment.html?route_id=14"><li
+        style="
+        background-image: url(./data/${photo.image_path});
+        "
+        ></li></a>
+`;
       }
-      let paths = "color:0x0000ff|weight:5|" + newpath;
-      // console.log(path);
-      let photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=11.5&path=${paths}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
-      // console.log(photo);
-        html +=  `
+    }
+  }
+}
+
+function createCard(data1, cardId) {
+  let html = "";
+  for (let i = 0; i < data1.row.length; i++) {
+    let data = data1.row[i];
+    let path = data.path;
+    let arrayPath = [];
+    let centrePath = data.centre;
+    let newpath;
+    // console.log(centrePath);
+
+    let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
+    centrePathsubstring = centrePathsubstring.split(" ");
+    centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0];
+    // console.log(centrePathsubstring);
+    // console.log(path.length);
+    let point = Math.ceil(path.length / 90);
+    // console.log(point);
+
+    for (let i = 0; i < path.length; i = i + point) {
+      let eachpoint = path[i];
+      let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
+      pathsubstring = pathsubstring.split(" ");
+      // console.log(pathsubstring)
+      pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
+      arrayPath.push(pathsubstring);
+      // console.log(arrayPath);
+
+      newpath = arrayPath.join("|");
+      // console.log(newpath);
+    }
+    let paths = "color:0x0000ff|weight:5|" + newpath;
+    // console.log(path);
+    let photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=11.5&path=${paths}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
+    // console.log(photo);
+    html += `
           <div class="col">
             <div class="card shadow-sm">
               <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}">
@@ -106,8 +132,8 @@ function createCard(data1,cardId) {
             </div>
           </div>
       `;
-      }
-      document.getElementById(cardId).innerHTML = html
+  }
+  document.getElementById(cardId).innerHTML = html;
 }
 
 function Logout() {

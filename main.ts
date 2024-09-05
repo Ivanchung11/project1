@@ -544,6 +544,25 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
   }
 });
 
+
+app.get("/profilePhoto", async function (req: Request, res: Response) {
+  const userId = req.session.userId;
+  // console.log("hihhi",userId);
+
+  const sql = `SELECT image_path from photo where route_id IN (SELECT id from route where (users_id = $1))`;
+  // const sql = `SELECT route_name, description, view_count FROM route INNER JOIN bookmark ON bookmark.route_id = route.id WHERE bookmark.users_id = $1`
+  const result = await pgClient.query(sql, [userId]);
+  // console.log(result);
+  const row = result.rows;
+  // console.log(row);
+
+  if (result.rowCount != null && result.rowCount > 0) {
+    res.json({ message: "profilephoto", row });
+  } else {
+    res.json({ message: "You Don't Have Any Photo" });
+  }
+});
+
 // =============== logout button ==================
 
 app.get("/logout", async function (req: Request, res: Response) {
