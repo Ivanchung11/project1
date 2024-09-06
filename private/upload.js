@@ -75,7 +75,7 @@ function uploadRouteListener() {
     ).value;
     let isRoad = document.querySelector('input[name="isRoad"]:checked');
 
-    if ((routeNameInputBox.value = "")) {
+    if ((routeNameInputBox.value == "")) {
       alert("Please enter a route name.");
     } else if (startDistrictSelectBox.value == "dummy") {
       alert("Please choose the district of starting point.");
