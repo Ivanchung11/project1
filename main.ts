@@ -518,13 +518,50 @@ app.get("/recentRecords", async function (req: Request, res: Response) {
   // console.log("hihhi",userId);
 
   const sql = ` 
-  SELECT route.id, route_name,description,view_count,centre,json_agg(ST_AsText(path_info.location)) as path 
-  from route JOIN path_info on route.id = path_info.route_id 
-  JOIN users on route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
+  SELECT route.id, route_name,description,view_count,route.public_private,centre,json_agg(ST_AsText(path_info.location)) as path 
+  FROM route JOIN path_info ON route.id = path_info.route_id 
+  JOIN users ON route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows;
   res.json({ row });
 });
+
+
+app.put("/changeToPrivate", async function (req: Request, res: Response) {
+  const userId = req.session.userId;
+  const data = req.body
+  const routeId = data.routeId;
+  // console.log(routeId,userId);
+  
+  const sql = ` 
+UPDATE route SET public_private = false
+FROM users
+WHERE route.users_id = users.id
+AND users.id = $1 AND route.id =$2`;
+  const result = await pgClient.query(sql, [userId,routeId])
+  // console.log(result.rows);
+  
+  res.json({ message: "change to private" });
+  // return;
+})
+
+app.put("/changeToPublic", async function (req: Request, res: Response) {
+  const userId = req.session.userId;
+  const data = req.body
+  const routeId = data.routeId;
+  // console.log(routeId,userId);
+  
+  const sql = ` 
+UPDATE route SET public_private = true
+FROM users
+WHERE route.users_id = users.id
+AND users.id = $1 AND route.id =$2`;
+  const result = await pgClient.query(sql, [userId,routeId])
+  // console.log(result.rows);
+  
+  res.json({ message: "change to public"});
+  // return;
+})
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;

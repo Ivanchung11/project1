@@ -304,7 +304,7 @@ async function initMap() {
 
 
     const wktPoint = waterResponse.data[i].point;
-    console.log(waterResponse.data[i])
+    // console.log(waterResponse.data[i])
 
     // Parse the WKT point into {latlng}
     const coord = parseWKTPoint(wktPoint);
@@ -430,7 +430,7 @@ for (let i = 0; i < data1.row.length; i++) {
     let newpath ;
     // console.log(isPublic);
 
-    // if (isPublic) {
+    if (isPublic) {
       let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
       centrePathsubstring = centrePathsubstring.split(" ");
       centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0]
@@ -473,9 +473,9 @@ for (let i = 0; i < data1.row.length; i++) {
       `;
       
       document.getElementById(cardId).innerHTML = html
-    // } else {
-    //   console.log("this is private route");
-    // }
+    } else {
+      console.log("this is private route");
+    }
 }
 }
 
