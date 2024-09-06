@@ -45,22 +45,25 @@
   padding: 20px;
 }
 
-.start-district {
+.start-district, .finish-district, .no-result{
   font-weight: bold;
   font-size: 25px;
   text-align: center;
   color: rgb(49, 108, 244);
   padding-top: 20px;
 }
+/* letter-spacing: 1px; */
 
-.finish-district {
+.no-result {
   font-weight: bold;
-  font-size: 25px;
+  font-size: 18px;
   text-align: center;
-  color: rgb(49, 108, 244);
+  color: rgb(72, 72, 72);
   padding-top: 20px;
-  /* letter-spacing: 1px; */
-}
+  height: 100px;
+  border: 1px solid rgb(72, 72, 72);
+} 
+
 
 .select-all{
   font-weight: bolder;
