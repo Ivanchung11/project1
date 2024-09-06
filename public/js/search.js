@@ -1,165 +1,164 @@
 window.onload = async () => {
-    console.log("hello");
-    getProfile("#searchBarBtn")
-    searchButtonListener();
-  
-    let toggles = document.querySelectorAll(".toggle");
-    for (let toggle of toggles) {
-      toggle.addEventListener("click", () => {
-        console.log(toggle.value);
-      });
-    }
-  };
-  
-  //================================
-  //================================SEE BELOW
-  
-  function searchButtonListener() {
-    let searchForm = document.querySelector("#search-form");
-    searchForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-  
-      let form = event.currentTarget;
-  
-      // let startDistricts = document.querySelectorAll('input[name="startDistrict"]:checked')
-  
-      function getCheckedBoxes(chkboxName) {
-        var checkboxes = document.getElementsByName(chkboxName);
-        var checkboxesChecked = [];
-        // loop over them all
-        for (var i = 0; i < checkboxes.length; i++) {
-          // And stick the checked ones onto an array...
-          if (checkboxes[i].checked) {
-            checkboxesChecked.push(checkboxes[i].value);
-          }
-        }
-        // Return the array if it is non-empty, or null
-        return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-      }
-  
-      // Call as
-      let startDistricts = getCheckedBoxes("startDistrict");
-      let endDistricts = getCheckedBoxes("endDistrict");
-      let isRoads = getCheckedBoxes("isRoad");
-  
-      let formObject = {
-        startDistricts,
-        endDistricts,
-        isRoads,
-      };
-  
-      console.log(formObject);
-  
-      let res = await fetch("/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formObject),
-      });
-  
-      let response = await res.json();
-      console.log(response.row.length)
-  
-      if (res.status == 200) {
-        createCard(response, "route-card");
-        window.scrollTo(0, 410);
-      } else {
-        let response = await res.json();
-        alert(response.message);
-      }
+  console.log("hello");
+  getProfile("#searchBarBtn");
+  searchButtonListener();
+
+  let toggles = document.querySelectorAll(".toggle");
+  for (let toggle of toggles) {
+    toggle.addEventListener("click", () => {
+      console.log(toggle.value);
     });
   }
-  
-   //=============== click all search with start/end dirtrict =================
-   
-   const checkStatusStart = document.getElementById("allCheckBoxStart")
-   const checkStatusEnd = document.getElementById("allCheckBoxEnd")
-   const startDistrict = document.getElementsByName("startDistrict")
-   const endDistrict = document.getElementsByName("endDistrict")
-   const isRoad = document.getElementsByName("isRoad")
-   
-   
-   const startAllBox = document.querySelector("#allCheckBoxStart");
-   startAllBox.addEventListener("click", (e) => {
+};
 
-    
-    if (checkStatusStart.checked) {
-      loopAllBox(startDistrict,true)
-        console.log("true");
-        return;
-    } else {
-      loopAllBox(startDistrict,false)
-    }
-  })
+//================================
+//================================SEE BELOW
 
-  const endAllBox = document.querySelector("#allCheckBoxEnd");
-  endAllBox.addEventListener("click", (e) => {
+function searchButtonListener() {
+  let searchForm = document.querySelector("#search-form");
+  searchForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-    if (checkStatusEnd.checked) {
-      loopAllBox(endDistrict,true)
-        console.log("true");
-        return;
-    } else {
-      loopAllBox(endDistrict,false)
-    }
-  })
-    
-  function loopAllBox(district,true_false) {
-    for (let i = 0; i < district.length; i++) {
-      district[i].checked = true_false;
+    let form = event.currentTarget;
+
+    // let startDistricts = document.querySelectorAll('input[name="startDistrict"]:checked')
+
+    function getCheckedBoxes(chkboxName) {
+      var checkboxes = document.getElementsByName(chkboxName);
+      var checkboxesChecked = [];
+      // loop over them all
+      for (var i = 0; i < checkboxes.length; i++) {
+        // And stick the checked ones onto an array...
+        if (checkboxes[i].checked) {
+          checkboxesChecked.push(checkboxes[i].value);
+        }
       }
+      // Return the array if it is non-empty, or null
+      return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+    }
+
+    // Call as
+    let startDistricts = getCheckedBoxes("startDistrict");
+    let endDistricts = getCheckedBoxes("endDistrict");
+    let isRoads = getCheckedBoxes("isRoad");
+
+    let formObject = {
+      startDistricts,
+      endDistricts,
+      isRoads,
+    };
+
+    console.log(formObject);
+
+    let res = await fetch("/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formObject),
+    });
+
+    let response = await res.json();
+
+    if (res.status == 200) {
+      console.log(response.row.length);
+      if (response.row.length == 0) {
+        document.querySelector("#route-card").innerHTML =
+          `<div class="no-result">No result for the above searching criteria.</div>`;
+      } else {
+        createCard(response, "route-card");
+        window.scrollTo(0, 410);
+      }
+    } else {
+      let response = await res.json();
+      alert(response.message);
+    }
+  });
+}
+
+//=============== click all search with start/end dirtrict =================
+
+const checkStatusStart = document.getElementById("allCheckBoxStart");
+const checkStatusEnd = document.getElementById("allCheckBoxEnd");
+const startDistrict = document.getElementsByName("startDistrict");
+const endDistrict = document.getElementsByName("endDistrict");
+const isRoad = document.getElementsByName("isRoad");
+
+const startAllBox = document.querySelector("#allCheckBoxStart");
+startAllBox.addEventListener("click", (e) => {
+  if (checkStatusStart.checked) {
+    loopAllBox(startDistrict, true);
+    console.log("true");
+    return;
+  } else {
+    loopAllBox(startDistrict, false);
   }
+});
 
-  //=============== reset search =================
+const endAllBox = document.querySelector("#allCheckBoxEnd");
+endAllBox.addEventListener("click", (e) => {
+  if (checkStatusEnd.checked) {
+    loopAllBox(endDistrict, true);
+    console.log("true");
+    return;
+  } else {
+    loopAllBox(endDistrict, false);
+  }
+});
 
-    const restBtn = document.querySelector("#resetBtn")
-    restBtn.addEventListener("click", (e) => {
-  
-      loopAllBox(isRoad,false)
-      loopAllBox(startDistrict,false)
-      loopAllBox(endDistrict,false)
-      
-    })
-  
-  //================================SEE ABOVE
-  //================================
-  
-  function createCard(data1, cardId) {
-    let html = "";
-    console.log(data1)
-    for (let i = 0; i < data1.row.length; i++) {
-      let data = data1.row[i];
-      let path = data.path;
-      let arrayPath = [];
-      let centrePath = data.centre;
-      let newpath;
-      // console.log(centrePath);
-  
-      let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
-      centrePathsubstring = centrePathsubstring.split(" ");
-      centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0];
-      // console.log(centrePathsubstring);
-      // console.log(path.length);
-      let point = Math.ceil(path.length / 90);
-      // console.log(point);
-  
-      for (let i = 0; i < path.length; i = i + point) {
-        let eachpoint = path[i];
-        let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
-        pathsubstring = pathsubstring.split(" ");
-        // console.log(pathsubstring)
-        pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
-        arrayPath.push(pathsubstring);
-  
-        newpath = arrayPath.join("|");
-        // console.log(newpath);
-      }
-      let paths = "color:0x0000ff|weight:5|" + newpath;
-      // console.log(path);
-      let photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=11.5&path=${paths}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
-      // console.log(photo);
-      html += `
+function loopAllBox(district, true_false) {
+  for (let i = 0; i < district.length; i++) {
+    district[i].checked = true_false;
+  }
+}
+
+//=============== reset search =================
+
+const restBtn = document.querySelector("#resetBtn");
+restBtn.addEventListener("click", (e) => {
+  loopAllBox(isRoad, false);
+  loopAllBox(startDistrict, false);
+  loopAllBox(endDistrict, false);
+});
+
+//================================SEE ABOVE
+//================================
+
+function createCard(data1, cardId) {
+  let html = "";
+  console.log(data1);
+  for (let i = 0; i < data1.row.length; i++) {
+    let data = data1.row[i];
+    let path = data.path;
+    let arrayPath = [];
+    let centrePath = data.centre;
+    let newpath;
+    // console.log(centrePath);
+
+    let centrePathsubstring = centrePath.substring(7, centrePath.length - 1);
+    centrePathsubstring = centrePathsubstring.split(" ");
+    centrePathsubstring = centrePathsubstring[1] + "," + centrePathsubstring[0];
+    // console.log(centrePathsubstring);
+    // console.log(path.length);
+    let point = Math.ceil(path.length / 90);
+    // console.log(point);
+
+    for (let i = 0; i < path.length; i = i + point) {
+      let eachpoint = path[i];
+      let pathsubstring = eachpoint.substring(6, eachpoint.length - 1);
+      pathsubstring = pathsubstring.split(" ");
+      // console.log(pathsubstring)
+      pathsubstring = pathsubstring[1] + "," + pathsubstring[0];
+      arrayPath.push(pathsubstring);
+
+      newpath = arrayPath.join("|");
+      // console.log(newpath);
+    }
+    let paths = "color:0x0000ff|weight:5|" + newpath;
+    // console.log(path);
+    let photo = `https://maps.googleapis.com/maps/api/staticmap?size=400x400&center=${centrePathsubstring}&zoom=11.5&path=${paths}&key=AIzaSyCo1JCRkidb9kvtuz2gOAKgYwQvyMavfVM`;
+    // console.log(photo);
+    html += `
             <div class="col">
               <div class="card shadow-sm">
                 <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="${photo}" >
@@ -176,20 +175,19 @@ window.onload = async () => {
               </div>
             </div>
         `;
-    }
-    document.getElementById(cardId).innerHTML = html;
   }
-  
-  //================================SEE ABOVE
-  //================================
+  document.getElementById(cardId).innerHTML = html;
+}
 
+//================================SEE ABOVE
+//================================
 
-  // ==========change login ang register button on the navbar==========
+// ==========change login ang register button on the navbar==========
 async function getProfile(buttonId) {
   const res = await fetch("/profile");
   const data = await res.json();
   // console.log();
-  
+
   if (data.message == "Please login first.") {
     // alert(data.message);
     console.log("please login first");
@@ -205,23 +203,22 @@ async function getProfile(buttonId) {
             </div>
             <button class="btn btn-primary me-1" id="logout">Logout</button>
       </div>`;
-  
+
     const logout = document.querySelector("#logout");
     Logout();
-    
   }
-  }
-  
-  async function Logout() {
+}
+
+async function Logout() {
   logout.addEventListener("click", async (e) => {
     console.log(e.target);
-  
+
     const res = await fetch("/logout", {
       method: "get",
     });
-  
+
     const data = await res.json();
-  
+
     if (res.ok) {
       alert("logout success");
       window.location = "/route.html";
@@ -229,4 +226,4 @@ async function getProfile(buttonId) {
       alert("error!!!");
     }
   });
-  }
+}

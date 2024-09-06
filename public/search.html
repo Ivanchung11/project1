@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Route Search</title>
 
     <link rel="stylesheet" type="text/css" href="./css/search.css" />
@@ -21,39 +21,87 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-  
-          <div class="collapse navbar-collapse d-lg-flex" id="navbar">
-            <a class="navbar-brand col-lg-3 me-0" href="http://localhost:8080/route.html">Cycling-E</a>
-            <ul class="navbar-nav col-lg-6 justify-content-lg-center">
-              <li class="nav-item">
-                <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/route.html">Route</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/upload.html">Upload</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/search.html">Search</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
-              </li>
-            </ul>
-            
-            <div class="d-lg-flex col-lg-3 justify-content-lg-end" id="searchBarBtn">
-              <div class="login-button">
-                <a class="btn btn-outline-primary" href="http://localhost:8080/login.html" role="button">Login</a>
-              </div>
-              <a class="btn btn-primary" href="http://localhost:8080/register.html" role="button">Register</a>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg bg-body-tertiary rounded"
+      aria-label="Thirteenth navbar example"
+    >
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsExample11"
+          aria-controls="navbarsExample11"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-lg-flex" id="navbar">
+          <a
+            class="navbar-brand col-lg-3 me-0"
+            href="http://localhost:8080/route.html"
+            >Cycling-E</a
+          >
+          <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+            <li class="nav-item">
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/route.html"
+                >Route</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/upload.html"
+                >Upload</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/search.html"
+                >Search</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/profile.html"
+                >Profile</a
+              >
+            </li>
+          </ul>
+
+          <div
+            class="d-lg-flex col-lg-3 justify-content-lg-end"
+            id="searchBarBtn"
+          >
+            <div class="login-button">
+              <a
+                class="btn btn-outline-primary"
+                href="http://localhost:8080/login.html"
+                role="button"
+                >Login</a
+              >
             </div>
+            <a
+              class="btn btn-primary"
+              href="http://localhost:8080/register.html"
+              role="button"
+              >Register</a
+            >
           </div>
         </div>
+      </div>
     </nav>
 
     <header class="header">
@@ -61,103 +109,332 @@
       <!-- <img src="./image/search.jpg" width="100%" height="300px"> -->
     </header>
 
-    
     <!-- <div class="routeSearch">Route Search</div> -->
     <form id="search-form">
-    <div class="row">
-      <div class="start col-lg-6">
-        <div class="start-district">Start District</div>
-            <label class="list-group-item1 d-flex gap-2 align-items-center justify-content-center">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Central and Western" name="startDistrict" >Central and Western
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Wan Chai" name="startDistrict" >Wan Chai
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Eastern" name="startDistrict">Eastern
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Southern" name="startDistrict">Southern
-            </label>
-            <label class="list-group-item2 d-flex gap-2 align-items-center justify-content-center">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Yau Tsim Mong" name="startDistrict">Yau Tsim Mong
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Sham Shui Po" name="startDistrict">Sham Shui Po
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Kowloon City" name="startDistrict">Kowloon City
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Wong Tai Sin" name="startDistrict">Wong Tai Sin     
-            </label>
-              <label class="list-group-item3 d-flex gap-2 align-items-center justify-content-center">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Kwun Tong" name="startDistrict">Kwun Tong
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Kwai Tsing" name="startDistrict">Kwai Tsing
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Tsuen Wan" name="startDistrict">Tsuen Wan
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Tuen Mun" name="startDistrict">Tuen Mun     
-            </label>
-              <label class="list-group-item4 d-flex gap-2 align-items-center justify-content-center">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Yuen Long" name="startDistrict">Yuen Long
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="North" name="startDistrict">North
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Tai Po" name="startDistrict">Tai Po
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Sha Tin" name="startDistrict">Sha Tin     
-            </label>
-              <label class="list-group-item5 d-flex gap-2 align-items-center justify-content-center">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Sai Kung" name="startDistrict">Sai Kung
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="Islands" name="startDistrict">Islands
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="All" name="startDistrict" id="allCheckBoxStart">All
-            </label>
-      </div>
-      
-      <div class="finish col-lg-6">
-        <div class="finish-district">Finish District</div>
-          <label class="list-group-item6 d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Central and Western" >Central and Western
-          <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Wan Chai" >Wan Chai
-          <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Eastern" >Eastern
-          <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Southern" >Southern
-          </label>
-          <label class="list-group-item7 d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="" >Yau Tsim Mong
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Sham Shui Po" >Sham Shui Po
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="" >Kowloon City
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="" >Wong Tai Sin     
-          </label>
-          <label class="list-group-item8 d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="" >Kwun Tong
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="" >Kwai Tsing
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Tsuen Wan" >Tsuen Wan
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Tuen Mun" >Tuen Mun     
-          </label>
-          <label class="list-group-item9 d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Yuen Long" >Yuen Long
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="North" >North
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Tai Po" >Tai Po
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Sha Tin" >Sha Tin     
-          </label>
-          <label class="list-group-item10 d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Sai Kung" >Sai Kung
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="endDistrict" value="Islands" > Islands
-            <input class="form-check-input flex-shrink-0" type="checkbox" value="All" name="endDistrict" id="allCheckBoxEnd">All
-          </label>
-      </div>
-    </div>  
-
-        <div class="cycling-road">Route Mainly Consist</div>
-        <div class="cycling-road-content">
-          <label class="list-group-item d-flex gap-2 align-items-center justify-content-center">
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="isRoad" value="false" >
-            Cycling Tracks&nbsp;&nbsp;
-            <input class="form-check-input flex-shrink-0" type="checkbox" name="isRoad" value="true" >
-            Car Roads&nbsp;&nbsp;
-            </label>
-            </div>
-        </div> 
-        
-        <div class="center-button">
-          <label class="list-group-item d-flex gap-3 align-items-center justify-content-center">
-            <button type="button" class="btn btn-outline-primary" id="resetBtn">Reset</button>
-            <button class="btn btn-primary" type="submit">Submit</button>
-          </label>
+      <div class="row">
+        <div class="start col-lg-6">
+          <div class="start-district">Start District</div>
+          <div
+            class="list-group-item1 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Central and Western"
+              name="startDistrict"
+            />Central and Western&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Wan Chai"
+              name="startDistrict"
+            />Wan Chai&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Eastern"
+              name="startDistrict"
+            />Eastern&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Southern"
+              name="startDistrict"
+            />Southern
           </div>
-        </form>
-
-
-        <br>
-        <div class="container">
-         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="route-card">
-        </div> 
+          <div
+            class="list-group-item2 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Yau Tsim Mong"
+              name="startDistrict"
+            />Yau Tsim Mong&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Sham Shui Po"
+              name="startDistrict"
+            />Sham Shui Po&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Kowloon City"
+              name="startDistrict"
+            />Kowloon City&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Wong Tai Sin"
+              name="startDistrict"
+            />Wong Tai Sin
+          </div>
+          <div
+            class="list-group-item3 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Kwun Tong"
+              name="startDistrict"
+            />Kwun Tong&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Kwai Tsing"
+              name="startDistrict"
+            />Kwai Tsing&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Tsuen Wan"
+              name="startDistrict"
+            />Tsuen Wan&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Tuen Mun"
+              name="startDistrict"
+            />Tuen Mun
+          </div>
+          <div
+            class="list-group-item4 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Yuen Long"
+              name="startDistrict"
+            />Yuen Long&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="North"
+              name="startDistrict"
+            />North&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Tai Po"
+              name="startDistrict"
+            />Tai Po&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Sha Tin"
+              name="startDistrict"
+            />Sha Tin
+          </div>
+          <div
+            class="list-group-item5 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Sai Kung"
+              name="startDistrict"
+            />Sai Kung&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="Islands"
+              name="startDistrict"
+            />Islands&nbsp&nbsp
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="All"
+              name="startDistrict"
+              id="allCheckBoxStart"
+            /><span class="select-all">SELECT ALL</span>
+          </div>
         </div>
-        
-</body>
-<script type="module" src="./js/search.js"></script>
+
+        <div class="finish col-lg-6">
+          <div class="finish-district">Finish District</div>
+          <div
+            class="list-group-item6 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Central and Western"
+            />Central and Western
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Wan Chai"
+            />Wan Chai
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Eastern"
+            />Eastern
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Southern"
+            />Southern
+          </div>
+          <div
+            class="list-group-item7 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value=""
+            />Yau Tsim Mong
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Sham Shui Po"
+            />Sham Shui Po
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value=""
+            />Kowloon City
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value=""
+            />Wong Tai Sin
+          </div>
+          <div
+            class="list-group-item8 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value=""
+            />Kwun Tong
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value=""
+            />Kwai Tsing
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Tsuen Wan"
+            />Tsuen Wan
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Tuen Mun"
+            />Tuen Mun
+          </div>
+          <div
+            class="list-group-item9 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Yuen Long"
+            />Yuen Long
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="North"
+            />North
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Tai Po"
+            />Tai Po
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Sha Tin"
+            />Sha Tin
+          </div>
+          <div
+            class="list-group-item10 d-flex gap-2 align-items-center justify-content-center"
+          >
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Sai Kung"
+            />Sai Kung
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              name="endDistrict"
+              value="Islands"
+            />
+            Islands
+            <input
+              class="form-check-input flex-shrink-0"
+              type="checkbox"
+              value="All"
+              name="endDistrict"
+              id="allCheckBoxEnd"
+            /><span class="select-all">SELECT ALL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cycling-road">Route Mainly Consist Of</div>
+      <div class="cycling-road-content">
+        <div
+          class="list-group-item d-flex gap-2 align-items-center justify-content-center"
+        >
+          <input
+            class="form-check-input flex-shrink-0"
+            type="checkbox"
+            name="isRoad"
+            value="false"
+            checked
+          />
+          Cycling Tracks&nbsp;&nbsp;
+          <input
+            class="form-check-input flex-shrink-0"
+            type="checkbox"
+            name="isRoad"
+            value="true"
+            checked
+          />
+          Car Roads&nbsp;&nbsp;
+        </div>
+      </div>
+
+      <div class="center-button">
+        <div
+          class="list-group-item d-flex gap-3 align-items-center justify-content-center"
+        >
+          <button type="button" class="btn btn-outline-primary" id="resetBtn">
+            Reset
+          </button>
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+
+    <br />
+    <div class="container">
+      <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
+        id="route-card"
+      ></div>
+    </div>
+  </body>
+  <script type="module" src="./js/search.js"></script>
 </html>

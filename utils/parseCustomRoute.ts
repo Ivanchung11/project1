@@ -43,10 +43,6 @@ export async function insertroute(routeObj: any) {
   let path = "./data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
-  // console.log("Meta: ", gpx.metadata);
-  // console.log("Time: ", gpx.metadata.time);
-  // console.log("Trackname: ", gpx.tracks[gpx.tracks.length - 1].name);
-  // console.log("=============");
 
   var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;
   var totalDistance = distanceArr.total;
@@ -79,16 +75,15 @@ export async function insertroute(routeObj: any) {
     duration = routeObj.durationTemp;
   }
 
-  console.log(routeObj);
+  console.log("routeObj: ", routeObj);
   
   let sql_alluser = `SELECT name from users`;
   let allUsername = await pgClient.query(sql_alluser);
-  console.log(allUsername);
+  console.log("allUsername: ", allUsername.rows);
 
   let sql_user = `SELECT name from users where id = $1`;
-  console.log(routeObj.uploaderId);
   let username = await pgClient.query(sql_user, [routeObj.uploaderId]);
-  console.log(routeObj.uploaderId, "  ", username);
+  console.log("routeObj.uploaderId, username: ", routeObj.uploaderId, ", ", username.rows);
 
   username = username.rows[0].name;
 
@@ -98,7 +93,7 @@ export async function insertroute(routeObj: any) {
     username,
   ]);
 
-  console.log([routeObj.routeName, username], coincideSearch.rows);
+  console.log("with coincideSearch: ", [routeObj.routeName, username], coincideSearch.rows);
 
   if (coincideSearch.rows.length == 0) {
     const sql_1 = `INSERT INTO
@@ -140,18 +135,21 @@ export async function insertroute(routeObj: any) {
     }
     let midlon = (minlon + maxlon) / 2;
     let midlat = (minlat + maxlat) / 2;
-    console.log(midlon, midlat);
+    // console.log(midlon, midlat);
 
     let trackCentre = `POINT (${midlon} ${midlat})`;
     let latDiff = maxlat - minlat;
     const sql_ctr = `update route set centre = $1, lat_diff = $2
       where route_name = $3 and users_id = (SELECT id from users where name = $4)`;
     await pgClient.query(sql_ctr, [trackCentre, latDiff, routeObj.routeName, username]);
+    return "uploaded"
+  } else {
+    return "You have a route of the same name. Please change the route name and reupload."
   }
 }
 
 export default async function main(routeObj: any) {
   
-  await insertroute(routeObj);
+  insertroute(routeObj);
   // await pgClient.end();
 }
