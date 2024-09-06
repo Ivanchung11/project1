@@ -62,6 +62,10 @@
   /* letter-spacing: 1px; */
 }
 
+.select-all{
+  font-weight: bolder;
+}
+
 .list-group-item1 {
     /* background-color: rgb(200, 200, 200); */
     line-height: 3;
