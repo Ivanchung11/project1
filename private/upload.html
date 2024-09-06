@@ -40,19 +40,43 @@
         </button>
         <div class="navbar"></div>
         <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-          <a class="navbar-brand col-lg-3 me-0" href="http://localhost:8080/route.html">Cycling-E</a>
+          <a
+            class="navbar-brand col-lg-3 me-0"
+            href="http://localhost:8080/route.html"
+            >Cycling-E</a
+          >
           <ul class="navbar-nav col-lg-6 justify-content-lg-center">
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/route.html">Route</a>
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/route.html"
+                >Route</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/upload.html">Upload</a>
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/upload.html"
+                >Upload</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/search.html">Search</a>
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/search.html"
+                >Search</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active me-1" aria-current="page" href="http://localhost:8080/profile.html">Profile</a>
+              <a
+                class="nav-link active me-1"
+                aria-current="page"
+                href="http://localhost:8080/profile.html"
+                >Profile</a
+              >
             </li>
           </ul>
           <div class="d-lg-flex col-lg-3 justify-content-lg-end">
@@ -74,7 +98,7 @@
             <!-- routename -->
             <div class="startSelection">
               <label for="routeName">Route Name: &nbsp&nbsp</label>
-              <input id="routeName">
+              <input id="routeName" />
             </div>
           </div>
           <br />
@@ -89,7 +113,7 @@
                 class="form-select"
                 aria-label="Default select example"
               >
-                <option selected></option>
+              <option value="dummy" selected></option>
                 <option value="Central and Western">Central and Western</option>
                 <option value="Wan Chai">Wan Chai</option>
                 <option value="Eastern">Eastern</option>
@@ -123,7 +147,7 @@
                 class="form-select"
                 aria-label="Default select example"
               >
-                <option selected></option>
+                <option value="null" selected></option>
                 <option value="Central and Western">Central and Western</option>
                 <option value="Wan Chai">Wan Chai</option>
                 <option value="Eastern">Eastern</option>
@@ -152,18 +176,19 @@
           <div id="roadtype">
             <div class="form-check-1">
               <!-- <div class="roadtype-header"></div> -->
-              <legend style="font-size:19px; font-weight:bold" >The Route Mainly Consist of:&nbsp&nbsp</legend>
-              
+              <legend style="font-size: 19px; font-weight: bold">
+                The Route Mainly Consist of:&nbsp&nbsp
+              </legend>
+
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="radio"
                   name="isRoad"
-                  id="CyclingTracks"
+                  id="cyclingTracks"
                   value="false"
-                  checked
                 />
-                <label class="form-check-label" for="CyclingTracks">
+                <label class="form-check-label" for="cyclingTracks">
                   Cycling Tracks
                 </label>
               </div>
@@ -172,10 +197,12 @@
                   class="form-check-input"
                   type="radio"
                   name="isRoad"
-                  id="CarRoad"
+                  id="carRoad"
                   value="true"
                 />
-                <label class="form-check-label" for="CarRoad"> Car Roads </label>
+                <label class="form-check-label" for="carRoad">
+                  Car Roads
+                </label>
               </div>
             </div>
           </div>
@@ -208,21 +235,12 @@
           </div>
           <div class="form-group">
             <label for="photo">Upload photos below:</label>
-            <input type="file" id="photo" multiple/>
+            <input type="file" id="photo" multiple />
           </div>
           <div class="form-check-3">
-            <legend style="font-size:19px; font-weight:bold">Publish to our mainpage:&nbsp&nbsp</legend>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="isPublic"
-                id="private"
-                value="false"
-                checked
-              />
-              <label class="form-check-label" for="private"> Private </label>
-            </div>
+            <legend style="font-size: 19px; font-weight: bold">
+              Publish to our mainpage:&nbsp&nbsp
+            </legend>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -230,8 +248,19 @@
                 name="isPublic"
                 id="public"
                 value="true"
+                checked
               />
               <label class="form-check-label" for="public"> Public </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="isPublic"
+                id="private"
+                value="false"
+              />
+              <label class="form-check-label" for="private"> Private </label>
             </div>
           </div>
 

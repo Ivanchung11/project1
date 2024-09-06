@@ -7,7 +7,8 @@ import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
 import formidable from "formidable";
 import fs from "fs";
-import parseCustomRoute from "./utils/parseCustomRoute";
+const gpxParser = require("gpxparser");
+// import parseCustomRoute from "./utils/parseCustomRoute";
 
 dotenv.config();
 
@@ -187,6 +188,17 @@ fs.mkdirSync(uploadDir, { recursive: true });
 
 app.use(express.urlencoded({ extended: true }));
 
+function GFG_Fun(theDate: string): string {
+  let date = new Date(theDate);
+  return (
+    "TIMESTAMP '" +
+    date.toISOString().split("T")[0] +
+    " " +
+    date.toTimeString().split(" ")[0] +
+    "'"
+  );
+}
+
 app.post("/uploadroute", async function (req: Request, res: Response) {
   const form = formidable({
     uploadDir,
@@ -210,19 +222,120 @@ app.post("/uploadroute", async function (req: Request, res: Response) {
       isPublic: data[0].isPublic![0],
       durationTemp: parseInt(data[0].durationTemp![0]),
     };
-    console.log(routeObj);
-    await parseCustomRoute(routeObj);
+    // console.log(routeObj);
 
-    for (let key in data[1]) {
-      if (key.includes("photo")) {
-        let imagePath = data[1][key]![0].newFilename;
-        let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`;
-        await pgClient.query(sql, [routeObj.routeName, imagePath]);
-        console.log("photo" + key + "upload.");
+    let sql_user = `SELECT name from users where id = $1`;
+    let username = await pgClient.query(sql_user, [routeObj.uploaderId]);
+    username = username.rows[0].name;
+    let sql_find = `SELECT * FROM route where route_name = $1 and users_id = (SELECT id from users where name = $2)`;
+    let coincideSearch = await pgClient.query(sql_find, [
+      routeObj.routeName,
+      username,
+    ]);
+    console.log(coincideSearch.rows.length);
+
+    if (coincideSearch.rows.length != 0) {
+      return res.json({ message: "name crashed" });
+    } else {
+      var gpx = new gpxParser();
+
+      let path = "./data/" + routeObj.filepath;
+      let data1 = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
+      gpx.parse(data1);
+
+      var distanceArr = gpx.tracks[gpx.tracks.length - 1].distance;
+      var totalDistance = distanceArr.total;
+      var geopoints = gpx.tracks[gpx.tracks.length - 1].points;
+
+      let recordTime = "";
+      if (gpx.metadata.time) {
+        recordTime = gpx.metadata.time;
+      } else if (geopoints[0].time) {
+        recordTime = geopoints[0].time;
       }
-    }
 
-    return res.json({ message: "uploaded" });
+      if (recordTime != "") {
+        recordTime = GFG_Fun(recordTime);
+      }
+
+      let duration = 0;
+
+      if (geopoints[0].time) {
+        let longseg = [];
+        for (let i = 0; i < geopoints.length - 1; i++) {
+          let timeseg = (geopoints[i + 1].time - geopoints[i].time) / 1000;
+          if (timeseg < 90) {
+            duration += timeseg;
+          } else {
+            longseg.push(i);
+          }
+        }
+      } else if (routeObj.durationTemp) {
+        duration = routeObj.durationTemp;
+      }
+
+      const sql_1 = `INSERT INTO
+          route (users_id, route_name, description, star_district_id, end_district_id, road_bicyle_track,
+          distance, duration, view_count, public_private, created_at)
+      VALUES
+          ((SELECT id from users where name ='${username}'), '${routeObj.routeName}', '${routeObj.description}', (SELECT id from district where name ='${routeObj.startDistrict}'),(SELECT id from district where name ='${routeObj.endDistrict}'), ${routeObj.isRoad}, ${totalDistance}, ${duration}, 0, ${routeObj.isPublic}, ${recordTime})`;
+      await pgClient.query(sql_1);
+
+      let maxlon = geopoints[0].lon;
+      let minlon = geopoints[0].lon;
+      let maxlat = geopoints[0].lat;
+      let minlat = geopoints[0].lat;
+
+      for (let i = 0; i < geopoints.length; i++) {
+        let location = `POINT (${geopoints[i].lon} ${geopoints[i].lat})`;
+        let ele = geopoints[i].ele;
+        // let coordTimes = geopoints[i].time;
+        let cumul = distanceArr.cumul[i];
+
+        // const sqlWhat = `SELECT id from route where route_name ='${routeObj.routeName}'`;
+        // const whatResult = await pgClient.query(sqlWhat);
+        const sql = `Insert into path_info (route_id, location, ele, cumul) 
+    values ((SELECT id from route where route_name ='${routeObj.routeName}'), $1, $2, $3)`;
+        await pgClient.query(sql, [location, ele, cumul]);
+
+        if (geopoints[i].lon > maxlon) {
+          maxlon = geopoints[i].lon;
+        }
+        if (geopoints[i].lon < minlon) {
+          minlon = geopoints[i].lon;
+        }
+        if (geopoints[i].lat > maxlat) {
+          maxlat = geopoints[i].lat;
+        }
+        if (geopoints[i].lat < minlat) {
+          minlat = geopoints[i].lat;
+        }
+      }
+      let midlon = (minlon + maxlon) / 2;
+      let midlat = (minlat + maxlat) / 2;
+      // console.log(midlon, midlat);
+
+      let trackCentre = `POINT (${midlon} ${midlat})`;
+      let latDiff = maxlat - minlat;
+      const sql_ctr = `update route set centre = $1, lat_diff = $2
+      where route_name = $3 and users_id = (SELECT id from users where name = $4)`;
+      await pgClient.query(sql_ctr, [
+        trackCentre,
+        latDiff,
+        routeObj.routeName,
+        username,
+      ]);
+
+      for (let key in data[1]) {
+        if (key.includes("photo")) {
+          let imagePath = data[1][key]![0].newFilename;
+          let sql = `INSERT INTO photo (route_id, image_path) values ((SELECT id from route where route_name =$1), $2)`;
+          await pgClient.query(sql, [routeObj.routeName, imagePath]);
+          console.log("photo" + key + "upload.");
+        }
+      }
+      return res.json({ message: "uploaded" });
+    }
   } catch {
     return res.json({ message: "data error" });
   }
@@ -336,7 +449,7 @@ WHERE route.id = $1;`;
   const photosql = `SELECT image_path from photo where route_id = $1`;
   const photoresult = await pgClient.query(photosql, [route_id]);
   const photorow = photoresult.rows;
-  console.log(photorow)
+  console.log(photorow);
 
   res.json({ row, photorow });
 });
@@ -544,7 +657,6 @@ app.get("/profileBookmark", async function (req: Request, res: Response) {
   }
 });
 
-
 app.get("/profilePhoto", async function (req: Request, res: Response) {
   const userId = req.session.userId;
   // console.log("hihhi",userId);
@@ -575,7 +687,7 @@ app.get("/logout", async function (req: Request, res: Response) {
   }
 });
 
-app.use("/data",express.static("data"))
+app.use("/data", express.static("data"));
 app.use(express.static("public"));
 app.use(isLoggedIn, express.static("private"));
 
