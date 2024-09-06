@@ -380,7 +380,7 @@ app.post("/search", async function (req: Request, res: Response) {
       endDistricts = ["null"];
     }
     if (isRoads == null) {
-      isRoads = [];
+      isRoads = ["null"];
     }
 
     let arrayToPsqlStr = function (arr: string[]) {
