@@ -1,7 +1,6 @@
 window.onload = async () => {
     console.log("hello");
     getProfile("#searchBarBtn")
-    allSearchBtnListener()
     searchButtonListener();
   
     let toggles = document.querySelectorAll(".toggle");
@@ -64,24 +63,64 @@ window.onload = async () => {
   
       if (res.status == 200) {
         createCard(response, "route-card");
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, 410);
       } else {
         let response = await res.json();
         alert(response.message);
       }
     });
   }
+  
+   //=============== click all search with start/end dirtrict =================
+   
+   const checkStatusStart = document.getElementById("allCheckBoxStart")
+   const checkStatusEnd = document.getElementById("allCheckBoxEnd")
+   const startDistrict = document.getElementsByName("startDistrict")
+   const endDistrict = document.getElementsByName("endDistrict")
+   const isRoad = document.getElementsByName("isRoad")
+   
+   
+   const startAllBox = document.querySelector("#allCheckBoxStart");
+   startAllBox.addEventListener("click", (e) => {
 
-  function allSearchBtnListener() {
-    const allBox = document.querySelector("#allCheckBox");
-    allBox.addEventListener("click", (e) => {
-      const startDistrict = document.getElementsByName("startDistrict")
-      for (let i = 0; i < startDistrict.length; i++) {
-        startDistrict[i].setAttribute("checked","true")
+    
+    if (checkStatusStart.checked) {
+      loopAllBox(startDistrict,true)
+        console.log("true");
+        return;
+    } else {
+      loopAllBox(startDistrict,false)
+    }
+  })
+
+  const endAllBox = document.querySelector("#allCheckBoxEnd");
+  endAllBox.addEventListener("click", (e) => {
+
+    if (checkStatusEnd.checked) {
+      loopAllBox(endDistrict,true)
+        console.log("true");
+        return;
+    } else {
+      loopAllBox(endDistrict,false)
+    }
+  })
+    
+  function loopAllBox(district,true_false) {
+    for (let i = 0; i < district.length; i++) {
+      district[i].checked = true_false;
       }
-        
-    })
   }
+
+  //=============== reset search =================
+
+    const restBtn = document.querySelector("#resetBtn")
+    restBtn.addEventListener("click", (e) => {
+  
+      loopAllBox(isRoad,false)
+      loopAllBox(startDistrict,false)
+      loopAllBox(endDistrict,false)
+      
+    })
   
   //================================SEE ABOVE
   //================================
