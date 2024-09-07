@@ -102,7 +102,7 @@ async function initMap() {
   });
   
 
-
+  const marker = new google.maps.Marker({ map, position: position });
 
 function success(pos) {
   const crd = pos.coords;
@@ -132,14 +132,13 @@ function success(pos) {
   //   title: "A marker using a FontAwesome icon for the glyph.",
   // });
 
+
+  
   // marker.setPosition();
-  const marker = new google.maps.Marker({ 
-    map, 
-    position: {
-      lat: crd.latitude,
-      lng: crd.longitude,
-    },
-   });
+  marker.setPosition({
+    lat: crd.latitude,
+    lng: crd.longitude,
+  });
   // faMarker.setPosition({
   //   lat: crd.latitude,
   //   lng: crd.longitude,

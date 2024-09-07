@@ -61,7 +61,7 @@ function searchButtonListener() {
     let response = await res.json();
 
     if (res.status == 200) {
-      console.log(response.row.length);
+      console.log(response.row);
       if (response.row.length == 0) {
         document.querySelector("#route-card").innerHTML =
           `<div class="no-result">No result for the above searching criteria.</div>`;
