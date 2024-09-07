@@ -246,22 +246,22 @@ async function checkPublicPrivateStatus(data1) {
       // console.log(data1.row[i].id);
       // console.log(data1.row[i].public_private);
       if (data1.row[i].public_private) {
-        changePublicPrivate(data1.row[i].id, "/changeToPrivate");
+        changePublicPrivate(data1.row[i].id, "/changePublicPrivate");
         if (confirm("change to private") == true) {
           // window.location = "/profile.html";
           // createCard(data1, "upload-card")
           location.reload(true)
         } else {
-          changePublicPrivate(data1.row[i].id, "/changeToPublic");
+          changePublicPrivate(data1.row[i].id, "/changePublicPrivate");
         }
       } else {
-        changePublicPrivate(data1.row[i].id, "/changeToPublic");
+        changePublicPrivate(data1.row[i].id, "/changePublicPrivate");
         if (confirm("change to public") == true) {
           // window.location = "/profile.html";
           location.reload(true)
           // history.go(0)
         } else {
-          changePublicPrivate(data1.row[i].id, "/changeToPrivate");
+          changePublicPrivate(data1.row[i].id, "/changePublicPrivate");
         }
       }
     });

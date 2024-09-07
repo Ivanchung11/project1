@@ -619,41 +619,37 @@ app.get("/recentRecords", async function (req: Request, res: Response) {
 });
 
 
-app.put("/changeToPrivate", async function (req: Request, res: Response) {
-  const userId = req.session.userId;
+app.put("/changePublicPrivate", async function (req: Request, res: Response) {
   const data = req.body
   const routeId = data.routeId;
   // console.log(routeId,userId);
   
   const sql = ` 
-UPDATE route SET public_private = false
-FROM users
-WHERE route.users_id = users.id
-AND users.id = $1 AND route.id =$2`;
-  const result = await pgClient.query(sql, [userId,routeId])
+UPDATE route SET public_private = NOT public_private
+WHERE route.id = $1`;
+  const result = await pgClient.query(sql, [routeId])
   // console.log(result.rows);
   
   res.json({ message: "change to private" });
-  // return;
 })
 
-app.put("/changeToPublic", async function (req: Request, res: Response) {
-  const userId = req.session.userId;
-  const data = req.body
-  const routeId = data.routeId;
-  // console.log(routeId,userId);
+// app.put("/changeToPublic", async function (req: Request, res: Response) {
+//   const userId = req.session.userId;
+//   const data = req.body
+//   const routeId = data.routeId;
+//   // console.log(routeId,userId);
   
-  const sql = ` 
-UPDATE route SET public_private = true
-FROM users
-WHERE route.users_id = users.id
-AND users.id = $1 AND route.id =$2`;
-  const result = await pgClient.query(sql, [userId,routeId])
-  // console.log(result.rows);
+//   const sql = ` 
+// UPDATE route SET public_private = true
+// FROM users
+// WHERE route.users_id = users.id
+// AND users.id = $1 AND route.id =$2`;
+//   const result = await pgClient.query(sql, [userId,routeId])
+//   // console.log(result.rows);
   
-  res.json({ message: "change to public"});
-  // return;
-})
+//   res.json({ message: "change to public"});
+//   // return;
+// })
 
 app.get("/profileBookmark", async function (req: Request, res: Response) {
   const userId = req.session.userId;
