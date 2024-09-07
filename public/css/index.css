@@ -1,35 +1,66 @@
 .login-button {
-    margin-right: 11px;
+  margin-right: 11px;
+}
+
+.fade-in-logo {
+  animation: fadeIn 4s;
+  position: absolute;
+  text-align: center;
+  top: 39%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.fade-in-text {
+  font-family: Helvetica;
+  font-size: 28px;
+  font-weight: bold;
+  animation: fadeIn 4s;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -50%);
+}
+
+.fade-in-button {
+  font-family: Helvetica;
+  font-size: 30px;
+  font-weight: bold;
+  animation: fadeIn 6s;
+  position: absolute;
+  text-align: center;
+  top: 60%;
+  left: 50%;
+  /* color: white; */
+  background-color: rgb(232, 171, 82);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
-
-.text {
-    font-family: Arial;
-    font-size: 25px;
+  100% {
+    opacity: 1;
+  }
 }
 
 .image {
-    height: 90%;
+  background-size: cover;
+  /* color: white; */
+  position: relative;
+  display: block;
 }
 
-.image {
-    background-size: cover;
-    color: white;
-    position: relative;
-    display: block;
-}  
-
-
-.title {
+/* .title {
     position: absolute;
     text-align: center;
     font-size: 25px;
-    line-height: 2;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
 
-/* .button {
-    
-    
 } */
