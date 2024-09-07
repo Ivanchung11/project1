@@ -1,42 +1,58 @@
-.login-button {
+/* .login-button {
   margin-right: 11px;
-}
+} */
+
+
+.bg {
+    max-width: 1000px;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
 .fade-in-logo {
-  animation: fadeIn 4s;
+  animation: fadeIn 2s;
   position: absolute;
   text-align: center;
-  top: 39%;
+  top: 50%;
   left: 50%;
-
+  width: 30vw;
   transform: translate(-50%, -50%);
 }
 
 .fade-in-text {
   font-family: Helvetica;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 30px;
+  /* font-weight: bold; */
   animation: fadeIn 4s;
   position: absolute;
   text-align: center;
-  top: 50%;
+  top: 60%;
   left: 50%;
   color: white;
   transform: translate(-50%, -50%);
 }
 
-.fade-in-button {
+.startBtn {
   font-family: Helvetica;
-  font-size: 30px;
-  font-weight: bold;
+  /* width: ; */
+  /* height: 40px; */
+  font-size: 18px;
+  padding: 10px;
+  text-decoration: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* font-weight: bold; */
   animation: fadeIn 6s;
   position: absolute;
-  text-align: center;
-  top: 60%;
+  top: 68%;
   left: 50%;
-  /* color: white; */
-  background-color: rgb(232, 171, 82);
+  background-color: rgb(239, 152, 54);
   transform: translate(-50%, -50%);
+  border-radius: 5px;
+  color: white;
 }
 
 @keyframes fadeIn {
@@ -48,19 +64,4 @@
   }
 }
 
-.image {
-  background-size: cover;
-  /* color: white; */
-  position: relative;
-  display: block;
-}
 
-/* .title {
-    position: absolute;
-    text-align: center;
-    font-size: 25px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-} */
