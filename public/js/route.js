@@ -181,7 +181,7 @@ async function initMap() {
     const isVisible = TrackLayer.getStyle().visible;
     TrackLayer.setStyle({
       strokeColor: "#FF0000", // Retain custom stroke color
-      strokeOpacity: 0.5, // Retain custom stroke opacity
+      strokeOpacity: 0.8, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
       visible: !isVisible, // Toggle visibility
     });
@@ -233,7 +233,7 @@ async function initMap() {
     const isVisible = SlopeLayer.getStyle().visible;
     SlopeLayer.setStyle({
       strokeColor: "#FFFF00", // Retain custom stroke color
-      strokeOpacity: 0.5, // Retain custom stroke opacity
+      strokeOpacity: 0.8, // Retain custom stroke opacity
       strokeWeight: 5, // Retain custom stroke weight
       visible: !isVisible, // Toggle visibility
     });
