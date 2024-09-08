@@ -1,21 +1,22 @@
-/* .login-button {
+.login-button {
   margin-right: 11px;
-} */
+}
 
+html, body {overflow: hidden;}
 
-.bg {
-    max-width: 1000px;
-    position: relative;
-    background-position: center;
+#image {
+    position: relative; 
+    /* background-position: center center; */
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    /* background-attachment: fixed;   */
   }
 
 .fade-in-logo {
   animation: fadeIn 2s;
   position: absolute;
   text-align: center;
-  top: 50%;
+  top: 47%;
   left: 50%;
   width: 30vw;
   transform: translate(-50%, -50%);
@@ -28,7 +29,7 @@
   animation: fadeIn 4s;
   position: absolute;
   text-align: center;
-  top: 60%;
+  top: 57%;
   left: 50%;
   color: white;
   transform: translate(-50%, -50%);
@@ -47,7 +48,7 @@
   /* font-weight: bold; */
   animation: fadeIn 6s;
   position: absolute;
-  top: 68%;
+  top: 65%;
   left: 50%;
   background-color: rgb(239, 152, 54);
   transform: translate(-50%, -50%);
