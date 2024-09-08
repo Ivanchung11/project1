@@ -1,8 +1,6 @@
 window.onload = async () => {
   console.log("hello");
 
-  uploadRouteListener();
-
   let toggles = document.querySelectorAll(".toggle");
   for (let toggle of toggles) {
     toggle.addEventListener("click", () => {
@@ -46,10 +44,13 @@ window.onload = async () => {
       alert("error!!!");
     }
   });
+
+  initMap();
+  inputGpxListener();
+  uploadRouteListener();
 };
 
-//================================
-//================================SEE BELOW
+//=======Initialize all entry box======
 
 let routeNameInputBox = document.getElementById("routeName");
 let startDistrictSelectBox = document.getElementById("startDistrict");
@@ -63,6 +64,7 @@ let photofileInput = document.getElementById("photo");
 let publicRadio = document.getElementById("public");
 let privateRadio = document.getElementById("private");
 
+//=======uploadRouteListener will upload the route info and photo into database======
 function uploadRouteListener() {
   let routeForm = document.querySelector("#route-form");
   routeForm.addEventListener("submit", async (event) => {
@@ -75,7 +77,7 @@ function uploadRouteListener() {
     ).value;
     let isRoad = document.querySelector('input[name="isRoad"]:checked');
 
-    if ((routeNameInputBox.value == "")) {
+    if (routeNameInputBox.value == "") {
       alert("Please enter a route name.");
     } else if (startDistrictSelectBox.value == "dummy") {
       alert("Please choose the district of starting point.");
@@ -136,8 +138,7 @@ function uploadRouteListener() {
   });
 }
 
-//================================SEE ABOVE
-//================================
+//=======initMap will print the blank map======
 
 let map;
 
@@ -150,4 +151,126 @@ async function initMap() {
   });
 }
 
-initMap();
+//======inputGpxListener will show the name, duration
+//======and route when select the gpx file======
+
+var gpx = new gpxParser(); //Create gpxParser Object
+
+let tempRouteName = "";
+let tempDescription = "";
+
+function secondsToHms(d) {
+  d = Number(d);
+  let h = Math.floor(d / 3600)
+    .toString()
+    .padStart(2, "0");
+  let m = Math.floor((d % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  let s = Math.floor((d % 3600) % 60)
+    .toString()
+    .padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
+
+function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+
+function inputGpxListener() {
+  gpxfileInput.addEventListener("change", async (event) => {
+    event.preventDefault();
+    console.log("123455");
+    let fr = new FileReader();
+    fr.onload = function () {
+      console.log(fr.result);
+      gpx.parse(fr.result);
+      console.log(gpx);
+      if (gpx.metadata.name) {
+        routeNameInputBox.value = htmlDecode(gpx.metadata.name);
+        descriptionInputBox.value = htmlDecode(gpx.metadata.name);
+      }
+
+      let geopoints = gpx.tracks[gpx.tracks.length - 1].points;
+      let duration = 0;
+
+      if (geopoints[0].time) {
+        let longseg = [];
+        for (let i = 0; i < geopoints.length - 1; i++) {
+          let timeseg = (geopoints[i + 1].time - geopoints[i].time) / 1000;
+          if (timeseg < 90) {
+            duration += timeseg;
+          } else {
+            longseg.push(i);
+          }
+        }
+      }
+      durationInputBox.value = secondsToHms(duration);
+      console.log(durationInputBox.value);
+
+      let pathCoordinates = [];
+      let maxlon = geopoints[0].lon;
+      let minlon = geopoints[0].lon;
+      let maxlat = geopoints[0].lat;
+      let minlat = geopoints[0].lat;
+
+      for (let i = 0; i < geopoints.length; i++) {
+        let location = { lat: geopoints[i].lat, lng: geopoints[i].lon };
+        pathCoordinates.push(location);
+
+        if (geopoints[i].lon > maxlon) {
+          maxlon = geopoints[i].lon;
+        }
+        if (geopoints[i].lon < minlon) {
+          minlon = geopoints[i].lon;
+        }
+        if (geopoints[i].lat > maxlat) {
+          maxlat = geopoints[i].lat;
+        }
+        if (geopoints[i].lat < minlat) {
+          minlat = geopoints[i].lat;
+        }
+      }
+
+      let midlon = (minlon + maxlon) / 2;
+      let midlat = (minlat + maxlat) / 2;
+      console.log(midlon, midlat);
+
+      let trackCentre = { lat: midlat, lng: midlon };
+      // let latDiff = maxlat - minlat;
+      console.log(trackCentre, pathCoordinates[10]);
+
+      let tempRouteLayer;
+
+      // Reprint the map
+      async function reinitMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+
+        map = new Map(document.getElementById("map"), {
+          zoom: 12,
+          center: trackCentre,
+          mapId: "DEMO_MAP_ID",
+        });
+
+        // ===================Initialize a data layer to hold the paths ===============================
+        tempRouteLayer = new google.maps.Data();
+        tempRouteLayer.setMap(map);
+        const lineString = new google.maps.Data.LineString(pathCoordinates);
+
+        // Add paths to the custom data layer
+        tempRouteLayer.add({
+          geometry: lineString,
+          properties: {},
+        });
+        tempRouteLayer.setStyle({
+          strokeColor: "#1d20f0", // Retain custom stroke color
+          strokeOpacity: 0.7, // Retain custom stroke opacity
+          strokeWeight: 5, // Retain custom stroke weight
+        });
+      }
+      reinitMap();
+    };
+    fr.readAsText(gpxfileInput.files[0]);
+  });
+}
