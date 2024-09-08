@@ -169,7 +169,7 @@ function createCard(data1, cardId) {
                     <div class="btn-group">
                       <a class="btn btn-sm btn-outline-secondary" href="http://localhost:8080/comment.html?route_id=${data.id}" role="button">Details</a>
                     </div>
-                    <small class="text-body-secondary">${data.view_count}</small>
+                    <small class="text-body-secondary">${data.view_count}&nbspView</small>
                   </div>
                 </div>
               </div>

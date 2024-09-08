@@ -1,3 +1,8 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 #login-register-button {
     align-items: center;
 }
@@ -46,15 +51,18 @@
 }
 
 .start-district, .finish-district, .no-result{
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   font-size: 25px;
   text-align: center;
   color: rgb(49, 108, 244);
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 0;
 }
 /* letter-spacing: 1px; */
 
 .no-result {
+  align-items: center;
   font-weight: bold;
   font-size: 18px;
   text-align: center;
@@ -136,10 +144,11 @@
 }
 
 .cycling-road {
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 25px;
     text-align: center;
-    padding-top: 30px;
+    padding-top: 20px;
     color: rgb(49, 108, 244);
   }
 
