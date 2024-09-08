@@ -254,7 +254,7 @@ async function getRouteDetails() {
   ).innerHTML = `<div id="descripationText">${description}</div>`;
   document.getElementById(
     "created_at"
-  ).innerHTML = `<div id="created_at">Date : ${created_at}</div>`;
+  ).innerHTML = `<div id="created_at">Date:  ${created_at}</div>`;
   document.getElementById(
     "distance"
   ).innerHTML = `<div id="distance"><b>Distance</b><br>${distance}</div>`;
@@ -263,16 +263,16 @@ async function getRouteDetails() {
   ).innerHTML = `<div id="duration"><b>Duration</b><br>${duration}</div>`;
   document.getElementById(
     "created_at"
-  ).innerHTML = `<div id="created_at">Date : ${created_at}</div>`;
+  ).innerHTML = `<div id="created_at">Date:  ${created_at}</div>`;
   document.getElementById(
     "start_district"
-  ).innerHTML = `<div id="start_district"><b>Start district</b><br>${start_district}</div>`;
+  ).innerHTML = `<div id="start_district"><b>Start District</b><br>${start_district}</div>`;
   document.getElementById(
     "end_district"
-  ).innerHTML = `<div id="end_district"><b>Finish district</b><br>${end_district}</div>`;
+  ).innerHTML = `<div id="end_district"><b>Finish District</b><br>${end_district}</div>`;
   document.getElementById(
     "created_by"
-  ).innerHTML = `<div id="created_by">Created by : ${user_name}</div>`;
+  ).innerHTML = `<div id="created_by">Created by:  ${user_name}</div>`;
 
   for (let photo of (data.photorow)){
     console.log(photo.image_path)
