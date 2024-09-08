@@ -62,12 +62,12 @@
   padding-top: 20px;
   padding-bottom: 20px;
   color: rgb(255, 255, 255);
-  background-color: rgb(175,	174,	172	);
+  background-color: rgb(197, 197, 197);
   font-family: Helvetica, sans-serif;
 }
 
 .album {
-  background-color: rgb(175	174	172	);
+  background-color: rgb(197, 197, 197);
 }
 
 .photo {
@@ -178,4 +178,14 @@
 .card,
 .bg-light {
   box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+/* #nobookmark h3 {
+  text-align: center;
+  align-items: center;
+} */
+
+#nophoto h3 {
+  text-align: center;
+  align-items: center;
 }
