@@ -59,7 +59,7 @@ function createControlUISlope(map) {
   controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
   controlUI.style.fontSize = "15px";
-  controlUI.innerHTML = "Cycle Slope/Subway/Bridge";
+  controlUI.innerHTML = "Cycle Slope";
 
   return controlUI;
 }
@@ -78,7 +78,7 @@ function createControlUIParking(map) {
   controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
   controlUI.style.fontSize = "15px";
-  controlUI.innerHTML = "Bicycle Parking Sites";
+  controlUI.innerHTML = "Bicycle Parking";
 
   return controlUI;
 }
@@ -97,7 +97,7 @@ function createControlUIWater(map) {
   controlUI.style.margin = "22px 5px";
   controlUI.style.textAlign = "center";
   controlUI.style.fontSize = "15px";
-  controlUI.innerHTML = "Water Dispenser Sites";
+  controlUI.innerHTML = "Water Dispenser";
 
   return controlUI;
 }
@@ -136,6 +136,7 @@ async function initMap() {
     zoom: 12,
     center: position,
     mapId: "DEMO_MAP_ID",
+    mapTypeControl: false
   });
 
   // ==========Initialize a data layer to hold the paths==========
