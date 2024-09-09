@@ -111,7 +111,7 @@ div.scroll-container img {
   height: 300px;
 }
 
-.chart {
+.chart-title {
   padding-top: 25px;
   font-size: 30px;
   text-align: center;
@@ -123,6 +123,16 @@ div.scroll-container img {
     padding-top: 25px; */
   text-align: center;
   align-items: center;
+}
+
+#canvas-container{
+  width:100%;
+  display: flex;
+  justify-content: center;
+}
+
+#myChart{
+  width:800px;
 }
 
 .comment {

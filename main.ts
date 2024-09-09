@@ -499,8 +499,18 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
   let linestringArr = [linestringObj];
   // console.log(linestringArr);
 
-  res.json({ row: linestringArr, centrePoint: centrePoint, latDiff: latDiff });
+  res.json({ row: linestringArr, centrePoint: centrePoint, latDiff: latDiff});
 });
+
+app.get("/showEle", async function (req: Request, res: Response) {
+  const data = req.query;
+  const route_id = data.routeId;
+  const sql_ele = `SELECT cumul/1000 as x, ele as y FROM path_info where route_id=$1`
+  const eleResult = await pgClient.query(sql_ele, [route_id]);
+  let elePairs = eleResult.rows
+  console.log(elePairs)
+  res.json( {elePairs: elePairs})
+})
 
 // app.get("/follow", async (req: Request, res: Response) => {
 //   const follower_id = req.session.userId;

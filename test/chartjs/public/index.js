@@ -1,4 +1,4 @@
-// import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
 // const fs = require('fs');
 // import { eleProfile } from "/elevationprofile.js"
