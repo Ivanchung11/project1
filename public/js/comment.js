@@ -39,6 +39,44 @@ function parseWKTPoint(wkt) {
   return { lat, lng };
 }
 
+// Create a custom control button parking =================================
+function createControlUIParking(map) {
+  const controlUI = document.createElement("button");
+
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.margin = "22px 5px";
+  controlUI.style.textAlign = "center";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Bicycle Parking Sites";
+
+  return controlUI;
+}
+// ==================================================================
+
+// Create a custom control button water dispenser =================================
+function createControlUIWater(map) {
+  const controlUI = document.createElement("button");
+
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.margin = "22px 5px";
+  controlUI.style.textAlign = "center";
+  controlUI.style.fontSize = "15px";
+  controlUI.innerHTML = "Water Dispenser Sites";
+
+  return controlUI;
+}
+// ==================================================================
+
 async function initMap() {
   
   const path =
@@ -57,12 +95,13 @@ async function initMap() {
   position = coord
   
   const { Map } = await google.maps.importLibrary("maps");
-  // const { PinElement } = await google.maps.importLibrary("marker");
-  // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { PinElement } = await google.maps.importLibrary("marker");
 
     let map = new Map(document.getElementById("map"), {
       center: position,
       zoom: 11.8,
+      mapId: "DEMO_MAP_ID"
     });
 
   customRouteLayer = new google.maps.Data();
@@ -104,45 +143,35 @@ async function initMap() {
 
   const marker = new google.maps.Marker({ map, position: position });
 
-function success(pos) {
-  const crd = pos.coords;
-
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-
-
-  // const icon = document.createElement("div");
-
-  // icon.innerHTML = '<i class="fa fa-pizza-slice fa-lg"></i>';
   
-  // const faPin = new PinElement({
-  //   glyph: icon,
-  //   glyphColor: "#ff8300",
-  //   background: "#FFD514",
-  //   borderColor: "#ff8300",
-  // });
-  // const faMarker = new AdvancedMarkerElement({
-  //   map,
-  //   position: {
-  //       lat: crd.latitude,
-  //       lng: crd.longitude,
-  //     },
-  //   content: faPin.element,
-  //   title: "A marker using a FontAwesome icon for the glyph.",
-  // });
+//   const parser = new DOMParser();
+// // A marker with a custom inline SVG.
+// const pinSvgString =
+// `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
+// <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
+// </svg>`
+// const pinSvg = parser.parseFromString(
+// pinSvgString,
+// "image/svg+xml",
+// ).documentElement;
+// const marker = new AdvancedMarkerElement({
+// map,
+// position: position,
+// content: pinSvg,
+// });
+  function success(pos) {
+    const crd = pos.coords;
+    
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+    
 
-
-  
   // marker.setPosition();
   marker.setPosition({
     lat: crd.latitude,
-    lng: crd.longitude,
+    lng: crd.longitude
   });
-  // faMarker.setPosition({
-  //   lat: crd.latitude,
-  //   lng: crd.longitude,
-  // });
 
   // Center map to user's position.
   // map.panTo({
@@ -164,6 +193,121 @@ function error(err) {
 // };
 
 id = navigator.geolocation.watchPosition(success, error);
+
+  // =========Initialize the markers for PARKINGS=========
+
+  const parkingRes = await fetch("http://localhost:8080/parking");
+  const parkingResponse = await parkingRes.json();
+
+  let parkings = [];
+
+  for (let i = 0; i < parkingResponse.data.length; i++) {
+    const wktPoint = parkingResponse.data[i].point;
+
+    // Parse the WKT point into {latlng}
+    const coord = parseWKTPoint(wktPoint);
+
+    //set properties for the pins
+    const pin = new PinElement({
+      scale: 0.8,
+      background: "#FBBC04",
+    });
+
+    //setup marker element
+    let parking = new AdvancedMarkerElement({
+      //use the {latlng} as position, (instead of point objects)
+      position: coord,
+      map: map,
+      content: pin.element,
+    });
+    parking.map = null;
+    parkings.push(parking);
+  }
+
+  // console.log(parkings);
+  const controlParkingDiv = document.createElement("div");
+  const controlUIParking = createControlUIParking(map);
+
+  // Add the control to the map
+  controlParkingDiv.appendChild(controlUIParking);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlParkingDiv);
+
+  // Add click event to toggle the visibility of the custom layer
+  controlUIParking.addEventListener("click", function () {
+    //   const isVisible = false;
+
+    for (let parking of parkings) {
+      if (parking.map == null) {
+        parking.map = map;
+      } else {
+        parking.map = null;
+      }
+    }
+  });
+
+  // =========Initialize the markers for WATER DISPENSER=========
+
+  const waterRes = await fetch("http://localhost:8080/water_dispenser");
+  const waterResponse = await waterRes.json();
+
+  var infowindow = new google.maps.InfoWindow();
+
+  var water ,i;
+  let waters = [];
+
+  for (let i = 0; i < waterResponse.data.length; i++) {
+
+
+    const wktPoint = waterResponse.data[i].point;
+    // console.log(waterResponse.data[i])
+
+    // Parse the WKT point into {latlng}
+    const coord = parseWKTPoint(wktPoint);
+
+    //set properties for the pins
+    const pin = new PinElement({
+      scale: 0.8,
+      background: "#afe6eb",
+      borderColor: "#1e81b0",
+    });
+
+    //setup marker element
+    let water = new AdvancedMarkerElement({
+      //use the {latlng} as position, (instead of point objects)
+      position: coord,
+      map: map,
+      content: pin.element,
+    });
+    water.map = null;
+    waters.push(water);
+    google.maps.event.addListener(water, 'click', (function(water, i) {
+      return function() {
+        infowindow.setContent("<h6>"+waterResponse.data[i].facility+"</h6>" + "<br/>" + waterResponse.data[i].locationdetail);
+        infowindow.open(map, water);
+      }
+    })(water, i));
+  }
+
+  // console.log(parkings);
+  const controlWaterDiv = document.createElement("div");
+  const controlUIWater = createControlUIWater(map);
+
+  // Add the control to the map
+  controlWaterDiv.appendChild(controlUIWater);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlWaterDiv);
+
+  // Add click event to toggle the visibility of the custom layer
+  controlUIWater.addEventListener("click", function () {
+    //   const isVisible = false;
+
+    for (let water of waters) {
+      if (water.map == null) {
+        water.map = map;
+      } else {
+        water.map = null;
+      }
+    }
+  });
 }
 
 // ========================================================================================
