@@ -28,9 +28,9 @@ async function recentRecords() {
   const data1 = await res.json();
   console.log(data1);
   if (res.ok) {
-    if (data1.message === "You Don't Have Any Bookmark Route") {
-      document.getElementById("bookmark-card").innerHTML = `
-      <div id="nobookmark"><h3>You Don't Have Any Bookmark Route</h3></div>
+    if (data1.message === "You Don't Have Any Upload Route") {
+      document.getElementById("noUploadRoute").innerHTML = `
+      <div id="nobookmark"><h3>You Haven't Upload  Any Route</h3></div>
       `;
     } else {
       createCard(data1, "upload-card");
@@ -47,8 +47,8 @@ async function profileBookmark() {
 
   if (res.ok) {
     if (data1.message === "You Don't Have Any Bookmark Route") {
-      document.getElementById("bookmark-card").innerHTML = `
-      <div id="nobookmark"><h3>You Don't Have Any Bookmark Route</h3></div>
+      document.getElementById("noBookmarkRoute").innerHTML = `
+      <div id="nobookmark"><h3>You Haven't Bookmark  Any Route</h3></div>
       `;
     } else {
       const nopublicPrivateBtn = `<p></p>`;
@@ -66,7 +66,7 @@ async function profilePhoto() {
   if (res.ok) {
     if (data1.message === "You Don't Have Any Photo") {
       document.getElementById("photo-container").innerHTML = `
-      <div id="nophoto"><h3>You Don't Have Any Photo</h3></div>
+      <div id="nophoto"><h3>You Haven't Upload  Any Photo</h3></div>
       `;
     } else {
       for (let photo of data1.row) {

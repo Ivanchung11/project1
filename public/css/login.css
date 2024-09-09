@@ -4,12 +4,18 @@ body{
     font-family: Roboto;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
     background-image: url(./cycling.jpg);
     height: 100vh;
     width: auto;
     overflow: hidden;
   }
   
+  @media screen and (max-width: 600px) {
+    .login {
+      width: 15vw;
+    }
+ }
   
   .login{
     position: absolute;
@@ -19,6 +25,9 @@ body{
     width: 29vw;
     background-color:rgb(233, 238, 243);
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+
   }
   
   .login h1{
@@ -127,3 +136,4 @@ body{
     width: 100vw;
     height: 25vh;
   }
+
