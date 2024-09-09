@@ -232,7 +232,10 @@ async function getRouteDetails() {
   const route_name = data.row.route_name;
   const description = data.row.description;
   const distance = MeterToKM(data.row.distance);
-  const duration = secondsToHms(data.row.duration);
+  let duration = "N/A"
+  if (data.row.duration != 0 ){
+    duration = secondsToHms(data.row.duration);
+  }
   const created_at = data.row.created_at.substring(0, 10);
   const start_district = data.row.start_district;
   const end_district = data.row.end_district;
