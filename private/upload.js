@@ -178,6 +178,19 @@ function htmlDecode(input) {
   return doc.documentElement.textContent;
 }
 
+function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+  var R = 6378.137; // Radius of earth in KM
+  var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+  var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+  Math.sin(dLon/2) * Math.sin(dLon/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c;
+  return d * 1000; // meters
+}
+
+
 function inputGpxListener() {
   gpxfileInput.addEventListener("change", async (event) => {
     event.preventDefault();
@@ -238,7 +251,7 @@ function inputGpxListener() {
       console.log(midlon, midlat);
 
       let trackCentre = { lat: midlat, lng: midlon };
-      // let latDiff = maxlat - minlat;
+      let latDiff = measure(minlat, minlon, maxlat, maxlon);
       console.log(trackCentre, pathCoordinates[10]);
 
       let tempRouteLayer;
@@ -248,7 +261,7 @@ function inputGpxListener() {
         const { Map } = await google.maps.importLibrary("maps");
 
         map = new Map(document.getElementById("map"), {
-          zoom: 12,
+          zoom: Math.floor(8 - Math.log(1.6446 * (latDiff/1000) / Math.sqrt(2 * (300 * 300))) / Math.log (2)),
           center: trackCentre,
           mapId: "DEMO_MAP_ID",
         });

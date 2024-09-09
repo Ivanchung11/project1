@@ -89,6 +89,7 @@ async function initMap() {
   const data = await res.json();
   let position;
   let centrePoint = data.centrePoint;
+  let latDiff = data.latDiff;
   console.log(data);
 
   const coord = parseWKTPoint(centrePoint);
@@ -101,7 +102,7 @@ async function initMap() {
 
     let map = new Map(document.getElementById("map"), {
       center: position,
-      zoom: 11.8,
+      zoom: Math.floor(8 - Math.log(1.6446 * (latDiff/1000) / Math.sqrt(2 * (400 * 400))) / Math.log (2)),
       mapId: "DEMO_MAP_ID"
     });
 
