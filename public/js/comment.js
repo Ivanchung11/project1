@@ -512,8 +512,12 @@ function html(data) {
 function secondsToHms(d) {
   d = Number(d);
   let h = Math.floor(d / 3600);
-  let m = Math.floor((d % 3600) / 60);
-  let s = Math.floor((d % 3600) % 60);
+  let m = Math.floor((d % 3600) / 60)
+  .toString()
+  .padStart(2, "0");
+  let s = Math.floor((d % 3600) % 60)
+  .toString()
+  .padStart(2, "0");
   return `${h} : ${m} : ${s}`;
 }
 
