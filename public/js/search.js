@@ -116,7 +116,7 @@ function loopAllBox(district, true_false) {
 
 const restBtn = document.querySelector("#resetBtn");
 restBtn.addEventListener("click", (e) => {
-  loopAllBox(isRoad, false);
+  loopAllBox(isRoad, true);
   loopAllBox(startDistrict, false);
   loopAllBox(endDistrict, false);
 });
