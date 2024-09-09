@@ -37,7 +37,7 @@ let route1 = {
   endDistrict: "Islands",
   uploader: "admin1",
   durationTemp: 0,
-  isRoad: true,
+  isRoad: false,
   isPublic: false,
 };
 
@@ -49,7 +49,7 @@ let route2 = {
   endDistrict: "Tsuen Wan",
   uploader: "admin5",
   durationTemp: 0,
-  isRoad: false,
+  isRoad: true,
   isPublic: true,
 };
 
@@ -73,7 +73,7 @@ let route4 = {
   endDistrict: "Tsuen Wan",
   uploader: "admin",
   durationTemp: 0,
-  isRoad: true,
+  isRoad: false,
   isPublic: true,
 };
 
@@ -97,7 +97,7 @@ let route6 = {
   endDistrict: "Wong Tai Sin",
   uploader: "admin5",
   durationTemp: 0,
-  isRoad: false,
+  isRoad: true,
   isPublic: true,
 };
 
@@ -109,7 +109,7 @@ let route7 = {
   endDistrict: "Eastern",
   uploader: "admin5",
   durationTemp: 0,
-  isRoad: false,
+  isRoad: true,
   isPublic: false,
 };
 
