@@ -261,7 +261,7 @@ function inputGpxListener() {
         const { Map } = await google.maps.importLibrary("maps");
 
         map = new Map(document.getElementById("map"), {
-          zoom: Math.floor(8 - Math.log(1.6446 * (latDiff/1000) / Math.sqrt(2 * (300 * 300))) / Math.log (2)),
+          zoom: Math.floor(8 - Math.log(1.6446 * (latDiff/1000) / Math.sqrt(2 * (500 * 500))) / Math.log (2)),
           center: trackCentre,
           mapId: "DEMO_MAP_ID",
         });

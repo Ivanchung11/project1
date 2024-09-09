@@ -127,6 +127,7 @@ div.scroll-container img {
 
 #canvas-container{
   width:100%;
+  height: 300px;
   display: flex;
   justify-content: center;
 }
