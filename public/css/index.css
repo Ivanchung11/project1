@@ -6,25 +6,29 @@
 
 html, body {overflow: hidden;}
 
-#image {
+#bg {
     position: relative; 
     background-repeat: no-repeat;
     background-size: contain;
+    background-position: center center;
+    background-attachment: fixed;
   }
 
 .fade-in-logo {
   animation: fadeIn 2s;
   position: absolute;
   text-align: center;
-  top: 40%;
+  top: 42%;
   left: 50%;
-  width: 38vw;
+  width: 30%;
+  max-width: 70%;
+  height: auto;
   transform: translate(-50%, -50%);
 }
 
 .fade-in-text {
   font-family: Helvetica;
-  font-size: 30px;
+  /* font-size: 3vw; */
   text-shadow: 2px 0 10px black;
   animation: fadeIn 4s;
   position: absolute;
