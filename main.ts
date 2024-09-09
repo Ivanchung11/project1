@@ -615,7 +615,13 @@ app.get("/recentRecords", async function (req: Request, res: Response) {
   JOIN users ON route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows;
-  res.json({ row });
+  
+
+  if (result.rowCount != null && result.rowCount > 0) {
+    res.json({ message: "Uploaded Route", row });
+  } else {
+    res.json({ message:"You Don't Have Any Upload Route" });
+  }
 });
 
 
