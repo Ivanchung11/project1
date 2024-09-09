@@ -2,7 +2,7 @@ window.onload = async () => {
   // const usernameLabel = document.querySelector("#username");
   await initMap();
 
-  await changeViewCount()
+  await changeViewCount();
 
   await getProfile("#commentBarBtn");
 
@@ -14,6 +14,8 @@ window.onload = async () => {
 
   await checkBookmarkStatus();
   setupBookmarkButton();
+
+  await printEleGraph();
 };
 // ========================================================================================
 
@@ -78,7 +80,6 @@ function createControlUIWater(map) {
 // ==================================================================
 
 async function initMap() {
-  
   const path =
     "/showRouteDetails?" +
     new URLSearchParams({
@@ -86,14 +87,15 @@ async function initMap() {
     }).toString();
   const res = await fetch(path);
   const data = await res.json();
-  let position ;
+  let position;
   let centrePoint = data.centrePoint;
-  console.log(data)
+  let latDiff = data.latDiff;
+  console.log(data);
 
-  const coord = parseWKTPoint(centrePoint)
+  const coord = parseWKTPoint(centrePoint);
   // console.log(coord);
-  position = coord
-  
+  position = coord;
+
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
   const { PinElement } = await google.maps.importLibrary("marker");
@@ -108,8 +110,7 @@ async function initMap() {
   customRouteLayer = new google.maps.Data();
   customRouteLayer.setMap(map);
   // Example WKT LINESTRING
-  
-    
+
   for (let i = 0; i < data.row.length; i++) {
     const wktLineString = data.row[i].path;
     // console.log(wktLineString);
@@ -135,12 +136,11 @@ async function initMap() {
   }
 
   // Add click event to toggle the visibility of the custom layer
-    customRouteLayer.setStyle({
-      strokeColor: "#1d20f0", // Retain custom stroke color
-      strokeOpacity: 0.7, // Retain custom stroke opacity
-      strokeWeight: 5, // Retain custom stroke weight
+  customRouteLayer.setStyle({
+    strokeColor: "#1d20f0", // Retain custom stroke color
+    strokeOpacity: 0.7, // Retain custom stroke opacity
+    strokeWeight: 5, // Retain custom stroke weight
   });
-  
 
   const marker = new google.maps.Marker({ map, position: position });
 
@@ -174,24 +174,24 @@ async function initMap() {
     lng: crd.longitude
   });
 
-  // Center map to user's position.
-  // map.panTo({
-  //   lat: crd.latitude,
-  //   lng: crd.longitude,
-  // });
+    // Center map to user's position.
+    // map.panTo({
+    //   lat: crd.latitude,
+    //   lng: crd.longitude,
+    // });
 
-  // navigator.geolocation.clearWatch(id);
-}
+    // navigator.geolocation.clearWatch(id);
+  }
 
-function error(err) {
-  console.log("change location");
-}
+  function error(err) {
+    console.log("change location");
+  }
 
-// options = {
-//   enableHighAccuracy: false,
-//   timeout: 1000,
-//   maximumAge: 0,
-// };
+  // options = {
+  //   enableHighAccuracy: false,
+  //   timeout: 1000,
+  //   maximumAge: 0,
+  // };
 
 id = navigator.geolocation.watchPosition(success, error);
 
@@ -314,7 +314,7 @@ id = navigator.geolocation.watchPosition(success, error);
 // ========================================================================================
 
 //==================== change the login and register button with the navbar =========================
-  async function getProfile(buttonId) {
+async function getProfile(buttonId) {
   const res = await fetch("/profile");
   const data = await res.json();
   // console.log();
@@ -337,11 +337,10 @@ id = navigator.geolocation.watchPosition(success, error);
 
     const logout = document.querySelector("#logout");
     Logout();
-    
   }
 }
 
- async function Logout() {
+async function Logout() {
   logout.addEventListener("click", async (e) => {
     console.log(e.target);
 
@@ -377,8 +376,8 @@ async function getRouteDetails() {
   const route_name = data.row.route_name;
   const description = data.row.description;
   const distance = MeterToKM(data.row.distance);
-  let duration = "N/A"
-  if (data.row.duration != 0 ){
+  let duration = "N/A";
+  if (data.row.duration != 0) {
     duration = secondsToHms(data.row.duration);
   }
   const created_at = data.row.created_at.substring(0, 10);
@@ -422,8 +421,8 @@ async function getRouteDetails() {
     "created_by"
   ).innerHTML = `<div id="created_by">Created by:  ${user_name}</div>`;
 
-  for (let photo of (data.photorow)){
-    console.log(photo.image_path)
+  for (let photo of data.photorow) {
+    console.log(photo.image_path);
     document.getElementById(
       "photo-container"
     ).innerHTML += `<img src="./data/${photo.image_path}" alt="Mountains">`;
@@ -468,7 +467,7 @@ function showCommentSection() {
     <br>
     `;
 
-    window.scrollTo(0, document.body.scrollHeight);
+  window.scrollTo(0, document.body.scrollHeight);
 
   let uploadbtn = document.querySelector("#uploadBtn");
   uploadbtn.addEventListener("click", async (event) => {
@@ -636,10 +635,84 @@ async function changeViewCount() {
   console.log(data);
 }
 
+// =======================================================
+
+// ================ elevation graph ==========
+// import Chart from 'chart.js/auto';
+
+async function printEleGraph() {
+  const path =
+    "/showEle?" +
+    new URLSearchParams({
+      routeId: getRouteId(),
+    }).toString();
+  const res = await fetch(path);
+  const data = await res.json();
+
+  let elePairs = data.elePairs;
+  console.log(elePairs)
+  
+  if (elePairs[0].y !=0 || elePairs[1].y !=0){
+
+    const dataGraph = {
+      datasets: [
+        {
+          label: "路徑高度圖",
+          data: elePairs,
+          showLine: true,
+          // tension: 0.4,
+        },
+      ],
+    };
+    
+    const config = {
+      type: "scatter",
+      data: dataGraph,
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        elements: {
+          point: { pointStyle: false },
+          line: {
+            tension: 0.2,
+            borderColor: "rgba(0, 153, 0,0.6)",
+          },
+        },
+        scales: {
+          x: {
+            type: "linear",
+            position: "bottom",
+            title: {
+              text: "Distance(km)",
+              display: true,
+            },
+          },
+          y: {
+            type: "linear",
+            grace: "10%",
+            title: { text: "Elevation(m)", display: true },
+          },
+        },
+      },
+    };
+    
+    // document.querySelector(".chart").innerHTML = 
+    // `<div class="chart-title">Chart</div>
+    // <div id="canvas-container">
+    //   <canvas id="myChart"></canvas>
+    //   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    // </div>`
+
+    var myChart = new Chart(document.getElementById("myChart"), config);
+  }
+}
+
 // ========================================================================================
 
 //====================  other function =========================
-
 
 function html(data) {
   let html = " ";
@@ -661,11 +734,11 @@ function secondsToHms(d) {
   d = Number(d);
   let h = Math.floor(d / 3600);
   let m = Math.floor((d % 3600) / 60)
-  .toString()
-  .padStart(2, "0");
+    .toString()
+    .padStart(2, "0");
   let s = Math.floor((d % 3600) % 60)
-  .toString()
-  .padStart(2, "0");
+    .toString()
+    .padStart(2, "0");
   return `${h} : ${m} : ${s}`;
 }
 
