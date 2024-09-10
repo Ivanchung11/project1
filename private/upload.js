@@ -194,7 +194,7 @@ function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement fun
 function inputGpxListener() {
   gpxfileInput.addEventListener("change", async (event) => {
     event.preventDefault();
-    console.log("123455");
+    console.log("123456");
     let fr = new FileReader();
     fr.onload = function () {
       console.log(fr.result);
@@ -285,5 +285,6 @@ function inputGpxListener() {
       reinitMap();
     };
     fr.readAsText(gpxfileInput.files[0]);
+    console.log("678910")
   });
 }
