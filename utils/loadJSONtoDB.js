@@ -47,7 +47,7 @@ async function parseJsonPoint(jsonpath, dbTable) {
 
 // client.end()
 async function main() {
-  await parseJsonPoint("../data/lcsd_wd_en.json", "water_dispenser");
+  await parseJsonPoint("../data/gov_data/lcsd_wd_en.json", "water_dispenser");
   client.end();
 }
 

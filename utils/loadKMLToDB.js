@@ -107,9 +107,9 @@ async function storePoint(geojson, dbTable) {
 }
 
 async function main() {
-  await parseKML("../data/CYCPARKSPACE.kml", "parking");
-  await parseKML("../data/CYCRAMP.kml", "slope");
-  await parseKML("../data/CYCTRACK.kml", "bicycle_track");
+  await parseKML("../data/gov_data/CYCPARKSPACE.kml", "parking");
+  await parseKML("../data/gov_data/CYCRAMP.kml", "slope");
+  await parseKML("../data/gov_data/CYCTRACK.kml", "bicycle_track");
   client.end();
 }
 

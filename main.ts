@@ -7,12 +7,14 @@ import { isLoggedIn } from "./guard";
 import { checkPassword, hashPassword } from "./hash";
 import formidable from "formidable";
 import fs from "fs";
+import { govDataRouter } from "./router/govDataRouter";
 const gpxParser = require("gpxparser");
-// import parseCustomRoute from "./utils/parseCustomRoute";
 
 dotenv.config();
 
-const pgClient = new Client({
+if (!process.env.SECRET) throw Error("Missing SECRET in .env");
+
+export const pgClient = new Client({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -26,7 +28,7 @@ app.use(express.json());
 
 app.use(
   expressSession({
-    secret: "kufuykfyukdtydktu8t86rgvyu8t87t78ygi8t78t68",
+    secret: process.env.SECRET!,
     resave: true,
     saveUninitialized: true,
   })
@@ -40,25 +42,7 @@ declare module "express-session" {
 
 //  =============== route page  ==================
 
-app.get("/bicycle_route", async (req: Request, res: Response) => {
-  let queryResult = await pgClient.query(
-    "SELECT ST_AsText(path_coordinates) as path FROM bicycle_track ;"
-  );
-
-  // console.log(queryResult.rows);
-
-  res.json({ data: queryResult.rows });
-});
-
-app.get("/slope", async (req: Request, res: Response) => {
-  let queryResult = await pgClient.query(
-    "SELECT ST_AsText(path_coordinates) as path FROM slope ;"
-  );
-
-  // console.log(queryResult.rows);
-
-  res.json({ data: queryResult.rows });
-});
+app.use(govDataRouter);
 
 app.get("/parking", async (req: Request, res: Response) => {
   let queryResult = await pgClient.query(
@@ -100,16 +84,16 @@ app.get("/customroute", async (req: Request, res: Response) => {
   res.json({ data: linestringArr });
 });
 
-app.get("/showAllRoute", async function (req: Request, res: Response) {
-  const sql = ` SELECT route.id, route_name,description,view_count,route.public_private,centre,json_agg(ST_AsText(path_info.location)) as path 
-  from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id`;
-  const result = await pgClient.query(sql);
-  // console.log(result);
-  const row = result.rows;
-  // console.log(row);
+// app.get("/showAllRoute", async function (req: Request, res: Response) {
+//   const sql = ` SELECT route.id, route_name,description,view_count,route.public_private,centre,json_agg(ST_AsText(path_info.location)) as path
+//   from route JOIN path_info on route.id = path_info.route_id GROUP BY route.id`;
+//   const result = await pgClient.query(sql);
+//   // console.log(result);
+//   const row = result.rows;
+//   // console.log(row);
 
-  res.json({ row });
-});
+//   res.json({ row });
+// });
 
 //  =============== register page ==================
 
@@ -199,15 +183,18 @@ function GFG_Fun(theDate: string): string {
   );
 }
 
-
-function measure(lat1:number, lon1:number, lat2:number, lon2:number){  // generally used geo measurement function
+function measure(lat1: number, lon1: number, lat2: number, lon2: number) {
+  // generally used geo measurement function
   var R = 6378.137; // Radius of earth in KM
-  var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
-  var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-  Math.sin(dLon/2) * Math.sin(dLon/2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var dLat = (lat2 * Math.PI) / 180 - (lat1 * Math.PI) / 180;
+  var dLon = (lon2 * Math.PI) / 180 - (lon1 * Math.PI) / 180;
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
   return d * 1000; // meters
 }
@@ -404,7 +391,7 @@ app.post("/search", async function (req: Request, res: Response) {
 
     const result = await pgClient.query(sql);
     let row = result.rows;
-    console.log(row)
+    console.log(row);
     return res.json({ message: "see the search results: ", row });
   } catch {
     return res.json({ message: "data error" });
@@ -512,18 +499,18 @@ app.get("/showRouteDetails", async function (req: Request, res: Response) {
   let linestringArr = [linestringObj];
   // console.log(linestringArr);
 
-  res.json({ row: linestringArr, centrePoint: centrePoint, latDiff: latDiff});
+  res.json({ row: linestringArr, centrePoint: centrePoint, latDiff: latDiff });
 });
 
 app.get("/showEle", async function (req: Request, res: Response) {
   const data = req.query;
   const route_id = data.routeId;
-  const sql_ele = `SELECT cumul/1000 as x, ele as y FROM path_info where route_id=$1`
+  const sql_ele = `SELECT cumul/1000 as x, ele as y FROM path_info where route_id=$1`;
   const eleResult = await pgClient.query(sql_ele, [route_id]);
-  let elePairs = eleResult.rows
-  console.log(elePairs)
-  res.json( {elePairs: elePairs})
-})
+  let elePairs = eleResult.rows;
+  console.log(elePairs);
+  res.json({ elePairs: elePairs });
+});
 
 // app.get("/follow", async (req: Request, res: Response) => {
 //   const follower_id = req.session.userId;
@@ -638,44 +625,42 @@ app.get("/recentRecords", async function (req: Request, res: Response) {
   JOIN users ON route.users_id = users.id WHERE users.id = $1 GROUP BY route.id`;
   const result = await pgClient.query(sql, [userId]);
   const row = result.rows;
-  
 
   if (result.rowCount != null && result.rowCount > 0) {
     res.json({ message: "Uploaded Route", row });
   } else {
-    res.json({ message:"You Don't Have Any Upload Route" });
+    res.json({ message: "You Don't Have Any Upload Route" });
   }
 });
 
-
 app.put("/changePublicPrivate", async function (req: Request, res: Response) {
-  const data = req.body
+  const data = req.body;
   const routeId = data.routeId;
   // console.log(routeId,userId);
-  
+
   const sql = ` 
 UPDATE route SET public_private = NOT public_private
 WHERE route.id = $1`;
-  const result = await pgClient.query(sql, [routeId])
+  const result = await pgClient.query(sql, [routeId]);
   // console.log(result.rows);
-  
+
   res.json({ message: "change to private" });
-})
+});
 
 // app.put("/changeToPublic", async function (req: Request, res: Response) {
 //   const userId = req.session.userId;
 //   const data = req.body
 //   const routeId = data.routeId;
 //   // console.log(routeId,userId);
-  
-//   const sql = ` 
+
+//   const sql = `
 // UPDATE route SET public_private = true
 // FROM users
 // WHERE route.users_id = users.id
 // AND users.id = $1 AND route.id =$2`;
 //   const result = await pgClient.query(sql, [userId,routeId])
 //   // console.log(result.rows);
-  
+
 //   res.json({ message: "change to public"});
 //   // return;
 // })

@@ -41,17 +41,17 @@ let route1 = {
   isPublic: false,
 };
 
-let route2 = {
-  filepath: "2023-01-23-150805.gpx",
-  routeName: "屯門青山公路",
-  description: "轉車站附近很適合看日落，但今天很曬",
-  startDistrict: "Tuen Mun",
-  endDistrict: "Tsuen Wan",
-  uploader: "admin5",
-  durationTemp: 0,
-  isRoad: true,
-  isPublic: true,
-};
+// let route2 = {
+//   filepath: "2023-01-23-150805.gpx",
+//   routeName: "屯門青山公路",
+//   description: "轉車站附近很適合看日落，但今天很曬",
+//   startDistrict: "Tuen Mun",
+//   endDistrict: "Tsuen Wan",
+//   uploader: "admin5",
+//   durationTemp: 0,
+//   isRoad: true,
+//   isPublic: true,
+// };
 
 let route3 = {
   filepath: "Yuen_Long.gpx",
@@ -197,21 +197,21 @@ function GFG_Fun(theDate) {
   );
 }
 
-function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+function measure(lat1, lon1, lat2, lon2) {  // generally used geo measurement function
   var R = 6378.137; // Radius of earth in KM
   var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
   var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-  Math.sin(dLon/2) * Math.sin(dLon/2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
   return d * 1000; // meters
 }
 
 async function insertroute(routeObj) {
   // const path = require("path");
-  let path = "./data/" + routeObj.filepath;
+  let path = "./data/other_gpx_data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
   console.log(gpx.tracks[gpx.tracks.length - 1].name);
@@ -296,13 +296,13 @@ async function insertroute(routeObj) {
     let latDiff = measure(minlat, minlon, maxlat, maxlon);
     const sql_ctr = `update route set centre = $1, lat_diff = $2
       where route_name = $3 and users_id = (SELECT id from users where name = $4)`;
-    await pgClient.query(sql_ctr, [trackCentre, latDiff, routeObj.routeName, routeObj.uploader]);  
+    await pgClient.query(sql_ctr, [trackCentre, latDiff, routeObj.routeName, routeObj.uploader]);
   }
 }
 
 async function main() {
   await insertroute(route1);
-  await insertroute(route2);
+  // await insertroute(route2);
   await insertroute(route3);
   await insertroute(route4);
   await insertroute(route5);
