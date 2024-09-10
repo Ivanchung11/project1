@@ -40,6 +40,7 @@ function GFG_Fun(theDate: string): string {
 }
 
 export async function insertroute(routeObj: any) {
+
   let path = "./data/" + routeObj.filepath;
   let data = await fs.promises.readFile(path, "utf8"); //import the gpx file as string
   gpx.parse(data);
@@ -148,8 +149,8 @@ export async function insertroute(routeObj: any) {
   }
 }
 
-export default async function main(routeObj: any) {
+// export default async function main(routeObj: any) {
   
-  insertroute(routeObj);
-  // await pgClient.end();
-}
+//  await insertroute(routeObj);
+//   // await pgClient.end();
+// }
