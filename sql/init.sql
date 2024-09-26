@@ -2,6 +2,19 @@
 -- CREATE DATABASE bicycle_db;
 
 -- \c bicycle_db
+DROP table IF EXISTS users ;
+DROP table IF EXISTS follow ;
+DROP table IF EXISTS district ;
+DROP table IF EXISTS route ;
+DROP table IF EXISTS path_info ;
+DROP table IF EXISTS photo ;
+DROP table IF EXISTS bookmark ;
+DROP table IF EXISTS comment ;
+DROP table IF EXISTS slope ;
+DROP table IF EXISTS bicycle_track ;
+DROP table IF EXISTS parking ;
+DROP table IF EXISTS water_dispenser ;
+DROP table IF EXISTS blacksite ;
 
 CREATE EXTENSION postgis;
 
@@ -100,30 +113,6 @@ CREATE TABLE comment(
     foreign key (users_id) references users(id),
     foreign key (route_id) references route(id)
 );
-
-
-
-CREATE TABLE news(
-    id SERIAL primary key,
-    title varchar(255) not null,
-    content text not null
-);
-INSERT INTO news (title, content) VALUES ('welcome ' , 'hello everyone');
-
-
-
-
-CREATE TABLE news_photo(
-    id SERIAL primary key,
-    news_id integer not null,
-    image_path varchar(255) null,
-
-    foreign key (news_id) references news(id)
-);
-
-
-
-
 
 
 CREATE TABLE slope(
