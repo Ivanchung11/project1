@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev main.ts",
+    "start": "ts-node main.ts",
     "aws": "psql -h 127.0.0.1 -d bicycle_db -U james -W -f sql/init.sql",
     "data": "psql -U postgres -f sql/init.sql && psql -U postgres -f sql/dummy_data.sql && node ./utils/loadKMLToDB.js && node ./utils/loadJSONToDB.js && node ./utils/customRouteInit.js",
     "dev": "ts-node-dev main.ts"
