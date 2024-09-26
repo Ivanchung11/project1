@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS bicycle_db ;
-CREATE DATABASE bicycle_db;
+-- DROP DATABASE IF EXISTS bicycle_db ;
+-- CREATE DATABASE bicycle_db;
 
-\c bicycle_db
+-- \c bicycle_db
 
 CREATE EXTENSION postgis;
 
