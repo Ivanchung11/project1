@@ -2,19 +2,19 @@
 -- CREATE DATABASE bicycle_db;
 
 -- \c bicycle_db
-DROP table IF EXISTS users ;
-DROP table IF EXISTS follow ;
-DROP table IF EXISTS district ;
-DROP table IF EXISTS route ;
-DROP table IF EXISTS path_info ;
-DROP table IF EXISTS photo ;
-DROP table IF EXISTS bookmark ;
-DROP table IF EXISTS comment ;
-DROP table IF EXISTS slope ;
-DROP table IF EXISTS bicycle_track ;
-DROP table IF EXISTS parking ;
-DROP table IF EXISTS water_dispenser ;
 DROP table IF EXISTS blacksite ;
+DROP table IF EXISTS water_dispenser ;
+DROP table IF EXISTS parking ;
+DROP table IF EXISTS bicycle_track ;
+DROP table IF EXISTS slope ;
+DROP table IF EXISTS comment ;
+DROP table IF EXISTS bookmark ;
+DROP table IF EXISTS photo ;
+DROP table IF EXISTS path_info ;
+DROP table IF EXISTS route ;
+DROP table IF EXISTS district ;
+DROP table IF EXISTS follow ;
+DROP table IF EXISTS users ;
 
 CREATE EXTENSION postgis;
 
